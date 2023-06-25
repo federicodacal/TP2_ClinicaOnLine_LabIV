@@ -8,4 +8,5 @@ export const environment = {
     authDomain: 'clinica-online-74b81.firebaseapp.com',
     messagingSenderId: '84273596947',
   },
+  production: false
 };

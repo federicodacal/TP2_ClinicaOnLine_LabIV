@@ -13,6 +13,9 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegistroPacienteComponent } from './components/registro-paciente/registro-paciente.component';
+import { RegistroEspecialistaComponent } from './components/registro-especialista/registro-especialista.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +23,15 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
     BienvenidaComponent,
     NavbarComponent,
     RegistroComponent,
-    LoginComponent
+    LoginComponent,
+    RegistroPacienteComponent,
+    RegistroEspecialistaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

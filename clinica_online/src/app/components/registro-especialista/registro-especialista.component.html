@@ -1,0 +1,103 @@
+<form [formGroup]="credentials">
+    <div class="row">
+        <div class="form-group col-6 mt-1">
+            <label for="email">Correo electrónico</label>
+            <input formControlName="email" type="text" id="email" class="form-control" name="email" placeholder="email@email.com" [(ngModel)]="email">
+            
+            <small style="color: rgb(255, 0, 0); font-weight: bold;"
+              *ngIf="this.credentials.get('email')?.invalid && this.credentials.get('email')?.touched">
+              Correo electrónico es requerido</small>
+        </div>
+        <div class="form-group col-6 mt-1">
+
+            <label for="password">Contraseña</label>
+            <input formControlName="password" type="password" id="password" class="form-control" name="password" [(ngModel)]="password">
+            
+            <small style="color: rgb(255, 0, 0); font-weight: bold;"
+              *ngIf="this.credentials.get('password')?.invalid && this.credentials.get('password')?.touched">
+              Clave es requerida</small>
+            <br>
+
+            </div>
+            <div class="form-group col-4 mt-1">
+                <label for="name">Nombre</label>
+                <input formControlName="name" type="text" id="name" class="form-control" name="name" [(ngModel)]="name">
+                
+                <small style="color: rgb(255, 0, 0); font-weight: bold;"
+                  *ngIf="this.credentials.get('name')?.invalid && this.credentials.get('name')?.touched">
+                  Nombre es requerido</small>
+            </div>
+            <div class="form-group col-4 mt-1">
+
+                <label for="lastName">Apellido</label>
+                <input formControlName="lastName" type="lastName" id="lastName" class="form-control" name="lastName" [(ngModel)]="lastName">
+                
+                <small style="color: rgb(255, 0, 0); font-weight: bold;"
+                  *ngIf="this.credentials.get('lastName')?.invalid && this.credentials.get('lastName')?.touched">
+                  Apellido es requerido</small>
+                <br>
+            </div>
+
+            <div class="form-group col-4 mt-1">
+
+                <label for="dni">DNI</label>
+                <input formControlName="dni" type="number" id="dni" class="form-control" name="dni" [(ngModel)]="dni" placeholder="30300300">
+                
+                <small style="color: rgb(255, 0, 0); font-weight: bold;"
+                  *ngIf="this.credentials.get('dni')?.invalid && this.credentials.get('dni')?.touched">
+                  DNI es requerido. Ingrese sólo números</small>
+                <br>
+            </div>
+
+            <div class="form-group col-4 mt-1">
+
+                <label for="especialidad">Especialidad</label>
+                <input formControlName="especialidad" type="text" id="especialidad" class="form-control" name="especialidad" [(ngModel)]="especialidad">
+                
+                <small style="color: rgb(255, 0, 0); font-weight: bold;"
+                  *ngIf="this.credentials.get('especialidad')?.invalid && this.credentials.get('especialidad')?.touched">
+                  Obra Social es requerida</small>
+                <br>
+            </div>
+
+            <div class="form-group col-4 mt-1">
+
+                <label for="edad">Edad</label>
+                <input formControlName="edad" type="number" id="edad" class="form-control" name="edad" [(ngModel)]="edad">
+                
+                <small style="color: rgb(255, 0, 0); font-weight: bold;"
+                  *ngIf="this.credentials.get('edad')?.invalid && this.credentials.get('edad')?.touched">
+                  Edad es requerido</small>
+                <br>
+            </div>
+
+            <div class="form-group col-4 mt-1">
+
+                <label for="profilePic">Imagen de Perfil</label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                
+                <small style="color: rgb(255, 0, 0); font-weight: bold;"
+                  *ngIf="this.credentials.get('profilePic')?.invalid && this.credentials.get('profilePic')?.touched">
+                  Imagen de perfil es requerida</small>
+                <br>
+            </div>
+            
+    </div>
+</form>
+
+<div class="row" style="margin-top: 1em;">
+    <div class="col-6">
+        <button class="button-33" role="button" (click)="register()" [disabled]="this.credentials.invalid">
+            <i class="fa-solid fa-check"></i>
+            ACEPTAR
+        </button>
+    </div>
+    <div class="col-6">
+        <a [routerLink]="''">
+        <button class="button-33" role="button" style="background-color: #e24d08;">
+            <i class="fa-solid fa-xmark"></i>
+            CANCELAR
+        </button>
+        </a>
+    </div>                            
+</div>

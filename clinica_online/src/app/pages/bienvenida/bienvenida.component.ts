@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bienvenida',
@@ -7,6 +8,16 @@ import { Component } from '@angular/core';
 })
 export class BienvenidaComponent {
 
-  icon:string='assets/img/icon.png';
+  icon:string='assets/img/doc.png';
+
+  constructor(private router:Router) { }
+
+  onClickRegister() {
+    this.router.navigateByUrl('/registro');
+  }
+
+  onClickLogin() {
+    this.router.navigateByUrl('/login');
+  }
   
 }

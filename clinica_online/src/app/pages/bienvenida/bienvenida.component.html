@@ -1,30 +1,33 @@
 
     <div class="row">
         <div class="col-3">
-            <app-navbar></app-navbar>
+            <app-navbar [selectedOpt]="'home'"></app-navbar>
         </div>
         <div class="col-9">
             <div class="container">
                 <div class="row">
-                    <div class="card col-9 offset-1 slide-bottom" style="height: 350px; margin-left: 1em;">
-                        <img class="card-img-top" [src]="icon" alt="ico" [ngStyle]="{'width':'16.5rem'}">
+                    <div class="card col-9 offset-1 scale-up-top" style="height: 450px; margin-left: 1em;">
+                        <img class="card-img-top mt-2" [src]="icon" alt="ico" [ngStyle]="{'width':'6.5rem'}">
                         <div class="card-body">
-                          <h3 class="card-title">Bienvenida!</h3>
-                          <p class="card-text">
-                              Esperamos que disfrutes de la Sala de Juegos: Laboratorio IV
+                          <h2 class="card-title">Clinica OnLine</h2>
+                          <p class="card-text" style="font-size: 20px;">
+                              Te damos la bienvenida a la Clinica OnLine: <strong>Dacal Health</strong> 
                             </p>
                             <p class="card-text">
-                                UTN-FRA
+                                TP 2 Laboratorio IV UTN-FRA
                             </p>
-                            <div class="row" style="margin-top: 6em;">
+                            <p class="card-text">
+                                Por favor, inicie sesión para continuar.
+                            </p>
+                            <div class="row" style="margin-top: 4em;">
                                 <div class="col-6">
-                                    <button class="button-33" role="button">
+                                    <button class="button-33" role="button" (click)="onClickRegister()">
                                         <i class="fa-solid fa-user-plus"></i>
                                         REGISTRO
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button class="button-33" role="button">
+                                    <button class="button-33" role="button" (click)="onClickLogin()">
                                         <i class="fa-solid fa-key"></i>
                                         LOGIN
                                     </button>

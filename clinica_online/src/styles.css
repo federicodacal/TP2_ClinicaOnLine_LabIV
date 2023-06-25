@@ -3,5 +3,6 @@ body {
     background: url(assets/img/background_clinic.jpeg) no-repeat center center fixed;
     opacity: 0.97;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
+    font-family: Rubik, serif;
 }

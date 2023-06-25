@@ -61,21 +61,21 @@
     
     <main>
     
-      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 240px;">
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 234px;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-          <span class="fs-4">Clinica</span>
+          <i class="fa-sharp fa-solid fa-laptop-medical fa-2xl"></i>
+          <span class="fs-4" style="margin-left: 0.5em;">Dacal Health</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <a href="#" class="nav-link active" aria-current="page">
+          <li class="nav-item opt-sidebar" (click)="onClickSidebar('home')">
+            <a class="nav-link text-white" aria-current="page" [ngClass]="this.selectedOpt == 'home' ? 'clicked' : ''">
                 <i class="fa-solid fa-house"></i>
                 <span style="margin-left: 0.5em;">Home</span>
             </a>
           </li>
-          <li>
-            <a href="#" class="nav-link text-white">
+          <li class="nav item opt-sidebar" (click)="onClickSidebar('seleccion')">
+            <a class="nav-link text-white" [ngClass]="this.selectedOpt == 'seleccion' ? 'clicked' : ''">
               <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
               Seleccion Usuarios
             </a>
@@ -83,27 +83,30 @@
         </ul>
         <hr>
         <div class="dropdown">
-          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-user"></i>
             <span style="margin-left: 0.5em;"><strong>Acceso</strong></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" [routerLink]="'/registro'">
                     <i class="fa-solid fa-user-plus"></i>
                     <span style="margin-left: 0.45em;">Registro</span>
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" [routerLink]="'/login'">
                     <i class="fa-solid fa-key"></i>
                     <span style="margin-left: 0.7em;">Login</span>
                 </a>
             </li>
-            <!--- 
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-            -->
+                <li>
+                  <a class="dropdown-item" (click)="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span style="margin-left: 0.45em;">Logout</span>
+                  </a>
+                </li>
           </ul>
         </div>
       </div>
