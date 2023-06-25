@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class BienvenidaComponent {
 
+  icon:string='assets/img/icon.png';
+  
 }
