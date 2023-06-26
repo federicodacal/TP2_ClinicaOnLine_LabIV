@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, of, switchMap, throwError } from 'rxjs';
 import { Firestore, addDoc, collection, doc, docData, serverTimestamp, setDoc } from '@angular/fire/firestore';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthService {
 
   userData:any = {};
 
-  constructor(private authentication:AngularFireAuth, private firestore:Firestore) { 
+  constructor(private authentication:AngularFireAuth, private firestore:Firestore, private toast:ToastService) { 
     this.userData = this.authentication.authState.pipe(
       switchMap((user: any) => {
         if (user) {
@@ -26,7 +27,7 @@ export class AuthService {
   async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado, imgPerfil, imgSecundaria}:any) {
 
      try {
-      const credential = await this.authentication.createUserWithEmailAndPassword(email, password);
+      const credential = await this.authentication.createUserWithEmailAndPassword(email, password)
 
       console.info('credential: ', credential);
       if(credential.user != null) {
@@ -34,18 +35,35 @@ export class AuthService {
   
         const document = doc(this.firestore, `users/${uid}`);
 
-        if(perfil == 'paciente') {
-          return setDoc(document, {uid, email, name, lastName, dni, edad, obraSocial, perfil, imgPerfil, imgSecundaria, createdAt:serverTimestamp()});
-        }
-        else if(perfil == 'especialista') {
-          return setDoc(document, {uid, email, name, lastName, dni, edad, especialidad, perfil, habilitado, imgPerfil, createdAt:serverTimestamp()});
-        }
+        await credential.user.sendEmailVerification().then(async () => {
+          console.log('email enviado');
+
+          if(perfil == 'paciente') {
+            await this.logout();
+            return setDoc(document, {uid, email, name, lastName, dni, edad, obraSocial, perfil, imgPerfil, imgSecundaria, createdAt:serverTimestamp()});
+          }
+          else if(perfil == 'especialista') {
+            await this.logout();
+            return setDoc(document, {uid, email, name, lastName, dni, edad, especialidad, perfil, habilitado, imgPerfil, createdAt:serverTimestamp()});
+          }
+          else {
+            await this.logout();
+            return null;
+          }
+
+        })
+        .catch((err) => {
+          this.toast.showError('Ocurrió un problema');
+          console.log('err email', err);
+          throw new Error(err);
+        });
       }
     }
-    catch(err) {
+    catch(err:any) {
       console.log('err: ' + err);
-      return null;
-    }
+      throw new Error(err);
+      //return null;
+    }   
   }
 
   async login({email, password}:any) {

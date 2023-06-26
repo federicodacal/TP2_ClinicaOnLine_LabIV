@@ -58,10 +58,9 @@ export class RegistroPacienteComponent implements OnInit {
         edad: this.credentials.get('edad')?.value,
         imgPerfil: this.imgPerfil,
         imgSecundaria: this.imgSecundaria,
-        verificado: false,
         perfil: 'paciente'
       }
-      
+
       this.auth.register(patient)
         .then(() => {
           setTimeout(() => {

@@ -1,6 +1,6 @@
 <form [formGroup]="credentials">
     <div class="row">
-        <div class="form-group col-6 mt-1">
+        <div class="form-group col-6">
             <label for="email">Correo electrónico</label>
             <input formControlName="email" type="text" id="email" class="form-control" name="email" placeholder="email@email.com" [(ngModel)]="email">
             
@@ -8,7 +8,7 @@
               *ngIf="this.credentials.get('email')?.invalid && this.credentials.get('email')?.touched">
               Correo electrónico es requerido</small>
         </div>
-        <div class="form-group col-6 mt-1">
+        <div class="form-group col-6">
 
             <label for="password">Contraseña</label>
             <input formControlName="password" type="password" id="password" class="form-control" name="password" [(ngModel)]="password">

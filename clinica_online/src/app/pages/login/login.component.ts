@@ -14,8 +14,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   icon:string='assets/img/doc.png';
 
-  credentials!:FormGroup;
   user:any;
+
+  credentials!:FormGroup;
   email:string|undefined;
   password:string|undefined;
   loading:boolean=false;
@@ -31,17 +32,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
     
-    this.subscription = this.auth.userData.subscribe((res:any) => {
-      
-      if(res) {
-        this.user = res;
-        console.log('user', this.user);
-      }
-    });
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if(this.subscription != null) {
+      this.subscription.unsubscribe();
+    }
   }
 
   async login() {
@@ -54,32 +50,35 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
 
       this.auth.login(this.credentials.value)
-        .then(async (data:any) => {
+        .then(async (res:any) => {
+
           setTimeout(() => {
-            this.auth.userData.subscribe(async (user:any) => {
+        
+            this.subscription = this.auth.userData.subscribe(async (user:any) => {
               if(user) {
                 if(user.perfil == 'especialista' && !user.habilitado) {
                   this.toast.showWarning('La cuenta no fue habilitada', 'Aguarde que se aprueba su cuente.');
                   await this.auth.logout();
                   //this.router.navigate(['/login']);
                 }
-                else if(!user.verificado) {
+                else if(!res?.user.emailVerified) {
                   this.toast.showWarning('La cuenta no está verificada', 'Revise su correo electrónico para confirmar su cuenta.');
                   await this.auth.logout();
                   //this.router.navigate(['/login']);
                 }
                 else {
                   this.toast.showSuccess('Sesión iniciada', `Bienvenid@, ${user.name}.`);
-                  this.router.navigate(['']);
+                  await this.router.navigate(['']);
                 }
               }
             });
-
+          
             setTimeout(() => {
               this.loading = false;
+              this.subscription.unsubscribe();
             }, 500);
 
-          }, 500);   
+          }, 2000);   
         })
         .catch((err:any) => {
             this.loading = false;         
