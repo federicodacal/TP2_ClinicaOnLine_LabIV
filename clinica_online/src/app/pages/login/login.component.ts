@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -9,7 +10,7 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   icon:string='assets/img/doc.png';
 
@@ -19,7 +20,10 @@ export class LoginComponent implements OnInit {
   password:string|undefined;
   loading:boolean=false;
 
+  subscription!:Subscription;
+
   constructor(private auth:AuthService, private router:Router, private fb:FormBuilder, private toast:ToastService) { }
+  
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
@@ -27,13 +31,17 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
     
-    this.auth.userData.subscribe((res:any) => {
+    this.subscription = this.auth.userData.subscribe((res:any) => {
       
       if(res) {
         this.user = res;
         console.log('user', this.user);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   async login() {
@@ -53,12 +61,12 @@ export class LoginComponent implements OnInit {
                 if(user.perfil == 'especialista' && !user.habilitado) {
                   this.toast.showWarning('La cuenta no fue habilitada', 'Aguarde que se aprueba su cuente.');
                   await this.auth.logout();
-                  this.router.navigate(['']);
+                  //this.router.navigate(['/login']);
                 }
                 else if(!user.verificado) {
                   this.toast.showWarning('La cuenta no está verificada', 'Revise su correo electrónico para confirmar su cuenta.');
                   await this.auth.logout();
-                  this.router.navigate(['']);
+                  //this.router.navigate(['/login']);
                 }
                 else {
                   this.toast.showSuccess('Sesión iniciada', `Bienvenid@, ${user.name}.`);
@@ -67,9 +75,11 @@ export class LoginComponent implements OnInit {
               }
             });
 
-            this.loading = false;
+            setTimeout(() => {
+              this.loading = false;
+            }, 500);
 
-          }, 1500);   
+          }, 500);   
         })
         .catch((err:any) => {
             this.loading = false;         

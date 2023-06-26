@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 //import { NgxSpinnerService } from 'ngx-spinner';
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2'
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   @Input() selectedOpt:string='';
   
@@ -19,18 +20,19 @@ export class NavbarComponent implements OnInit {
   acceso:string = '';
   loading:boolean = false;
 
+  subscription!:Subscription;
+
   constructor(private router:Router, private auth:AuthService, private toast:ToastService) { }
 
+  
   ngOnInit(): void {
     this.loading = true;
-    this.auth.userData.subscribe((res:any) => {
+    this.subscription = this.auth.userData.subscribe((res:any) => {
       if(res) {
-        setTimeout(() => {
           this.user = res;
           this.userLogged = true;
           this.loading = false;
           this.acceso = this.user.name;
-        }, 2000);
       }
       else {
         this.user = null;
@@ -40,6 +42,11 @@ export class NavbarComponent implements OnInit {
 
     });
   }
+  
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 
   redirectToLogin() {
     this.router.navigateByUrl('/login');
@@ -53,6 +60,7 @@ export class NavbarComponent implements OnInit {
       const name = this.user.name;
       this.userLogged = false;
       this.user = null;
+      this.acceso = 'Acceso';
       this.auth.logout();
 
       this.loading = false;
