@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
       this.loading = false;
 
-      this.toast.showSuccess('La sesión fue cerrada', `Hasta luego, ${name}`);
+      this.toast.showSuccess('La sesión fue cerrada', `Hasta luego, ${name}.`);
 
       this.router.navigateByUrl('/login');
     }, 1000);

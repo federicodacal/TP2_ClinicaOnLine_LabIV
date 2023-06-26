@@ -74,12 +74,16 @@
             <div class="form-group col-4 mt-1">
 
                 <label for="profilePic">Imagen de Perfil</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                <input type="file" class="form-control-file" id="profilePic" (change)="uploadImage($event)">
                 
                 <small style="color: rgb(255, 0, 0); font-weight: bold;"
                   *ngIf="this.credentials.get('profilePic')?.invalid && this.credentials.get('profilePic')?.touched">
                   Imagen de perfil es requerida</small>
                 <br>
+            </div>
+
+            <div class="mb-1">
+              <re-captcha siteKey="6Le7u9AmAAAAALwcdOkoRKrfZyn1WmolxD7la98R" (resolved)="resolved($event)" formControlName="recaptcha" required></re-captcha>
             </div>
             
     </div>

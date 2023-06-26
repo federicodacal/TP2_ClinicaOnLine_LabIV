@@ -19,6 +19,7 @@ import { RegistroEspecialistaComponent } from './components/registro-especialist
 import { SeleccionUsuariosComponent } from './pages/seleccion-usuarios/seleccion-usuarios.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { RecaptchaFormsModule, RecaptchaModule } from "ng-recaptcha";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,8 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),

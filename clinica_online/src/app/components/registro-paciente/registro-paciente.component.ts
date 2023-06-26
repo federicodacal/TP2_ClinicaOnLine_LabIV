@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-registro-paciente',
@@ -10,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegistroPacienteComponent implements OnInit {
 
-  constructor(private auth:AuthService, private router:Router, private fb:FormBuilder) { }
+  constructor(private auth:AuthService, private router:Router, private fb:FormBuilder, private toast:ToastService) { }
 
   //user:any;
 
@@ -22,6 +24,8 @@ export class RegistroPacienteComponent implements OnInit {
   dni:number|undefined;
   edad:number|undefined;
   obraSocial:string|undefined;
+  imgPerfil:string='';
+  imgSecundaria:string='';
 
   loading:boolean=false;
 
@@ -33,13 +37,14 @@ export class RegistroPacienteComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       dni: ['', [Validators.required, Validators.minLength(8)]],
       obraSocial: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
-      edad: ['', [Validators.required, Validators.max(100)]]
+      edad: ['', [Validators.required, Validators.max(100)]],
+      recaptcha: ['', Validators.required]
     });
   }
 
   async register() {
 
-    if(!this.credentials.invalid) {
+    if(!this.credentials.invalid && (this.imgPerfil != '' && this.imgSecundaria != '')) {
 
       this.loading = true;
 
@@ -51,6 +56,8 @@ export class RegistroPacienteComponent implements OnInit {
         dni: this.credentials.get('dni')?.value,
         obraSocial: this.credentials.get('obraSocial')?.value,
         edad: this.credentials.get('edad')?.value,
+        imgPerfil: this.imgPerfil,
+        imgSecundaria: this.imgSecundaria,
         verificado: false,
         perfil: 'paciente'
       }
@@ -59,7 +66,7 @@ export class RegistroPacienteComponent implements OnInit {
         .then(() => {
           setTimeout(() => {
             
-            alert(`Te damos la bienvenida, ${patient.name}!`);
+            this.toast.showSuccess('Registro completado.', 'Por favor, revise su correo electrónico para validar su cuenta.');
 
             this.loading = false;
 
@@ -68,15 +75,55 @@ export class RegistroPacienteComponent implements OnInit {
           }, 1000);
         })
         .catch(err => {
-          alert('Ocurrió un problema');
+          this.toast.showError('Ocurrió un problema');
           console.log('err', err);
           this.loading = false;
         });
     }
     else {
-      alert('????');
+      this.toast.showError('Es requerido cargar dos imagenes', 'Revise los campos.');
     }
   }
 
+  async uploadImage($event:any, nro:number) {
+
+    try {
+      this.loading = true;
+
+      const file = $event.target.files[0];
+      const path = 'users/img_' + Date.now();
+  
+      const storage = getStorage();
+  
+      //const usersRef = ref(storage, path);
+      //const userImgRef = ref(storage, `users_images/${path}`);
+  
+      const storageRef = ref(storage, path);
+      uploadBytes(storageRef, file).then(async (snapshot) => {
+        this.loading = false;
+        console.log('img subida ok!');
+        await getDownloadURL(ref(storage, path)).then((URL:any) => {
+          if(nro === 1) {
+            this.imgPerfil = URL;
+          }
+          else if(nro === 2) {
+            this.imgSecundaria = URL;
+          }
+        });  
+      })
+      .catch(err => {
+        this.loading = false;
+        console.log('err img', err);
+      });
+    }
+    catch(err) {
+      this.loading = false;
+      console.log('err img', err);
+    }
+  }
+
+  resolved(captchaResponse: string) {
+    console.log(`Resolved response token: ${captchaResponse}`);
+  }
 
 }

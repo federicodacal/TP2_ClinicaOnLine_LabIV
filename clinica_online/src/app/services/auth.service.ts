@@ -23,7 +23,7 @@ export class AuthService {
     );
   }
 
-  async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado}:any) {
+  async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado, imgPerfil, imgSecundaria}:any) {
 
      try {
       const credential = await this.authentication.createUserWithEmailAndPassword(email, password);
@@ -35,10 +35,10 @@ export class AuthService {
         const document = doc(this.firestore, `users/${uid}`);
 
         if(perfil == 'paciente') {
-          return setDoc(document, {uid, email, name, lastName, dni, edad, obraSocial, perfil, createdAt:serverTimestamp()});
+          return setDoc(document, {uid, email, name, lastName, dni, edad, obraSocial, perfil, imgPerfil, imgSecundaria, createdAt:serverTimestamp()});
         }
         else if(perfil == 'especialista') {
-          return setDoc(document, {uid, email, name, lastName, dni, edad, especialidad, perfil, habilitado, createdAt:serverTimestamp()});
+          return setDoc(document, {uid, email, name, lastName, dni, edad, especialidad, perfil, habilitado, imgPerfil, createdAt:serverTimestamp()});
         }
       }
     }

@@ -1,6 +1,6 @@
 <form [formGroup]="credentials">
     <div class="row">
-        <div class="form-group col-6 mt-1">
+        <div class="form-group col-6">
             <label for="email">Correo electrónico</label>
             <input formControlName="email" type="text" id="email" class="form-control" name="email" placeholder="email@email.com" [(ngModel)]="email">
             
@@ -8,7 +8,7 @@
               *ngIf="this.credentials.get('email')?.invalid && this.credentials.get('email')?.touched">
               Correo electrónico es requerido</small>
         </div>
-        <div class="form-group col-6 mt-1">
+        <div class="form-group col-6">
 
             <label for="password">Contraseña</label>
             <input formControlName="password" type="password" id="password" class="form-control" name="password" [(ngModel)]="password">
@@ -74,7 +74,7 @@
             <div class="form-group col-3 mt-1">
 
                 <label for="profilePic">Imagen de Perfil</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                <input type="file" class="form-control-file" id="profilePic" (change)="uploadImage($event, 1)">
                 
                 <small style="color: rgb(255, 0, 0); font-weight: bold;"
                   *ngIf="this.credentials.get('profilePic')?.invalid && this.credentials.get('profilePic')?.touched">
@@ -85,15 +85,18 @@
             <div class="form-group col-3 mt-1">
 
                 <label for="imagenSecundaria">Imagen Secundaria</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                <input type="file" class="form-control-file" id="imagenSecundaria" (change)="uploadImage($event, 2)">
                 
                 <small style="color: rgb(255, 0, 0); font-weight: bold;"
                   *ngIf="this.credentials.get('imagenSecundaria')?.invalid && this.credentials.get('imagenSecundaria')?.touched">
                   Imagen Secundaria es requerida</small>
                 <br>
             </div>
-            
-            
+
+            <div class="mb-1">
+              <re-captcha siteKey="6Le7u9AmAAAAALwcdOkoRKrfZyn1WmolxD7la98R" (resolved)="resolved($event)" formControlName="recaptcha" required></re-captcha>
+            </div>
+
     </div>
 </form>
 <div class="row" style="margin-top: 0;">
@@ -108,7 +111,7 @@
     </div>
     <div class="col-4">
         <a [routerLink]="''">
-        <button class="button-33" role="button" style="background-color: #e24d08;">
+        <button class="button-33" role="button" style="background-color: #e24d08; ">
             <i class="fa-solid fa-xmark"></i>
             CANCELAR
         </button>
