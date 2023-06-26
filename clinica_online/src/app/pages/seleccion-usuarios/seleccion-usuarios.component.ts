@@ -12,13 +12,28 @@ export class SeleccionUsuariosComponent implements OnInit {
 
   users:any [] = [];
 
+  loading:boolean = false;
+
   constructor(private db:DatabaseService) { }
 
   ngOnInit(): void {
+
+    this.loading = true;
+
     this.db.getUsers().subscribe((res:any) => {
       this.users = res;
       console.log('users', this.users);
+
+      this.loading = false;
     });
+  }
+
+  habilitar(uid:string) {
+    this.db.updateStatusSpecialist(uid, 'habilitar');
+  }
+
+  deshabilitar(uid:string) {
+    this.db.updateStatusSpecialist(uid, 'deshabilitar');
   }
 
 }
