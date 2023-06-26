@@ -54,6 +54,7 @@ export class RegistroEspecialistaComponent implements OnInit {
         especialidad: this.credentials.get('especialidad')?.value,
         edad: this.credentials.get('edad')?.value,
         perfil: 'especialista',
+        imgPerfil: this.imgPerfil,
         habilitado: false
       }
 

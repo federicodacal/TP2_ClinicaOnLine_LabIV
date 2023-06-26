@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, docData, query, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,4 +18,5 @@ export class DatabaseService {
     const userRef = doc(this.firestore, `users/${uid}`);
     return docData(userRef, {idField:'uid'});
   }
+
 }

@@ -14,9 +14,9 @@
                         <strong>Paciente / Especialista</strong>
                      </p>
                       <div style="display: flex; justify-content: space-between; ">
-                        <img class="card-img-top mt-1 img-btn" [src]="iconPatient" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-right':'1em'}" (click)="onClickSeleccionar('paciente')" [ngClass]="this.tipoUsuario== 'PACIENTE' ? 'clicked' : ''">
+                        <img class="card-img-top mt-1 img-btn" [src]="iconPatient" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-right':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar('paciente')" [ngClass]="this.tipoUsuario== 'PACIENTE' ? 'clicked' : ''">
 
-                        <img class="card-img-top mt-1 img-btn" [src]="iconSpecialist" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-left':'1em'}" (click)="onClickSeleccionar('especialista')" [ngClass]="this.tipoUsuario == 'ESPECIALISTA' ? 'clicked' : ''">
+                        <img class="card-img-top mt-1 img-btn" [src]="iconSpecialist" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar('especialista')" [ngClass]="this.tipoUsuario == 'ESPECIALISTA' ? 'clicked' : ''">
                     </div>
 
                       <p class="card-text mt-1" style="font-size: 20px;" *ngIf="this.tipoUsuario != ''">

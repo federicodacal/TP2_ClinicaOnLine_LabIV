@@ -5,7 +5,7 @@
     <div class="col-9 main">
         <div class="container">
             <div class="row">
-                <div class="card col-9 offset-1 scale-up-top" style="height: 500px; margin-left: 1em;">
+                <div class="card col-9 offset-1 scale-up-top" style="height: 525px; margin-left: 1em;">
                     <img class="card-img-top mt-2" [src]="icon" alt="ico" [ngStyle]="{'width':'6.5rem'}">
                     <div class="card-body">
                       <h2 class="card-title">LOGIN</h2>
@@ -39,17 +39,45 @@
                             </div>
                          
                             
-                            <div class="row" style="margin-top: 3.5em;">
+                            <div class="row" style="margin-top: 2em; margin-bottom: 1.5em;">
                                 <div class="col-12">
                                     <button class="button-33 mt-0" role="button" [disabled]="this.credentials.invalid"> 
                                         <i class="fa-solid fa-key"></i>
                                         INICIAR SESIÓN
                                     </button>
-                                </div>                            
+                                </div>  
+
+                                <!-- ACCESOS -->
+                                <div class="row mt-3" *ngIf="!this.loading">
+
+                                    <div class="col-2">
+                                        <img class='btn-av' [src]="usersAcceso[0].imgPerfil" alt="ico" [ngStyle]="{'width':'3rem', 'height':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar(usersAcceso[0], 1)" [ngClass]="this.seleccionado == 1 ? 'clicked' : ''">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <img class='btn-av' [src]="usersAcceso[1].imgPerfil" alt="ico" [ngStyle]="{'width':'3rem', 'height':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar(usersAcceso[1], 2)" [ngClass]="this.seleccionado == 2 ? 'clicked' : ''">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <img class='btn-av'[src]="usersAcceso[2].imgPerfil" alt="ico" [ngStyle]="{'width':'3rem', 'height':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar(usersAcceso[2], 3)" [ngClass]="this.seleccionado == 3 ? 'clicked' : ''">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <img class='btn-av' [src]="usersAcceso[3].imgPerfil" alt="ico" [ngStyle]="{'width':'3rem', 'height':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar(usersAcceso[3], 4)" [ngClass]="this.seleccionado == 4 ? 'clicked' : ''">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <img class='btn-av' [src]="usersAcceso[4].imgPerfil" alt="ico" [ngStyle]="{'width':'3rem', 'height':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar(usersAcceso[4], 5)" [ngClass]="this.seleccionado == 5 ? 'clicked' : ''">
+                                    </div>
+
+
+                                </div>
                             </div>
                         </form>
+
                         <span class="loader mt-1" *ngIf="this.loading"></span>
                     </div>
+
                 </div>
         </div>
     </div>

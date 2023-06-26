@@ -132,3 +132,15 @@ h2 {
       transform: rotate(360deg);
   }
   } 
+
+  .clicked {
+    opacity: 1;
+    background-color: #1abae2;
+    border-radius: 50px;
+  }
+
+  .btn-av:hover {
+    opacity: 0.8;
+    background-color: #1abae2;
+    border-radius: 50px;
+  }
