@@ -12,8 +12,9 @@ export class RegistroPacienteComponent implements OnInit {
 
   constructor(private auth:AuthService, private router:Router, private fb:FormBuilder) { }
 
+  //user:any;
+
   credentials!:FormGroup;
-  user:any;
   email:string|undefined;
   password:string|undefined;
   name:string|undefined;
@@ -21,6 +22,8 @@ export class RegistroPacienteComponent implements OnInit {
   dni:number|undefined;
   edad:number|undefined;
   obraSocial:string|undefined;
+
+  loading:boolean=false;
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
@@ -35,29 +38,45 @@ export class RegistroPacienteComponent implements OnInit {
   }
 
   async register() {
-    if(this.credentials.get('password')?.value === this.credentials.get('confirmPassword')?.value) {
 
-      //this.spinner.show();
+    if(!this.credentials.invalid) {
 
-      const name = this.credentials.get('name')?.value;
+      this.loading = true;
 
-      this.auth.register(this.credentials.value)
+      const patient = {
+        email: this.credentials.get('email')?.value,
+        password: this.credentials.get('password')?.value,
+        name: this.credentials.get('name')?.value,
+        lastName: this.credentials.get('lastName')?.value,
+        dni: this.credentials.get('dni')?.value,
+        obraSocial: this.credentials.get('obraSocial')?.value,
+        edad: this.credentials.get('edad')?.value,
+        verificado: false,
+        perfil: 'paciente'
+      }
+      
+      this.auth.register(patient)
         .then(() => {
           setTimeout(() => {
-            //this.spinner.hide();
+            
+            alert(`Te damos la bienvenida, ${patient.name}!`);
+
+            this.loading = false;
+
             this.router.navigateByUrl('', {replaceUrl:true});
 
-            alert(`Te damos la bienvenida, ${name}!`);
           }, 1000);
         })
         .catch(err => {
           alert('Ocurrió un problema');
           console.log('err', err);
-          //this.spinner.hide();
+          this.loading = false;
         });
     }
     else {
-      alert('Debe coincidir la clave con la confirmación');
+      alert('????');
     }
   }
+
+
 }

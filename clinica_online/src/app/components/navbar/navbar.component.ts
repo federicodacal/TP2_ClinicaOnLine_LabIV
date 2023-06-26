@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 //import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2'
 
@@ -15,21 +16,26 @@ export class NavbarComponent implements OnInit {
   
   user:any = {};
   userLogged:boolean = false;
+  acceso:string = '';
   loading:boolean = false;
 
-  constructor(private router:Router, private auth:AuthService) { }
+  constructor(private router:Router, private auth:AuthService, private toast:ToastService) { }
 
   ngOnInit(): void {
     this.loading = true;
     this.auth.userData.subscribe((res:any) => {
       if(res) {
-        this.user = res;
-        this.userLogged = true;
-        this.loading = false;
+        setTimeout(() => {
+          this.user = res;
+          this.userLogged = true;
+          this.loading = false;
+          this.acceso = this.user.name;
+        }, 2000);
       }
       else {
         this.user = null;
         this.loading = false;
+        this.acceso = 'Acceso';
       }
 
     });
@@ -41,20 +47,17 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     
-   // this.spinner.show();
+    this.loading = true;
     
     setTimeout(() => {
+      const name = this.user.name;
       this.userLogged = false;
       this.user = null;
       this.auth.logout();
 
-      //this.spinner.hide();
+      this.loading = false;
 
-      Swal.fire(
-        'Gracias por tu visita',
-        'La sesión fue cerrada',
-        'info'
-      );
+      this.toast.showSuccess('La sesión fue cerrada', `Hasta luego, ${name}`);
 
       this.router.navigateByUrl('/login');
     }, 1000);

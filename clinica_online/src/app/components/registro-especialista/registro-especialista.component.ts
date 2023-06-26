@@ -10,9 +10,10 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegistroEspecialistaComponent implements OnInit {
   constructor(private auth:AuthService, private router:Router, private fb:FormBuilder) { }
+  
+  //user:any;
 
   credentials!:FormGroup;
-  user:any;
   email:string|undefined;
   password:string|undefined;
   name:string|undefined;
@@ -20,6 +21,8 @@ export class RegistroEspecialistaComponent implements OnInit {
   dni:number|undefined;
   edad:number|undefined;
   especialidad:number|undefined;
+
+  loading:boolean=false;
 
   ngOnInit(): void {
     this.credentials = this.fb.group({
@@ -34,29 +37,43 @@ export class RegistroEspecialistaComponent implements OnInit {
   }
 
   async register() {
-    if(this.credentials.get('password')?.value === this.credentials.get('confirmPassword')?.value) {
+    if(!this.credentials.invalid) {
 
-      //this.spinner.show();
+      this.loading = true;
+      
+      const specialist = {
+        email: this.credentials.get('email')?.value,
+        password: this.credentials.get('password')?.value,
+        name: this.credentials.get('name')?.value,
+        lastName: this.credentials.get('lastName')?.value,
+        dni: this.credentials.get('dni')?.value,
+        especialidad: this.credentials.get('especialidad')?.value,
+        edad: this.credentials.get('edad')?.value,
+        perfil: 'especialista',
+        verificado: false,
+        habilitado: false
+      }
 
-      const name = this.credentials.get('name')?.value;
-
-      this.auth.register(this.credentials.value)
+      this.auth.register(specialist)
         .then(() => {
           setTimeout(() => {
-            //this.spinner.hide();
+
+            alert(`Te damos la bienvenida, ${specialist.name}!`);
+            
+            this.loading = false;
+
             this.router.navigateByUrl('', {replaceUrl:true});
 
-            alert(`Te damos la bienvenida, ${name}!`);
           }, 1000);
         })
         .catch(err => {
           alert('Ocurrió un problema');
           console.log('err', err);
-          //this.spinner.hide();
+          this.loading = false;
         });
     }
     else {
-      alert('Debe coincidir la clave con la confirmación');
+      alert('????');
     }
   }
 

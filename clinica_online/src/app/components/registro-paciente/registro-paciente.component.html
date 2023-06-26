@@ -67,7 +67,7 @@
                 
                 <small style="color: rgb(255, 0, 0); font-weight: bold;"
                   *ngIf="this.credentials.get('edad')?.invalid && this.credentials.get('edad')?.touched">
-                  Edad es requerido</small>
+                  Edad es requerida</small>
                 <br>
             </div>
 
@@ -96,15 +96,17 @@
             
     </div>
 </form>
-
-<div class="row" style="margin-top: 1em;">
-    <div class="col-6">
+<div class="row" style="margin-top: 0;">
+    <div class="col-4">
         <button class="button-33" role="button" (click)="register()" [disabled]="this.credentials.invalid">
             <i class="fa-solid fa-check"></i>
             ACEPTAR
         </button>
     </div>
-    <div class="col-6">
+    <div class="col-4">
+      <span class="loader mt-0" *ngIf="this.loading"></span>
+    </div>
+    <div class="col-4">
         <a [routerLink]="''">
         <button class="button-33" role="button" style="background-color: #e24d08;">
             <i class="fa-solid fa-xmark"></i>

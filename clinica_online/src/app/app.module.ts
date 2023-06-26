@@ -16,6 +16,9 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistroPacienteComponent } from './components/registro-paciente/registro-paciente.component';
 import { RegistroEspecialistaComponent } from './components/registro-especialista/registro-especialista.component';
+import { SeleccionUsuariosComponent } from './pages/seleccion-usuarios/seleccion-usuarios.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -25,13 +28,16 @@ import { RegistroEspecialistaComponent } from './components/registro-especialist
     RegistroComponent,
     LoginComponent,
     RegistroPacienteComponent,
-    RegistroEspecialistaComponent
+    RegistroEspecialistaComponent,
+    SeleccionUsuariosComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

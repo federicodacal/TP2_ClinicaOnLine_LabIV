@@ -1,0 +1,77 @@
+
+<div class="row">
+    <div class="col-3">
+        <app-navbar [selectedOpt]="'seleccion'"></app-navbar>
+    </div>
+    <div class="col-9">
+        <div class="container">
+            <div class="row">
+                <div class="card col-9 offset-1 scale-up-top" style="height: 450px; margin-left: 1em;">
+                    <div class="card-body">
+                      <h2 class="card-title">Seleccion de Usuarios</h2>
+                      
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">VER TURNOS</th>
+                            <th scope="col">PERFIL</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">APELLIDO</th>
+                            <th scope="col">ACCIÓN</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="tr-tabla" *ngFor="let user of users">
+                            <!-- <td><img width="50" src="{{ user.imagen1 }}" alt="imagen" /></td> -->
+                            <td>
+                              <button
+                                type="button"
+                                color="light"
+                                mat-fab
+                                class="btn-fav"
+                                title="Descargar detalles de turnos">
+                                <img class="img-btn" src="{{user.imagen1}}" alt="imagen"/>
+                                <p class="user-name">{{user.name}}</p>
+                              </button>
+                            </td>
+                            <td style="text-transform: upperCase">
+                              <span>{{user.perfil}}</span>
+                            </td>
+                            <td>
+                              <span>{{user.name}}</span>
+                            </td>
+                            <td>
+                              <span>{{user.lastName}}</span>
+                            </td>
+                            <td>
+                              <div *ngIf="user.perfil == 'especialista'">
+                                <button
+                                  class="button-33"
+                                  *ngIf="!user.aprobado">
+                                  Habilitar
+                                </button>
+                                <button
+                                  class="btn-deshabilitar"
+                                  *ngIf="user.aprobado">
+                                  Deshabilitar
+                                </button>
+                              </div>
+                              <button
+                                *ngIf="user.perfil == 'paciente' && user.historial"
+                                class="btn-historial"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Historial
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

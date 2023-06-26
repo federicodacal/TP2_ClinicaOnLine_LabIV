@@ -130,3 +130,23 @@ h2 {
   background-color: #94999bc9;
   box-shadow: rgba(28, 31, 53, 0.178) 0 -25px 18px -14px inset,rgba(28, 31, 53, 0.178) 0 1px 2px,rgba(28, 31, 53, 0.178) 0 2px 4px,rgba(28, 31, 53, 0.178) 0 4px 8px,rgba(28, 31, 53, 0.178) 0 8px 16px,rgba(28, 31, 53, 0.178) 0 16px 32px;
 }
+
+.loader {
+  width: 30px;
+  height: 30px;
+  border: 5px solid #1d1c1ce3;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 

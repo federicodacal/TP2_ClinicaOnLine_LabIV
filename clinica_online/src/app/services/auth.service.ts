@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of, switchMap, throwError } from 'rxjs';
 import { Firestore, addDoc, collection, doc, docData, serverTimestamp, setDoc } from '@angular/fire/firestore';
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export class AuthService {
     );
   }
 
-  async register({email, password, name}:any) {
+  async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado}:any) {
 
      try {
       const credential = await this.authentication.createUserWithEmailAndPassword(email, password);
@@ -34,7 +33,13 @@ export class AuthService {
         const uid = credential.user?.uid;
   
         const document = doc(this.firestore, `users/${uid}`);
-        return setDoc(document, {uid, email, name, createdAt:serverTimestamp()});
+
+        if(perfil == 'paciente') {
+          return setDoc(document, {uid, email, name, lastName, dni, edad, obraSocial, perfil, createdAt:serverTimestamp()});
+        }
+        else if(perfil == 'especialista') {
+          return setDoc(document, {uid, email, name, lastName, dni, edad, especialidad, perfil, habilitado, createdAt:serverTimestamp()});
+        }
       }
     }
     catch(err) {
@@ -44,7 +49,13 @@ export class AuthService {
   }
 
   async login({email, password}:any) {
-    return this.authentication.signInWithEmailAndPassword(email, password);
+    try {
+      return await this.authentication.signInWithEmailAndPassword(email, password);
+    }
+    catch (err:any) {
+      console.log('err login', err);
+      throw new Error(err);
+    }
   }
 
 
