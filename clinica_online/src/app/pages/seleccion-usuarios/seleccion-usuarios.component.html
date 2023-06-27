@@ -5,77 +5,88 @@
     </div>
     <div class="col-9">
       <div class="container">
-        <div class="row">
+        <div class="row" *ngIf="this.view == 'seleccion-usuarios'">
           <div class="card col-9 offset-1 scale-up-top mb-2" style="height: auto; margin-left: 1em;">
-            <div class="card-body">
-                      <h2 class="card-title">Seleccion de Usuarios</h2>
+            <div class="card-body" *ngIf="this.view == 'seleccion-usuarios'">
+              <h2 class="card-title">Seleccion de Usuarios</h2>
+              <div> 
+                <button *ngIf="!this.loading" style="float:left; margin-bottom: 0.5em;"
+                  class="button-33-new" (click)="this.view = 'registro'">
+                  <i class="fa-solid fa-user-plus"></i>
+                </button>
+              </div>
 
-                      <span class="loader mt-1" *ngIf="this.loading"></span>
+                  <span class="loader mt-1" *ngIf="this.loading"></span>
 
-                      <table class="table" *ngIf="!this.loading">
-                        <thead>
-                          <tr>
-                            <th scope="col">TURNOS</th>
-                            <th scope="col">PERFIL</th>
-                            <th scope="col">NOMBRE</th>
-                            <th scope="col">APELLIDO</th>
-                            <th scope="col">ACCIÓN</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="tr-tabla" *ngFor="let user of users">
-                            <!-- <td><img width="50" src="{{ user.imagen1 }}" alt="imagen" /></td> -->
-                            <td>
+                    <table class="table" *ngIf="!this.loading">
+                      <thead>
+                        <tr>
+                          <th scope="col">TURNOS</th>
+                          <th scope="col">PERFIL</th>
+                          <th scope="col">NOMBRE</th>
+                          <th scope="col">APELLIDO</th>
+                          <th scope="col">ACCIÓN</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="tr-tabla" *ngFor="let user of users">
+                          <!-- <td><img width="50" src="{{ user.imagen1 }}" alt="imagen" /></td> -->
+                          <td>
+                            <button
+                              type="button"
+                              color="light"
+                              mat-fab
+                              class="btn-fav"
+                              title="Descargar detalles de turnos">
+                              <img class="img-btn" src="{{user.imgPerfil}}" alt="imagen"/>
+    
+                            </button>
+                          </td>
+                          <td style="text-transform: upperCase">
+                            <span>{{user.perfil}}</span>
+                          </td>
+                          <td>
+                            <span>{{user.name}}</span>
+                          </td>
+                          <td>
+                            <span>{{user.lastName}}</span>
+                          </td>
+                          <td>
+                            <div *ngIf="user.perfil == 'especialista'">
                               <button
-                                type="button"
-                                color="light"
-                                mat-fab
-                                class="btn-fav"
-                                title="Descargar detalles de turnos">
-                                <img class="img-btn" src="{{user.imgPerfil}}" alt="imagen"/>
-      
+                                class="button-33"
+                                *ngIf="!user.habilitado"
+                                (click)="habilitar(user.uid)">
+                                Habilitar
                               </button>
-                            </td>
-                            <td style="text-transform: upperCase">
-                              <span>{{user.perfil}}</span>
-                            </td>
-                            <td>
-                              <span>{{user.name}}</span>
-                            </td>
-                            <td>
-                              <span>{{user.lastName}}</span>
-                            </td>
-                            <td>
-                              <div *ngIf="user.perfil == 'especialista'">
-                                <button
-                                  class="button-33"
-                                  *ngIf="!user.habilitado"
-                                  (click)="habilitar(user.uid)">
-                                  Habilitar
-                                </button>
-                                <button
-                                  class="button-33-deshab"
-                                  *ngIf="user.habilitado"
-                                  (click)="deshabilitar(user.uid)">
-                                  Deshabilitar
-                                </button>
-                              </div>
                               <button
-                                *ngIf="user.perfil == 'paciente' && user.historial"
-                                class="btn-historial"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                                Historial
+                                class="button-33-deshab"
+                                *ngIf="user.habilitado"
+                                (click)="deshabilitar(user.uid)">
+                                Deshabilitar
                               </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                            </div>
+                            <button
+                              *ngIf="user.perfil == 'paciente' && user.historial"
+                              class="btn-historial"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal">
+                              Historial
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-                    </div>
+                  </div>
                 </div>
             </div>
         </div>
-    </div>
+      </div>
+      
+      <app-altas-admin *ngIf="this.view == 'registro'"></app-altas-admin>
+
+
+
 </div>
 

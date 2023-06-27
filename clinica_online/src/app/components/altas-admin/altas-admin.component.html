@@ -1,0 +1,46 @@
+<div class="col-9" style="margin-left: 16em;">
+        <div class="container">
+            <div class="row">
+                <div class="card col-9 scale-up-top" style="height: auto; width:100%; margin-left: 1em;">
+                   
+                    <div class="card-body">
+                      <h2 class="card-title">REGISTRO {{this.tipoUsuario}}</h2>
+                      <p class="card-text mt-1" style="font-size: 12px;">
+                        <strong>Paciente / Especialista / Administrador</strong>
+                     </p>
+                      <div style="display: flex; justify-content: space-between; ">
+
+                        <img class="card-img-top mt-1 img-btn" [src]="iconPatient" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-right':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar('paciente')" [ngClass]="this.tipoUsuario== 'PACIENTE' ? 'clicked' : ''">
+
+                        <img class="card-img-top mt-1 img-btn" [src]="iconSpecialist" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-left':'1em','margin-right':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar('especialista')" [ngClass]="this.tipoUsuario == 'ESPECIALISTA' ? 'clicked' : ''">
+
+                        <img class="card-img-top mt-1 img-btn" [src]="iconAdmin" alt="ico" [ngStyle]="{'width':'3.5rem', 'margin-left':'1em', 'border-radius':'50%'}" (click)="onClickSeleccionar('administrador')" [ngClass]="this.tipoUsuario == 'ADMINISTRADOR' ? 'clicked' : ''">
+                    </div>
+
+                      <p class="card-text mt-1" style="font-size: 20px;" *ngIf="this.tipoUsuario != ''">
+                          Por favor, registre sus datos. 
+                       </p>
+
+                       <app-registro-paciente *ngIf="this.tipoUsuario == 'PACIENTE'"></app-registro-paciente>
+
+                       <app-registro-especialista *ngIf="this.tipoUsuario == 'ESPECIALISTA'"></app-registro-especialista>
+
+                       <app-registro-admin *ngIf="this.tipoUsuario == 'ADMINISTRADOR'"></app-registro-admin>
+
+                       <div class="row" style="margin-top: 3em;" *ngIf="this.tipoUsuario == ''">
+                        <div class="col-12">
+                            <a [routerLink]="''">
+                                <button class="button-33" role="button">
+                                    <i class="fa-solid fa-circle-left"></i>
+                                    HOME
+                                </button>
+                            </a>
+                        </div>                            
+                    </div>
+                       
+                    </div>
+                </div>
+        </div>
+    </div>
+
+

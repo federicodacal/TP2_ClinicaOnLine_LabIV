@@ -74,7 +74,7 @@
                 <span style="margin-left: 0.5em;">Home</span>
             </a>
           </li>
-          <li class="nav item opt-sidebar" (click)="onClickSidebar('seleccion')" *ngIf="this.user && this.user.perfil == 'administrador'">
+          <li class="nav item opt-sidebar" (click)="onClickSidebar('seleccion')" *ngIf="this.user && this.user.perfil == 'administrador' && !this.loading">
             <a class="nav-link text-white" [routerLink]="'/seleccion-usuarios'" [ngClass]="this.selectedOpt == 'seleccion' ? 'clicked' : ''">
               <i class="fa-solid fa-users"></i>
               <span style="margin-left: 0.5em;">Seleccion Usuarios</span>  

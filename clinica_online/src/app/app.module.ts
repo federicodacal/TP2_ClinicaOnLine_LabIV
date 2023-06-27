@@ -20,6 +20,8 @@ import { SeleccionUsuariosComponent } from './pages/seleccion-usuarios/seleccion
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RecaptchaFormsModule, RecaptchaModule } from "ng-recaptcha";
+import { RegistroAdminComponent } from './components/registro-admin/registro-admin.component';
+import { AltasAdminComponent } from './components/altas-admin/altas-admin.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { RecaptchaFormsModule, RecaptchaModule } from "ng-recaptcha";
     RegistroPacienteComponent,
     RegistroEspecialistaComponent,
     SeleccionUsuariosComponent,
+    RegistroAdminComponent,
+    AltasAdminComponent,
   ],
   imports: [
     BrowserModule,

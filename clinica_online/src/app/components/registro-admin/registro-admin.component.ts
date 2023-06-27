@@ -6,12 +6,12 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/stor
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-  selector: 'app-registro-especialista',
-  templateUrl: './registro-especialista.component.html',
-  styleUrls: ['./registro-especialista.component.css']
+  selector: 'app-registro-admin',
+  templateUrl: './registro-admin.component.html',
+  styleUrls: ['./registro-admin.component.css']
 })
-export class RegistroEspecialistaComponent implements OnInit {
-  
+export class RegistroAdminComponent {
+
   constructor(private auth:AuthService, private router:Router, private fb:FormBuilder, private toast:ToastService) { }
   
   //user:any;
@@ -23,7 +23,6 @@ export class RegistroEspecialistaComponent implements OnInit {
   lastName:string|undefined;
   dni:number|undefined;
   edad:number|undefined;
-  especialidad:number|undefined;
   imgPerfil:string='';
 
   loading:boolean=false;
@@ -35,7 +34,6 @@ export class RegistroEspecialistaComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       dni: ['', [Validators.required, Validators.minLength(8)]],
-      especialidad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
       edad: ['', [Validators.required, Validators.max(100)]],
       recaptcha: ['', Validators.required]
     });
@@ -46,20 +44,19 @@ export class RegistroEspecialistaComponent implements OnInit {
 
       this.loading = true;
       
-      const specialist = {
+      const admin = {
         email: this.credentials.get('email')?.value,
         password: this.credentials.get('password')?.value,
         name: this.credentials.get('name')?.value,
         lastName: this.credentials.get('lastName')?.value,
         dni: this.credentials.get('dni')?.value,
-        especialidad: this.credentials.get('especialidad')?.value,
         edad: this.credentials.get('edad')?.value,
-        perfil: 'especialista',
+        perfil: 'administrador',
         imgPerfil: this.imgPerfil,
-        habilitado: false
+        habilitado: true
       }
 
-      this.auth.register(specialist)
+      this.auth.register(admin)
         .then(() => {
           setTimeout(() => {
 
@@ -118,5 +115,4 @@ export class RegistroEspecialistaComponent implements OnInit {
   resolved(captchaResponse: string) {
     console.log(`Resolved response token: ${captchaResponse}`);
   }
-
 }

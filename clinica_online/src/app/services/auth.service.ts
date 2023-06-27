@@ -26,8 +26,17 @@ export class AuthService {
 
   async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado, imgPerfil, imgSecundaria}:any) {
 
+    /*
+    let user:any;
+
+    this.userData.subscribe((res:any) => {
+        user = res;
+        console.log(user);
+    });
+    */
+    
      try {
-      const credential = await this.authentication.createUserWithEmailAndPassword(email, password)
+      const credential = await this.authentication.createUserWithEmailAndPassword(email, password);
 
       console.info('credential: ', credential);
       if(credential.user != null) {
@@ -38,16 +47,18 @@ export class AuthService {
         await credential.user.sendEmailVerification().then(async () => {
           console.log('email enviado');
 
+          await this.logout();
+
           if(perfil == 'paciente') {
-            await this.logout();
             return setDoc(document, {uid, email, name, lastName, dni, edad, obraSocial, perfil, imgPerfil, imgSecundaria, createdAt:serverTimestamp()});
           }
           else if(perfil == 'especialista') {
-            await this.logout();
             return setDoc(document, {uid, email, name, lastName, dni, edad, especialidad, perfil, habilitado, imgPerfil, createdAt:serverTimestamp()});
           }
+          else if(perfil == 'administrador') {
+            return setDoc(document, {uid, email, name, lastName, dni, edad, perfil, habilitado, imgPerfil, createdAt:serverTimestamp()});
+          }
           else {
-            await this.logout();
             return null;
           }
 
