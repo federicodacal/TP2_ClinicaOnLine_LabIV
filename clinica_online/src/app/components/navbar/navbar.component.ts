@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
-//import { NgxSpinnerService } from 'ngx-spinner';
-import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-navbar',
@@ -26,17 +24,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   
   ngOnInit(): void {
-    this.loading = true;
+    //this.loading = true;
     this.subscription = this.auth.userData.subscribe((res:any) => {
       if(res) {
           this.user = res;
           this.userLogged = true;
-          this.loading = false;
+          //this.loading = false;
           this.acceso = this.user.name;
       }
       else {
         this.user = null;
-        this.loading = false;
+        //this.loading = false;
         this.acceso = 'Acceso';
       }
 
@@ -78,6 +76,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
     else if(opt == 'seleccion') {
       this.selectedOpt = 'seleccion';
+    }
+    else if(opt == 'mis-turnos') {
+      this.selectedOpt = 'mis-turnos';
     }
   }
 

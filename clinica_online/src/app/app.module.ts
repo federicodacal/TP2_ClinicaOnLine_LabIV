@@ -22,6 +22,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { RecaptchaFormsModule, RecaptchaModule } from "ng-recaptcha";
 import { RegistroAdminComponent } from './components/registro-admin/registro-admin.component';
 import { AltasAdminComponent } from './components/altas-admin/altas-admin.component';
+import { MisTurnosComponent } from './pages/mis-turnos/mis-turnos.component';
+import { SolicitarTurnoComponent } from './pages/solicitar-turno/solicitar-turno.component';
+import { MiPerfilComponent } from './pages/mi-perfil/mi-perfil.component';
+import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,10 @@ import { AltasAdminComponent } from './components/altas-admin/altas-admin.compon
     SeleccionUsuariosComponent,
     RegistroAdminComponent,
     AltasAdminComponent,
+    MisTurnosComponent,
+    SolicitarTurnoComponent,
+    MiPerfilComponent,
+    MisHorariosComponent,
   ],
   imports: [
     BrowserModule,

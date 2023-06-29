@@ -36,11 +36,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       imgPerfil: 'https://firebasestorage.googleapis.com/v0/b/clinica-online-74b81.appspot.com/o/users%2Fimg_1687807022658?alt=media&token=1f2c9572-d8c9-4131-b0e7-3ba794e81c52'
     },
     {
-      email: 'clinica@mail.com',
+      email: 'juancarlos@mail.com',
       imgPerfil: 'https://firebasestorage.googleapis.com/v0/b/clinica-online-74b81.appspot.com/o/users%2Fimg_1687807315955?alt=media&token=65f74a6b-4426-4c59-883d-3e1c0b6b03cf'
     },
     {
-      email: 'juancarlos@mail.com',
+      email: 'clinica@mail.com',
       imgPerfil: 'https://firebasestorage.googleapis.com/v0/b/clinica-online-74b81.appspot.com/o/users%2Fimg_1687824922858?alt=media&token=b69a5529-4fef-4a9f-b8ed-497d733cf2b0'
     }
   ];

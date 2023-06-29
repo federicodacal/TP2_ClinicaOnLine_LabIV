@@ -1,0 +1,90 @@
+
+<div class="row">
+    <div class="col-3">
+        <app-navbar></app-navbar>
+    </div>
+    <div class="col-9">
+        <div class="container">
+            <div class="row">
+                <div class="card col-9 offset-1 scale-up-top" style="height: auto; margin-left: 1em;">
+                    <div class="col-12" *ngIf="this.loading"> 
+                        <span class="loader mt-3"></span>
+                    </div>
+
+                    <div class="row" *ngIf="!this.loading">
+                        <div class="col-1">
+                            <img class="card-img-top mt-1" [src]="this.user.imgPerfil" alt="ico" [ngStyle]="{'width':'3rem', 'float':'left', 'border-radius':'50%'}">
+                        </div>
+                        <div class="col-10">
+                            <h2 class="card-title">{{this.user.lastName}}, {{this.user.name}}</h2>
+                        </div>
+                        <div class="col-1">
+                            <img *ngIf="this.user.perfil == 'paciente'" class="card-img-top mt-1" [src]="this.user.imgSecundaria" alt="ico" [ngStyle]="{'width':'3rem', 'float':'right', 'border-radius':'50%'}">
+                        </div>
+                    </div>
+
+                    <div class="card-body" *ngIf="!this.loading">
+
+
+                      <div *ngIf="this.view == 'mi-perfil'"> 
+                        <p class="card-text" style="font-size: 20px; text-transform: upperCase">
+                            PERFIL: <strong>{{this.user.perfil}}</strong> 
+                          </p>
+                          <p *ngIf="this.user.perfil=='especialista'" class="card-text" style="text-transform: upperCase; font-size: 16.5px">
+                              Especialidad: <strong>{{this.user.especialidad}}</strong>
+                          </p>
+                          <p class="card-text">
+                              DNI: {{this.user.dni}}
+                          </p>
+                          <p class="card-text">
+                              Edad: {{this.user.edad}} años
+                          </p>
+                          <p class="card-text">
+                              Fecha de Registro: {{this.user.createdAt.toMillis() | date:'short' }}
+                          </p>
+                      </div>
+                      
+                      <div *ngIf="this.view == 'horarios'"> 
+                          <p class="card-text" style="text-transform: upperCase; font-size: 16.5px">
+                              Seleccione horarios
+                          </p>
+
+                          <app-mis-horarios></app-mis-horarios>
+
+                      </div>
+
+
+
+                        <div class="row" style="margin-top: 4em;" *ngIf="!this.loading">
+                            <div class="col-12" *ngIf="this.user.perfil == 'paciente' || this.user.perfil == 'administrador'">
+                                <button class="button-33" role="button" (click)="volver()">
+                                    <i class="fa-solid fa-circle-left"></i>
+                                    VOLVER
+                                </button>
+                            </div>
+
+                            <div class="col-6" *ngIf="this.user.perfil == 'especialista'">
+                                <button class="button-33" role="button" (click)="volver()">
+                                    <i class="fa-solid fa-circle-left"></i>
+                                    VOLVER
+                                </button>
+                            </div>
+
+                            <div class="col-6" *ngIf="this.user.perfil == 'especialista'">
+                                <button class="button-33" role="button" (click)="this.view = 'horarios'">
+                                    <i class="fa-solid fa-clock"></i>
+                                    MIS HORARIOS
+                                </button>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+

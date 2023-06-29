@@ -30,4 +30,9 @@ export class DatabaseService {
     return null;
   }
 
+  getTurnos() {
+    const turnosRef = collection(this.firestore, 'turnos');
+    return collectionData(turnosRef, {idField:'uid'}) as Observable<any[]>;
+  }
+
 }

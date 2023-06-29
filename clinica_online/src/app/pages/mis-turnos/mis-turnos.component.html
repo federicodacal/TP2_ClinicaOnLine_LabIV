@@ -1,0 +1,63 @@
+
+<div class="row wrapper">
+    <div class="col-3 sidebar">
+        <app-navbar [selectedOpt]="'mis-turnos'"></app-navbar>
+    </div>
+    <div class="col-9" style="margin-left: 16em;">
+        <div class="container">
+            <div class="row">
+                <div class="card col-9 scale-up-top" style="height: auto; width:100%; margin-left: 1em;">
+                   
+                    <div class="card-body">
+                        <h2 class="card-title">Mis Turnos</h2>
+                        <div> 
+                    </div>
+          
+                            <span class="loader mt-1" *ngIf="this.loading"></span>
+          
+                              <table class="table" *ngIf="!this.loading">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">FECHA</th>
+                                    <th scope="col">ESPECIALIDAD</th>
+                                    <th scope="col">ESPECIALISTA</th>
+                                    <th scope="col">ESTADO</th>
+                                    <th scope="col">ACCIÓN</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="tr-tabla" *ngFor="let turno of turnos">
+                                    <td>
+                                      <span>Fecha</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.especialidad}}</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.especialista}}</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.estado}}</span>
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <button>
+                                        </button>
+                                        <button>
+                                        </button>
+                                      </div>
+                                      <button>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+          
+                            </div>
+                          </div>
+                      </div>
+                       
+        </div>
+    </div>
+</div>
+
