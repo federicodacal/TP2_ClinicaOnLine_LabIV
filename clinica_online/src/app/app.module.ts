@@ -26,6 +26,7 @@ import { MisTurnosComponent } from './pages/mis-turnos/mis-turnos.component';
 import { SolicitarTurnoComponent } from './pages/solicitar-turno/solicitar-turno.component';
 import { MiPerfilComponent } from './pages/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.com
     RecaptchaModule,
     RecaptchaFormsModule,
     ReactiveFormsModule,
+    NgxMaterialTimepickerModule,
     ToastrModule.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

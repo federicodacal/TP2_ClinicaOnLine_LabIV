@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "luxon": "^3.3.0",
-    "ngx-material-timepicker": "^13.1.0"
-  }
-}
