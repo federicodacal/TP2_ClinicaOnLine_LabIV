@@ -65,6 +65,12 @@ export class RegistroEspecialistaComponent implements OnInit {
         especialidad: arrayEspecialidades,
         edad: this.credentials.get('edad')?.value,
         perfil: 'especialista',
+        horarios: {
+          dias: [],
+          duracionTurnos: 60,
+          horarioFin: "",
+          horarioInicio: "",
+        },
         imgPerfil: this.imgPerfil,
         habilitado: false
       }

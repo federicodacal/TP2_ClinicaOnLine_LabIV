@@ -14,6 +14,12 @@ export class DatabaseService {
     return collectionData(usersRef, {idField:'uid'}) as Observable<any[]>;
   }
 
+  getEspecialistas():Observable<any[]> {
+    const usersRef = collection(this.firestore, 'users');
+    const q = query(usersRef, where('perfil', '==', 'especialista'));
+    return collectionData(q, {idField:'uid'}) as Observable<any[]>;
+  }
+
   getUserByUid(uid:string) {
     const userRef = doc(this.firestore, `users/${uid}`);
     return docData(userRef, {idField:'uid'});
@@ -30,19 +36,22 @@ export class DatabaseService {
     return null;
   }
 
-  getTurnos() {
+  getTurnosByEspecialista(uidEspecialista:string) {
     const turnosRef = collection(this.firestore, 'turnos');
-    return collectionData(turnosRef, {idField:'uid'}) as Observable<any[]>;
+    const q = query(turnosRef, where('uidEspecialista', '==', uidEspecialista));
+    return collectionData(q, {idField:'uid'}) as Observable<any[]>;
   }
 
+  /*
   addHorariosEspecialista(horarios:any) {
     const docRef = doc(this.firestore, 'horarios', horarios.uid);
     return setDoc(docRef, horarios);  
   }
+  */
 
   updateHorariosEspecialista(horarios:any) {
-    const docRef = doc(this.firestore, `horarios/${horarios.uid}`);
-    return updateDoc(docRef, horarios);
+    const docRef = doc(this.firestore, `users/${horarios.uid}`);
+    return updateDoc(docRef, {horarios: horarios});
   }
 
   getHorariosEspecialista(uid:string) {

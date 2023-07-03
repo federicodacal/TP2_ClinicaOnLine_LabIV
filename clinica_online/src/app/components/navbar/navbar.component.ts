@@ -70,15 +70,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onClickSidebar(opt:string) {
-    if(opt == 'home') {
-      this.selectedOpt = 'home';
-      this.router.navigateByUrl('');
-    }
-    else if(opt == 'seleccion') {
-      this.selectedOpt = 'seleccion';
-    }
-    else if(opt == 'mis-turnos') {
-      this.selectedOpt = 'mis-turnos';
+
+    switch(opt) {
+      case 'home':
+        this.selectedOpt = 'home';
+        this.router.navigateByUrl('');
+        break;
+      case 'seleccion':
+        this.selectedOpt = 'seleccion';
+        break;
+      case 'mis-turnos':
+        this.selectedOpt = 'mis-turnos';
+        break;
+      case 'solicitar-turno':
+        this.selectedOpt = 'solicitar-turno';
+        break;
     }
   }
 

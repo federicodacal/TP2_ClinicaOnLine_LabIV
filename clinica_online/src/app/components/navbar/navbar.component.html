@@ -80,6 +80,12 @@
               <span style="margin-left: 0.5em;">Mis Turnos</span>  
             </a>
           </li>
+          <li class="nav nav-pills flex-column mb-auto" (click)="onClickSidebar('solicitar-turno')" *ngIf="this.user && !this.loading && (this.user.perfil == 'administrador' || this.user.perfil == 'paciente')">
+            <a class="nav-link text-white" [routerLink]="'/solicitar-turno'" [ngClass]="this.selectedOpt == 'solicitar-turno' ? 'clicked' : ''">
+              <i class="fa-solid fa-notes-medical"></i>
+              <span style="margin-left: 0.5em;">Solicitar Turno</span>  
+            </a>
+          </li>
           <li class="nav nav-pills flex-column mb-auto" (click)="onClickSidebar('seleccion')" *ngIf="this.user && this.user.perfil == 'administrador' && !this.loading">
             <a class="nav-link text-white" [routerLink]="'/seleccion-usuarios'" [ngClass]="this.selectedOpt == 'seleccion' ? 'clicked' : ''">
               <i class="fa-solid fa-users"></i>

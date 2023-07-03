@@ -34,15 +34,14 @@ export class MisTurnosComponent {
           this.esPaciente = false;
         }
 
-      this.db.getTurnos().subscribe((res:any) => {
-        this.turnos = res;
+      //this.db.getTurnos().subscribe((res:any) => {
+      //  this.turnos = res;
 
-      });
+      //});
 
     });
 
   }
 
-  
-
 }
+

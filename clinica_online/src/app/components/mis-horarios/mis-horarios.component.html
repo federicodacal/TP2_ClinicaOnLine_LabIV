@@ -4,7 +4,7 @@
         <span>Duracion del turno: <strong>{{this.duracion}} minutos</strong></span>
         <br>
         <div class="form-check form-check-inline mt-2">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="30" (change)="onChangeDuracion($event)" [checked]="this.horariosUser.duracionTurnos == 30">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="30" (change)="onChangeDuracion($event)" [checked]="this.duracion == 30">
             <label class="form-check-label" for="inlineRadio1">30 minutos</label>
           </div>
           <div class="form-check form-check-inline">

@@ -30,8 +30,12 @@
                         <p class="card-text" style="font-size: 20px; text-transform: upperCase">
                             PERFIL: <strong>{{this.user.perfil}}</strong> 
                           </p>
-                          <p *ngIf="this.user.perfil=='especialista'" class="card-text" style="text-transform: upperCase; font-size: 16.5px">
-                              Especialidad: <strong>{{this.user.especialidad}}</strong>
+                          <p *ngIf="this.user.perfil=='especialista'" class="card-text">
+                            <span >Especialidad: </span> 
+                            <span *ngFor="let esp of this.user.especialidad; let i = index">
+                                <strong *ngIf="i != this.user.especialidad.length-1">{{esp}}, </strong> 
+                                <strong *ngIf="i == this.user.especialidad.length-1">{{esp}}.</strong> 
+                            </span>
                           </p>
                           <p class="card-text">
                               DNI: {{this.user.dni}}

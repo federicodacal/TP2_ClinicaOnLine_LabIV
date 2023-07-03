@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SeleccionUsuariosComponent } from './pages/seleccion-usuarios/seleccion-usuarios.component';
 import { MisTurnosComponent } from './pages/mis-turnos/mis-turnos.component';
 import { MiPerfilComponent } from './pages/mi-perfil/mi-perfil.component';
+import { SolicitarTurnoComponent } from './pages/solicitar-turno/solicitar-turno.component';
 
 const routes: Routes = [
   { path: '', component:BienvenidaComponent }, 
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'login', component:LoginComponent },
   { path: 'seleccion-usuarios', component:SeleccionUsuariosComponent },
   { path: 'mis-turnos', component:MisTurnosComponent },
-  { path: 'mi-perfil', component:MiPerfilComponent }
+  { path: 'mi-perfil', component:MiPerfilComponent },
+  { path: 'solicitar-turno', component:SolicitarTurnoComponent }
 ];
 
 @NgModule({

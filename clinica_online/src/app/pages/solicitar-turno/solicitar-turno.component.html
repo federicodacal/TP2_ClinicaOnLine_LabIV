@@ -1,57 +1,75 @@
 
 <div class="row wrapper">
     <div class="col-3 sidebar">
-        <app-navbar [selectedOpt]="'mis-turnos'"></app-navbar>
+        <app-navbar [selectedOpt]="'solicitar-turno'"></app-navbar>
     </div>
     <div class="col-9" style="margin-left: 16em;">
         <div class="container">
             <div class="row">
-                <div class="card col-9 scale-up-top" style="height: auto; width:100%; margin-left: 1em;">
+                <div class="card col-9 scale-up-top mb-2" style="height: auto; width:100%; margin-left: 1em;">
                    
                     <div class="card-body">
-                        <h2 class="card-title">Mis Turnos</h2>
+                        <h2 class="card-title">Solicitar Turno</h2>
                         <div> 
                     </div>
           
                             <span class="loader mt-1" *ngIf="this.loading"></span>
-          
-                              <table class="table" *ngIf="!this.loading">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">FECHA</th>
-                                    <th scope="col">ESPECIALIDAD</th>
-                                    <th scope="col">ESPECIALISTA</th>
-                                    <th scope="col">ESTADO</th>
-                                    <th scope="col">ACCIÓN</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr class="tr-tabla" *ngFor="let turno of turnos">
-                                    <td>
-                                      <span>Fecha</span>
-                                    </td>
-                                    <td>
-                                      <span>{{turno.especialidad}}</span>
-                                    </td>
-                                    <td>
-                                      <span>{{turno.especialista}}</span>
-                                    </td>
-                                    <td>
-                                      <span>{{turno.estado}}</span>
-                                    </td>
-                                    <td>
-                                      <div>
-                                        <button>
+                            
+                            <p class="card-text mt-1" style="font-size: 12px;">
+                                <strong>Especialidad</strong>
+                             </p>
+                              <div style="display: flex; margin-right: auto; margin-left:auto" class="mb-2">
+
+                                <img *ngFor="let esp of especialidades" class="card-img-top mt-1 img-btn" [src]="esp.img" [alt]="esp.nombre"
+                                [ngStyle]="{'width':'3.5rem', 'height':'3.5rem', 'border-radius':'50%'}" 
+                                (click)="onClickSeleccionarEsp(esp.nombre)" [ngClass]="this.especialidadSeleccionada == esp.nombre ? 'clicked' : ''">
+
+                            </div>
+
+                            <div class="mt-1" *ngIf="this.especialidadSeleccionada != ''">
+                                <hr>
+                                <span><strong>{{this.especialidadSeleccionada}}</strong></span>
+
+                                <div class="row"> 
+
+                                    <div class="col-3" *ngFor="let esp of especialistasFiltro">
+                                        <img class="card-img-top img-btn" [src]="esp.imgPerfil" [alt]="esp.name"
+                                        *ngIf="esp.especialidad.includes(this.especialidadSeleccionada)"
+                                        [ngStyle]="{'width':'3.5rem', 'height':'3.5rem', 'border-radius':'50%'}" 
+                                        (click)="onClickSeleccionarDoc(esp.uid)" [ngClass]="this.especialistaSeleccionado == esp.uid ? 'clicked' : ''">
+                                        <span *ngIf="esp.especialidad.includes(this.especialidadSeleccionada)">{{esp.name}} {{esp.lastName}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="this.especialistaSeleccionado != null">
+                                <hr>
+                                <span><strong>Fechas</strong></span>
+                                <br>
+                                <div class="row mt-1">
+                                    <div class="col-2 mb-1" *ngFor="let dia of this.dias">
+                                        <button class="button-7" role="button" (click)="onClickFecha(dia)"
+                                        [ngClass]="this.fechaSeleccionada == dia ? 'clicked-btn7' : ''">
+                                            {{dia | date:'mediumDate'}} 
                                         </button>
-                                        <button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="this.especialistaSeleccionado != null && this.fechaSeleccionada != null">
+                                <hr>
+                                <span><strong>Horarios</strong></span>
+                                <br>
+                                <div class="row mt-1" >
+                                    <div class="col-2 mb-1" *ngFor="let h of this.horariosDeInicioDeTurnos">
+                                        <button class="button-7" role="button" (click)="onClickHorario(h)"
+                                        [ngClass]="this.horarioSeleccionado == h ? 'clicked-btn7' : ''">
+                                            {{h}}
                                         </button>
-                                      </div>
-                                      <button>
-                                      </button>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                                    </div>
+                                </div>
+                            </div>
+                              
           
                             </div>
                           </div>

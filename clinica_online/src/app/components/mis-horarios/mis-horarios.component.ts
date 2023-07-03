@@ -17,9 +17,7 @@ export class MisHorariosComponent implements OnInit, OnDestroy {
   duracion:number=60;
   inicio!:string;
   fin!:string;
-  noTieneDocHorarios!:boolean;
   arrayDiasSeleccionados:string[] = [];
-  horariosUser:any = null;
 
   loading:boolean = false;
 
@@ -28,25 +26,18 @@ export class MisHorariosComponent implements OnInit, OnDestroy {
   constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService) { }
 
   ngOnInit(): void {
-    this.subscription = this.auth.userData.subscribe((res:any) => {
-      if(res) {
-        this.user = res;
 
-        this.db.getHorariosEspecialista(res.uid).subscribe((resHor:any) => {
-          if(!resHor) {
-            this.noTieneDocHorarios = true;
-          }
-          else {
-            this.horariosUser = resHor;
-            this.noTieneDocHorarios = false;
-            this.arrayDiasSeleccionados = resHor.dias; 
-            this.duracion = resHor.duracionTurnos;
-            this.inicio = resHor.horarioInicio;
-            this.fin = resHor.horarioFin;
-          }
-        });
-      }
-    });
+      this.subscription = this.auth.userData.subscribe((res:any) => {
+        if(res) {
+          this.user = res;
+          console.log('user mis horarios', this.user);
+  
+          this.arrayDiasSeleccionados = this.user.horarios.dias;
+          this.duracion = this.user.horarios.duracionTurnos;
+          this.inicio = this.user.horarios.horarioInicio;
+          this.fin = this.user.horarios.horarioFin;
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -98,8 +89,6 @@ export class MisHorariosComponent implements OnInit, OnDestroy {
           dias: this.arrayDiasSeleccionados,
           horarioInicio: this.inicio,
           horarioFin: this.fin,
-          nameEsp: this.user.name,
-          lastNameEsp: this.user.lastName,
           duracionTurnos: this.duracion,
           uid: this.user.uid
         }
@@ -116,26 +105,15 @@ export class MisHorariosComponent implements OnInit, OnDestroy {
 
         mensaje += `de ${this.inicio} hasta ${this.fin} horas. Turnos de ${this.duracion} minutos.`;
 
-        if(this.noTieneDocHorarios) {
-          this.db.addHorariosEspecialista(horarios).then(() => {
-            this.toast.showSuccess('Horarios actualizados', mensaje);
-            this.loading = false;
-          }).catch((err) => {
-            this.toast.showError('Ocurrió un problema');
-            console.log(err);
-            this.loading = false;
-          });
-        } 
-        else {
-          this.db.updateHorariosEspecialista(horarios).then(() => {
-            this.toast.showSuccess('Horarios actualizados', mensaje);
-            this.loading = false;
-          }).catch((err) => {
-            this.toast.showError('Ocurrió un problema');
-            console.log(err);
-            this.loading = false;
-          });
-        }
+        this.db.updateHorariosEspecialista(horarios).then(() => {
+          this.toast.showSuccess('Horarios actualizados', mensaje);
+          this.loading = false;
+        }).catch((err) => {
+          this.toast.showError('Ocurrió un problema');
+          console.log(err);
+          this.loading = false;
+        });
+      
       }
     }
     else {
