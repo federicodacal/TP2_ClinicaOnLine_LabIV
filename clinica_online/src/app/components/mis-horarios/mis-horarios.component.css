@@ -22,6 +22,31 @@
     box-shadow: rgba(13, 33, 209, 0.35) 0 -25px 18px -14px inset,rgba(13, 33, 209, 0.35) 0 1px 2px,rgba(13, 33, 209, 0.35) 0 2px 4px,rgba(13, 33, 209, 0.35) 0 4px 8px,rgba(13, 33, 209, 0.35) 0 8px 16px,rgba(13, 33, 209, 0.35) 0 16px 32px;
     transform: scale(1.05) rotate(-1deg);
   }
+
+  .button-33-lib {
+    background-color: #e0710a;
+    border-radius: 10px;
+    box-shadow: rgba(63, 18, 1, 0.2) 0 -25px 18px -14px inset,rgba(63, 18, 1, 0.2) 0 1px 2px,rgba(63, 18, 1, 0.2) 0 2px 4px,rgba(63, 18, 1, 0.2) 0 4px 8px,rgba(63, 18, 1, 0.2) 0 8px 16px,rgba(63, 18, 1, 0.2) 0 16px 32px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    display: inline-block;
+    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 18px;
+    font-weight: 450;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button-33-lib:hover {
+    box-shadow: rgba(126, 52, 2, 0.2) 0 -25px 18px -14px inset, rgba(126, 52, 2, 0.2) 0 1px 2px, rgba(126, 52, 2, 0.2) 0 2px 4px, rgba(126, 52, 2, 0.2) 0 4px 8px, rgba(126, 52, 2, 0.2) 0 8px 16px, rgba(126, 52, 2, 0.2) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
+  }
   
   
   .button-33:disabled {
@@ -34,17 +59,25 @@
     border-radius: 10px;
     box-shadow: rgba(48, 17, 189, 0.2) 0 -25px 18px -14px inset,rgba(31, 10, 124, 0.2) 0 1px 2px,rgba(31, 10, 124, 0.2) 0 2px 4px,rgba(31, 10, 124, 0.2) 0 4px 8px,rgba(31, 10, 124, 0.2) 0 8px 16px,rgba(31, 10, 124, 0.2) 0 16px 32px;
     color: rgb(0, 0, 0);
-    cursor: pointer;
-    display: inline-block;
-    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-    padding: 7px 20px;
-    text-align: center;
-    text-decoration: none;
-    transition: all 250ms;
-    border: 0;
-    font-size: 16px;
-    font-weight: 400;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+    font-weight: 700;
   }
+
+  .loader {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #1d1c1ce3;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+  
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 

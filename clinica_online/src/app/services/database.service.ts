@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, docData, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,6 +33,21 @@ export class DatabaseService {
   getTurnos() {
     const turnosRef = collection(this.firestore, 'turnos');
     return collectionData(turnosRef, {idField:'uid'}) as Observable<any[]>;
+  }
+
+  addHorariosEspecialista(horarios:any) {
+    const docRef = doc(this.firestore, 'horarios', horarios.uid);
+    return setDoc(docRef, horarios);  
+  }
+
+  updateHorariosEspecialista(horarios:any) {
+    const docRef = doc(this.firestore, `horarios/${horarios.uid}`);
+    return updateDoc(docRef, horarios);
+  }
+
+  getHorariosEspecialista(uid:string) {
+    const userRef = doc(this.firestore, `horarios/${uid}`);
+    return docData(userRef, {idField:'uid'});
   }
 
 }

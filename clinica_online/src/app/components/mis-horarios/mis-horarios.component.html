@@ -1,71 +1,97 @@
 <div class="container">
-
+    <span class="loader" *ngIf="this.loading"></span>
     <form class="form">
-        <span>Duracion del turno: </span>
+        <span>Duracion del turno: <strong>{{this.duracion}} minutos</strong></span>
         <br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="30">
+        <div class="form-check form-check-inline mt-2">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="30" (change)="onChangeDuracion($event)" [checked]="this.horariosUser.duracionTurnos == 30">
             <label class="form-check-label" for="inlineRadio1">30 minutos</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="60">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="60" (change)="onChangeDuracion($event)" checked>
             <label class="form-check-label" for="inlineRadio2">60 minutos</label>
-          </div>
+        </div>
+        <hr>
+        
+        <!-- 
+        <span>Especialidad: {{this.especialidad}}</span>
+        <div class="row mt-2">
+            <div [ngClass]="this.user.especialidad.length > 1 ? 'col-6' : 'col-12'" *ngFor="let esp of this.user.especialidad">
+                <button type="button" class="btn btn-secondary" (click)="onChangeEspecialidad(esp)"
+                [ngClass]="this.especialidad == esp ? 'btn-dia' : ''"
+                [ngClass]="this.user.especialidad.length == 1 ? 'btn-dia' : ''">
+                    {{esp}}
+                </button>
+            </div>
+        </div>
+        -->
+
+        <div> 
+            <span >Especialidad: </span> 
+            <span *ngFor="let esp of this.user.especialidad; let i = index">
+                <strong *ngIf="i != this.user.especialidad.length-1">{{esp}}, </strong> 
+                <strong *ngIf="i == this.user.especialidad.length-1">{{esp}}.</strong> 
+            </span>
+        </div>
+
+
         <hr>
      
         <div class="row mt-2">
             <div class="col-2">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Lunes')"
-                [ngClass]="this.dia == 'lunes' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Lunes')"
+                [ngClass]="this.arrayDiasSeleccionados.includes('Lunes') ? 'btn-dia' : ''">
                     Lunes
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Martes')"
-                [ngClass]="this.dia == 'martes' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Martes')"
+                [ngClass]="this.arrayDiasSeleccionados.includes('Martes') ? 'btn-dia' : ''">
                     Martes
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Miercoles')"
-                [ngClass]="this.dia == 'miercoles' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Miercoles')"
+                [ngClass]="this.arrayDiasSeleccionados.includes('Miercoles') ? 'btn-dia' : ''">
                     Miercoles
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Jueves')"
-                [ngClass]="this.dia == 'jueves' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Jueves')"
+                [ngClass]="this.arrayDiasSeleccionados.includes('Jueves') ? 'btn-dia' : ''">
                     Jueves
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Viernes')"
-                [ngClass]="this.dia == 'viernes' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Viernes')"
+                [ngClass]="this.arrayDiasSeleccionados.includes('Viernes') ? 'btn-dia' : ''">
                     Viernes
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Sabado')"
-                [ngClass]="this.dia == 'sabado' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Sabado')"
+                [ngClass]="this.arrayDiasSeleccionados.includes('Sabado') ? 'btn-dia' : ''">
                     Sabado
                 </button>
             </div>
         </div>
+        <!-- 
         <div class="row mt-2">
             <div class="col-12">
-                <button type="button" class="btn btn-info" (click)="onChangeDia('Semanal')"
-                [ngClass]="this.dia == 'semanal' ? 'btn-dia' : ''">
+                <button type="button" class="btn btn-secondary" (click)="onChangeDia('Semanal')"
+                [ngClass]="this.dia == 'Semanal' ? 'btn-dia' : ''">
                     Horario Semanal
                 </button>
+                <br>
+                <small style="font-size: 12.5px;" *ngIf="this.dia == 'Semanal'"><strong>Al seleccionar semanal se actualizarán todos los días, de Lunes a Sábado, con el horario que se indique.</strong></small>
             </div>
         </div>
-
+        -->
 
         <hr>
 
-        <div style="float:left" class="mt-2" *ngIf="this.dia != ''">
+        <div style="float:left" class="mt-2" *ngIf="this.arrayDiasSeleccionados.length > 0">
 
-            <span style="float:left; font-size: 16px;"><strong>{{this.dia}}</strong></span>
             <div class="row">
                 <div class="col-4"> 
 
@@ -111,12 +137,13 @@
             
         </div>
 
-        <div *ngIf="this.dia != ''"> 
+        
+        <div *ngIf="this.arrayDiasSeleccionados.length > 0"> 
             <br>
             <br>
             <br>
             <div class="col-3" style="float:right">
-                <button class="button-33" style="width:180px" role="button" (click)="confirmarHorario()">
+                <button class="button-33" style="width:170px" role="button" (click)="confirmarHorario()">
                     <i class="fa-solid fa-check"></i>
                     CONFIRMAR                  
                 </button>

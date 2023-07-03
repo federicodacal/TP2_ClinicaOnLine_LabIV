@@ -56,9 +56,17 @@
                 
                 <small style="color: rgb(255, 0, 0); font-weight: bold;"
                   *ngIf="this.credentials.get('especialidad')?.invalid && this.credentials.get('especialidad')?.touched">
-                  Obra Social es requerida</small>
+                  Especialidad es requerida</small>
                 <br>
             </div>
+
+            <div class="form-group col-4 mt-1">
+
+              <label for="especialidadDos">Especialidad (opcional)</label>
+              <input formControlName="especialidadDos" type="text" id="especialidadDos" class="form-control" name="especialidadDos" [(ngModel)]="especialidadDos" maxlength="24">
+              
+              <br>
+          </div>     
 
             <div class="form-group col-4 mt-1">
 
@@ -71,7 +79,7 @@
                 <br>
             </div>
 
-            <div class="form-group col-4 mt-1">
+            <div class="form-group col-6 mt-1">
 
                 <label for="profilePic">Imagen de Perfil</label>
                 <input type="file" class="form-control-file" id="profilePic" (change)="uploadImage($event)">
@@ -82,7 +90,7 @@
                 <br>
             </div>
 
-            <div class="mb-1">
+            <div class="col-6 mb-1">
               <re-captcha siteKey="6Le7u9AmAAAAALwcdOkoRKrfZyn1WmolxD7la98R" (resolved)="resolved($event)" formControlName="recaptcha" required></re-captcha>
             </div>
             

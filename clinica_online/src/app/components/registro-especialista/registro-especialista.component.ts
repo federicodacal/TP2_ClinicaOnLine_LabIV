@@ -23,7 +23,8 @@ export class RegistroEspecialistaComponent implements OnInit {
   lastName:string|undefined;
   dni:number|undefined;
   edad:number|undefined;
-  especialidad:number|undefined;
+  especialidad:string|undefined;
+  especialidadDos:string='';
   imgPerfil:string='';
 
   loading:boolean=false;
@@ -36,6 +37,7 @@ export class RegistroEspecialistaComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       dni: ['', [Validators.required, Validators.minLength(8)]],
       especialidad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      especialidadDos: [''],
       edad: ['', [Validators.required, Validators.max(100)]],
       recaptcha: ['', Validators.required]
     });
@@ -45,6 +47,14 @@ export class RegistroEspecialistaComponent implements OnInit {
     if(!this.credentials.invalid && this.imgPerfil != '') {
 
       this.loading = true;
+
+      let arrayEspecialidades:string[] = [];  
+      
+      arrayEspecialidades.push(this.credentials.get('especialidad')?.value);
+
+      if(this.especialidadDos != '') {
+        arrayEspecialidades.push(this.especialidadDos);
+      }
       
       const specialist = {
         email: this.credentials.get('email')?.value,
@@ -52,7 +62,7 @@ export class RegistroEspecialistaComponent implements OnInit {
         name: this.credentials.get('name')?.value,
         lastName: this.credentials.get('lastName')?.value,
         dni: this.credentials.get('dni')?.value,
-        especialidad: this.credentials.get('especialidad')?.value,
+        especialidad: arrayEspecialidades,
         edad: this.credentials.get('edad')?.value,
         perfil: 'especialista',
         imgPerfil: this.imgPerfil,
