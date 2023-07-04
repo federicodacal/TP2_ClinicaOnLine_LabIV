@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -36,8 +37,9 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
 
   subscription!:Subscription;
   subscriptionEspecialistas!:Subscription;
+  subscriptionHorariosEsp!:Subscription;
   
-  constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService) { }
+  constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService, private router:Router) { }
 
   ngOnInit(): void {
 
@@ -46,6 +48,10 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
     this.subscription = this.auth.userData.subscribe((res:any) => {
       if(res) {
         this.user = res;
+
+        if(res.perfil == 'administrador') {
+
+        }
       }
     });
 
@@ -69,20 +75,36 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
     if(this.subscriptionEspecialistas != null) {
       this.subscriptionEspecialistas.unsubscribe();
     }
+    if(this.subscriptionHorariosEsp != null) {
+      this.subscriptionHorariosEsp.unsubscribe();
+    }
   }
 
   onClickSeleccionarEsp(esp:string) {
     this.especialistaSeleccionado = null;
+    this.fechaSeleccionada = null;
+    this.horarioSeleccionado = null;
     this.especialidadSeleccionada = esp;
     this.filtrarEspecialistasPorEspecialidad();
   }
 
   onClickSeleccionarDoc(uidDoc:string) {
+
+    if(this.subscriptionHorariosEsp != null) {
+      this.subscriptionHorariosEsp.unsubscribe();
+    }
+
+    this.dias = [];
+    this.dias = this.getDatesBetween();
+    this.horarioSeleccionado = null;
+    this.fechaSeleccionada = null;
+    this.diasEspecialista = [];
     this.especialistaSeleccionado = uidDoc;
 
-    this.db.getUserByUid(uidDoc).subscribe((res:any) => {
+    this.subscriptionHorariosEsp = this.db.getUserByUid(uidDoc).subscribe((res:any) => {
 
       this.especialistaSeleccionadoDB = res;
+      console.log('especialsita seleccionado', this.especialistaSeleccionadoDB);
 
       res.horarios.dias.forEach((dia:any) => {
         if(dia == 'Lunes' && !this.diasEspecialista.includes('Mon')) {
@@ -106,13 +128,11 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
 
       });
 
-      /*
-      setTimeout(() => {
-        this.generarTurnos();
-      }, 1000);
-      */
+      console.log('dias especialista', this.diasEspecialista);
+
       this.generarTurnos();
     });
+
     /*
     this.db.getTurnosByEspecialista(uidDoc).subscribe((turnos:any) => {
       this.turnosEspecialista = turnos;
@@ -133,19 +153,10 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
     console.log(this.horarioSeleccionado);
   }
 
-  mostrarTurnos() {
-    /*
-    if(this.especialistaSeleccionado != null ) {
-      this.db.getTurnosByEspecialista(this.especialistaSeleccionado).subscribe((turnos:any) => {
 
-      });
-    }
-    */
-  }
-
-  mostrarHorarios() {
+  async mostrarHorarios() {
     this.horariosDeInicioDeTurnos = [];
-    if(this.fechaSeleccionada != null) {
+    if(this.fechaSeleccionada != null && this.especialistaSeleccionado != null) {
       
       let inicio = this.especialistaSeleccionadoDB.horarios.horarioInicio.split(':');
       let fin = this.especialistaSeleccionadoDB.horarios.horarioFin.split(':');
@@ -158,10 +169,45 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
       console.log(finEnMinutos);
       console.log(duracion);
 
+      await firstValueFrom(this.db.getTurnosByEspecialistaYFecha(this.especialistaSeleccionado,this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}))).then((res:any) => {
+        this.turnosEspecialista = res;
+      });  
+
+      /*
+      this.db.getTurnosByEspecialistaYFecha(this.especialistaSeleccionado, this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'})).subscribe((res:any) => {
+         this.turnosEspecialista = res;
+        console.log('turnos del especialista en la fecha', this.turnosEspecialista);
+      });
+      */
+
+      let arrayHorariosReservadosEnLaFecha: string[] = [];
+
+      this.turnosEspecialista.forEach((t) => {
+        arrayHorariosReservadosEnLaFecha.push(t.horario);
+      });
+      
+      console.log('arrayHorariosFecha', arrayHorariosReservadosEnLaFecha);
+
+      const fechaActual = new Date();
+      const hour = fechaActual.getHours();
+      const minute = fechaActual.getMinutes();
+      const horaActual = `${hour}:${minute}`;
+
+      console.log('fechaActual', fechaActual);
+      console.log('horaActual', horaActual);
+
       for(let i = inicioEnMinutos; i < finEnMinutos; i += duracion) {
+        let yaSePasoLaHora = false;
         let horasYMinutos = this.toHoursAndMinutes(i);
         console.log(horasYMinutos);
-        this.horariosDeInicioDeTurnos.push(horasYMinutos);
+
+        if(this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}) == fechaActual.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}) && horaActual > horasYMinutos) {
+          yaSePasoLaHora = true;
+        }
+
+        if(!arrayHorariosReservadosEnLaFecha.includes(horasYMinutos) && !yaSePasoLaHora) {
+          this.horariosDeInicioDeTurnos.push(horasYMinutos);
+        }
       }
     }
   }
@@ -208,5 +254,35 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
 
     console.log(dates);
     return dates;
-  };
+  }
+
+  confirmarTurno() {
+
+    if(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.fechaSeleccionada != null && this.horarioSeleccionado != null && this.especialistaSeleccionadoDB != null) {
+
+      const turno = {
+        uidEspecialista: this.especialistaSeleccionadoDB.uid,
+        uidPaciente: this.user.uid, // DESPUES CAMBIAR
+        nombreEspecialista: `${this.especialistaSeleccionadoDB.name} ${this.especialistaSeleccionadoDB.lastName}`,
+        nombrePaciente: `${this.user.name} ${this.user.lastName}`, // DESPUES CAMBIAR
+        dia: this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}), 
+        especialidad: this.especialidadSeleccionada,
+        estado: '',
+        horario: this.horarioSeleccionado
+      };
+
+      this.db.addTurno(turno).then(() => {
+        this.toast.showSuccess('Turno solicitado', 'El especialista deberá confirmar turno. Por favor, aguarde.');
+
+        this.router.navigateByUrl('/mis-turnos');
+      })
+      .catch((err) => {
+        this.toast.showError('Ocurrió un problema');
+        console.log(err);
+      });
+    } 
+    else {
+      this.toast.showError('Campos incompletos o erróneos', 'Por favor, revise los campos.');
+    }
+  }
 }

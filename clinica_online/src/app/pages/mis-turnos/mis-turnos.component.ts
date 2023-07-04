@@ -14,7 +14,7 @@ export class MisTurnosComponent {
   user:any = {};
 
   esPaciente!:boolean;
-  esEspecialsita!:boolean;
+  esEspecialista!:boolean;
 
   loading:boolean = false;
  
@@ -27,17 +27,18 @@ export class MisTurnosComponent {
 
         if(this.user.perfil == 'paciente') {
           this.esPaciente = true;
-          this.esEspecialsita = false;
+          this.esEspecialista = false;
+          this.db.getTurnosByPaciente(this.user.uid).subscribe((res:any) => {
+            this.turnos = res;
+          });
         }
         else if(this.user.perfil == 'especialista') {
-          this.esEspecialsita = true;
+          this.esEspecialista = true;
           this.esPaciente = false;
+          this.db.getTurnosByEspecialista(this.user.uid).subscribe((res:any) => {
+            this.turnos = res;
+          });
         }
-
-      //this.db.getTurnos().subscribe((res:any) => {
-      //  this.turnos = res;
-
-      //});
 
     });
 

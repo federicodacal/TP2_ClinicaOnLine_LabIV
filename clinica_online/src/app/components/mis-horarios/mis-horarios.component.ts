@@ -90,7 +90,7 @@ export class MisHorariosComponent implements OnInit, OnDestroy {
           horarioInicio: this.inicio,
           horarioFin: this.fin,
           duracionTurnos: this.duracion,
-          uid: this.user.uid
+          //uid: this.user.uid
         }
 
         let mensaje:string = 'Los días ';
@@ -105,7 +105,7 @@ export class MisHorariosComponent implements OnInit, OnDestroy {
 
         mensaje += `de ${this.inicio} hasta ${this.fin} horas. Turnos de ${this.duracion} minutos.`;
 
-        this.db.updateHorariosEspecialista(horarios).then(() => {
+        this.db.updateHorariosEspecialista(horarios, this.user.uid).then(() => {
           this.toast.showSuccess('Horarios actualizados', mensaje);
           this.loading = false;
         }).catch((err) => {

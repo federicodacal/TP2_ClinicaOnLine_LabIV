@@ -19,8 +19,10 @@
                                 <thead>
                                   <tr>
                                     <th scope="col">FECHA</th>
+                                    <th scope="col">HORA</th>
                                     <th scope="col">ESPECIALIDAD</th>
-                                    <th scope="col">ESPECIALISTA</th>
+                                    <th scope="col" *ngIf="this.esPaciente">ESPECIALISTA</th>
+                                    <th scope="col" *ngIf="this.esEspecialista">PACIENTE</th>
                                     <th scope="col">ESTADO</th>
                                     <th scope="col">ACCIÓN</th>
                                   </tr>
@@ -28,13 +30,19 @@
                                 <tbody>
                                   <tr class="tr-tabla" *ngFor="let turno of turnos">
                                     <td>
-                                      <span>Fecha</span>
+                                      <span>{{turno.dia}}</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.horario}}</span>
                                     </td>
                                     <td>
                                       <span>{{turno.especialidad}}</span>
                                     </td>
-                                    <td>
-                                      <span>{{turno.especialista}}</span>
+                                    <td *ngIf="this.esPaciente">
+                                      <span>{{turno.nombreEspecialista}}</span>
+                                    </td>
+                                    <td *ngIf="this.esEspecialista">
+                                      <span>{{turno.nombrePaciente}}</span>
                                     </td>
                                     <td>
                                       <span>{{turno.estado}}</span>

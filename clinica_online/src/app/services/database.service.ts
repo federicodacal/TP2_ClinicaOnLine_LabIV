@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, docData, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, docData, orderBy, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -38,7 +38,19 @@ export class DatabaseService {
 
   getTurnosByEspecialista(uidEspecialista:string) {
     const turnosRef = collection(this.firestore, 'turnos');
-    const q = query(turnosRef, where('uidEspecialista', '==', uidEspecialista));
+    const q = query(turnosRef, where('uidEspecialista', '==', uidEspecialista), orderBy('dia', 'asc'));
+    return collectionData(q, {idField:'uid'}) as Observable<any[]>;
+  }
+
+  getTurnosByEspecialistaYFecha(uidEspecialista:string, fecha:string) {
+    const turnosRef = collection(this.firestore, 'turnos');
+    const q = query(turnosRef, where('uidEspecialista', '==', uidEspecialista), where('dia', '==', fecha), orderBy('dia', 'asc'));
+    return collectionData(q, {idField:'uid'}) as Observable<any[]>;
+  }
+
+  getTurnosByPaciente(uidPaciente:string) {
+    const turnosRef = collection(this.firestore, 'turnos');
+    const q = query(turnosRef, where('uidPaciente', '==', uidPaciente), orderBy('dia', 'asc'));
     return collectionData(q, {idField:'uid'}) as Observable<any[]>;
   }
 
@@ -49,14 +61,19 @@ export class DatabaseService {
   }
   */
 
-  updateHorariosEspecialista(horarios:any) {
-    const docRef = doc(this.firestore, `users/${horarios.uid}`);
+  updateHorariosEspecialista(horarios:any, uid:string) {
+    const docRef = doc(this.firestore, `users/${uid}`);
     return updateDoc(docRef, {horarios: horarios});
   }
 
   getHorariosEspecialista(uid:string) {
     const userRef = doc(this.firestore, `horarios/${uid}`);
     return docData(userRef, {idField:'uid'});
+  }
+
+  addTurno(turno:any) {
+    const collRef = collection(this.firestore, 'turnos');
+    return addDoc(collRef, turno); 
   }
 
 }

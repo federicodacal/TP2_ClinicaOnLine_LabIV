@@ -69,6 +69,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div *ngIf="this.fechaSeleccionada != null">
+                                <div class="row" style="margin-top: 2em; margin-bottom: 1.5em;">
+                                    <div class="col-12">
+                                        <button class="button-33 mt-0" role="button" [disabled]="this.horarioSeleccionado == null" (click)="confirmarTurno()"> 
+                                            <i class="fa-solid fa-calendar"></i>
+                                            CONFIRMAR
+                                        </button>
+                                    </div>  
+                            </div>
                               
           
                             </div>
