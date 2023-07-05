@@ -319,7 +319,7 @@ animation: rotation 1s linear infinite;
 
 .nav-div {
         height: 150px;
-        width: 400px;
+        width: 500px;
         overflow:hidden; overflow-y:scroll;
 }
 
@@ -349,8 +349,7 @@ animation: rotation 1s linear infinite;
         white-space: nowrap;
       }
       
-      .button-7:hover,
-      .button-7:focus {
+      .button-7:hover {
         background-color: #07c;
       }
       
@@ -358,10 +357,12 @@ animation: rotation 1s linear infinite;
         box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
       }
       
+      /*
       .button-7:active {
         background-color: #0064bd;
         box-shadow: none;
       }
+      */
       
       .clicked-btn7 {
          background-color: #0064bd;
