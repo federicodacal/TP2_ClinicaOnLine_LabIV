@@ -15,6 +15,74 @@
           
                             <span class="loader mt-1" *ngIf="this.loading"></span>
           
+                            <div class="mb-2">
+                              <span style="font-size: 20px; float:left; font-weight: 700;">Filtrar por:</span>
+
+                              <div class="row">
+                                <div class="col-2">
+                                  <button class="button-7" (click)="onClickFiltro('especialidad')"
+                                  [ngClass]="this.mostrarFiltro == 'especialidad' ? 'clicked-btn7' : ''">
+                                    Especialidad
+                                  </button>
+                                </div>
+                                <div class="col-2" *ngIf="this.esPaciente">
+                                  <button class="button-7"(click)="onClickFiltro('especialista')"
+                                  [ngClass]="this.mostrarFiltro == 'especialista' ? 'clicked-btn7' : ''">
+                                    Especialista
+                                  </button>
+                                </div>
+                                <div class="col-2" *ngIf="this.esEspecialista">
+                                  <button class="button-7" (click)="onClickFiltro('paciente')"
+                                  [ngClass]="this.mostrarFiltro == 'paciente' ? 'clicked-btn7' : ''">
+                                    Paciente
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="container mb-2">
+                              <div class="row" *ngIf="this.mostrarFiltro == 'especialidad'" style="float:left">
+                                <div class="col-3" *ngFor="let e of this.arrayEspecialidades" style="margin-right: 1em; margin-left: 1em; padding-right: 0px; padding-left: 0px; margin-bottom: 1em;">
+                                  <button class="button-7" 
+                                  [ngClass]="this.especialidadSeleccionada == e ? 'clicked-btn7' : ''">
+                                    {{e}}
+                                  </button>
+                                </div>
+                              </div>
+  
+                              <div class="row" *ngIf="this.mostrarFiltro == 'especialista'" style="float:left">
+                                <div class="col-3" *ngFor="let e of this.arrayEspecialistas" style="margin-right: 1em; margin-left: 1em; padding-right: 0px; padding-left: 0px; margin-bottom: 1em;">
+                                  <button class="button-7"
+                                  [ngClass]="this.especialistaSeleccionado.uid == e.uid ? 'clicked-btn7' : ''">
+                                    {{e.nombre}}
+                                  </button>
+                                </div>
+                              </div>
+  
+                              <div *ngIf="this.mostrarFiltro == 'paciente'" style="float:left; margin-bottom: 1em;">
+                                
+                                <div class="nav-div" >
+                                  <div *ngFor="let p of this.arrayPacientes">
+                                      <ul class="list-group">
+                                        <li class="list-group-item" style="margin-bottom: 0.5em;">
+                                          {{p.nombre}}
+                                          <button class="button-7" style="float:right; margin-left: 1em;"
+                                          [ngClass]="this.pacienteSeleccionado.uid == p.uid ? 'clicked-btn7' : ''">
+                                            Seleccionar
+                                          </button>
+                                        </li>
+                                      </ul>
+                                    </div>
+
+                                </div>
+                                
+                              </div>
+
+                            </div>
+                            
+
+
+
                               <table class="table" *ngIf="!this.loading">
                                 <thead>
                                   <tr>
