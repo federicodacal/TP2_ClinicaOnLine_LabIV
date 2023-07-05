@@ -127,17 +127,52 @@
                                       <span>{{turno.nombrePaciente}}</span>
                                     </td>
                                     <td>
-                                      <span>{{turno.estado}}</span>
+                                        <span style="text-transform: uppercase; font-weight: 600;">
+                                          {{turno.estado}}
+                                        </span>
                                     </td>
                                     <td>
                                       <div>
-                                        <button>
+                                        <button class="button-7"
+                                        *ngIf="this.esEspecialista && turno.estado == 'solicitado'"
+                                        (click)="onClickAccion('aceptado', turno)">
+                                          Aceptar
                                         </button>
-                                        <button>
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="turno.estado == 'aceptado' || (this.esPaciente && turno.estado == 'solicitado')"
+                                        (click)="onClickAccion('cancelado', turno)"
+                                        data-bs-toggle="modal" data-bs-target="#cancelModal">
+                                          Cancelar
+                                        </button>
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="this.esEspecialista && turno.estado != 'aceptado' && turno.estado != 'cancelado' && turno.estado != 'realizado' && turno.estado != 'rechazado' && turno.estado != 'finalizado'"
+                                        data-bs-toggle="modal" data-bs-target="#rejectModal"
+                                        (click)="onClickAccion('rechazado', turno)">
+                                          Rechazar
+                                        </button>
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="this.esEspecialista && turno.estado == 'aceptado'"
+                                        data-bs-toggle="modal" data-bs-target="#appointmentEndModal"
+                                        (click)="onClickAccion('finalizado', turno)">
+                                          Finalizar
+                                        </button>
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="turno.estado == 'finalizado' &&
+                                        turno.resenia != '' && turno.resenia != undefined"
+                                        (click)="verResenia(turno.resenia)">
+                                          Reseña
+                                        </button>
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="this.esPaciente && turno.estado == 'finalizado' && turno.resenia != '' && turno.resenia != undefined">
+                                          Encuesta
+                                        </button>
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="this.esPaciente && turno.estado == 'finalizado' && (turno.calificacion == null || turno.calificacion == undefined)"
+                                        data-bs-toggle="modal" data-bs-target="#scoreModal"
+                                        (click)="this.uidTurnoSeleccionado = turno.uid">
+                                          Calificar
                                         </button>
                                       </div>
-                                      <button>
-                                      </button>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -151,3 +186,151 @@
     </div>
 </div>
 
+<!-- ################################## MODAL CANCELAR ################################## -->
+<div class="modal" id="cancelModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="color:red">Cancelacion de Turno</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Ingrese el motivo de la cancelación.
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Comentario</span>
+        </div>
+        <textarea class="form-control" [(ngModel)]="comentarioCancelacion"></textarea>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
+        (click)="dejarComentarioCancelacionTurno()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ################################## MODAL RECHAZAR ################################## -->
+<div class="modal" id="cancelModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="color:red">Rechazo de Turno</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Ingrese el motivo del rechazo.
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Comentario</span>
+        </div>
+        <textarea class="form-control" [(ngModel)]="comentarioRechazo"></textarea>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
+        (click)="dejarComentarioRechazoTurno()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ################################## MODAL FINALIZAR ################################## -->
+<div class="modal" id="appointmentEndModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="color:rgb(38, 108, 121)">Reseña de Turno</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Ingrese una reseña o comentario de la consulta y el diagnóstico realizado.
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Diagnostico</span>
+        </div>
+        <textarea class="form-control" [(ngModel)]="reseniaTurno"></textarea>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
+        (click)="dejarReseniaTurno()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ################################## CALIFICAR FINALIZAR ################################## -->
+<div class="modal" id="scoreModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="color:rgb(38, 108, 121)">Reseña de Turno</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Por favor, ingrese un comentario acerca de la atención que recibió por parte del especialista.
+      </div>
+
+      <div class="row">
+
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Comentario</span>
+        </div>
+        <textarea class="form-control" [(ngModel)]="comentarioCalificacion"></textarea>
+      </div>
+
+        <div style="margin-top: 2em; margin-left: 1em; margin-right: 1em;">
+          <div style="text-align: center;">
+            <label for="calificacion" class="form-label">Calificación de la atención:</label>
+            <p><strong>{{this.calificacion}}</strong></p>
+          </div>
+          <input type="range" class="form-range" min="1" max="10" [value]="this.calificacion" id="calificacion" (input)="valueChangedScore($event)">
+        </div>
+
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
+        (click)="calificarAtencion()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -76,4 +76,28 @@ export class DatabaseService {
     return addDoc(collRef, turno); 
   }
 
+  updateEstadoTurno(uid:string, estado:string) {
+    const docRef = doc(this.firestore, `turnos/${uid}`);
+    return updateDoc(docRef, {estado:estado});
+  }
+
+  updateComentarioCancelacionTurno(uid:string, comentario:string) {
+    const docRef = doc(this.firestore, `turnos/${uid}`);
+    return updateDoc(docRef, {comentarioCancelacion:comentario});
+  }
+
+  updateComentarioRechazoTurno(uid:string, comentario:string) {
+    const docRef = doc(this.firestore, `turnos/${uid}`);
+    return updateDoc(docRef, {comentarioRechazo:comentario});
+  }
+
+  updateReseniaTurno(uid:string, resenia:string) {
+    const docRef = doc(this.firestore, `turnos/${uid}`);
+    return updateDoc(docRef, {resenia:resenia});
+  }
+
+  updateCalificacionTurno(uid:string, comentarioCalificacion:string, calificacion:number) {
+    const docRef = doc(this.firestore, `turnos/${uid}`);
+    return updateDoc(docRef, {comentarioCalificacion:comentarioCalificacion, calificacion:calificacion});
+  }
 }

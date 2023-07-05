@@ -267,7 +267,7 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
         nombrePaciente: `${this.user.name} ${this.user.lastName}`, // DESPUES CAMBIAR
         dia: this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}), 
         especialidad: this.especialidadSeleccionada,
-        estado: '',
+        estado: 'solicitado',
         horario: this.horarioSeleccionado
       };
 

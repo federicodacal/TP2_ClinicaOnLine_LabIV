@@ -27,6 +27,7 @@ import { SolicitarTurnoComponent } from './pages/solicitar-turno/solicitar-turno
 import { MiPerfilComponent } from './pages/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { TurnosComponent } from './pages/turnos/turnos.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     SolicitarTurnoComponent,
     MiPerfilComponent,
     MisHorariosComponent,
+    TurnosComponent,
   ],
   imports: [
     BrowserModule,

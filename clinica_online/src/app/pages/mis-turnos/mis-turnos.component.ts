@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { ToastService } from 'src/app/services/toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-turnos',
@@ -25,7 +26,15 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   pacienteSeleccionado:any = null;
   especialistaSeleccionado:any = null;
 
+  uidTurnoSeleccionado:string = '';
+
   mostrarFiltro:string='';
+
+  comentarioCancelacion:string='';
+  comentarioRechazo:string='';
+  reseniaTurno:string='';
+  comentarioCalificacion:string='';
+  calificacion:number=6;
 
   loading:boolean = false;
  
@@ -151,8 +160,56 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
       this.arrayTurnosFiltro = this.turnos.filter(t => t.uidPaciente == uid);
       console.log('filtro', this.arrayTurnosFiltro);
     }
+  }
 
-    
+  onClickAccion(estado:string, turno:any) {
+    this.uidTurnoSeleccionado = turno.uid;
+    this.db.updateEstadoTurno(turno.uid, estado);
+  }
+
+  dejarComentarioCancelacionTurno() {
+    if(this.uidTurnoSeleccionado != '') {
+      console.log('comentario', this.comentarioCancelacion);
+      this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion);
+    }
+    this.comentarioCancelacion = '';
+  }
+
+  dejarComentarioRechazoTurno() {
+    if(this.uidTurnoSeleccionado != '') {
+      console.log('comentario', this.comentarioRechazo);
+      this.db.updateComentarioRechazoTurno(this.uidTurnoSeleccionado, this.comentarioRechazo);
+    }
+    this.comentarioRechazo = '';
+  }
+
+  dejarReseniaTurno() {
+    if(this.uidTurnoSeleccionado != '') {
+      console.log('reseña', this.reseniaTurno);
+      this.db.updateReseniaTurno(this.uidTurnoSeleccionado, this.reseniaTurno);
+    }
+    this.reseniaTurno = '';
+  }
+
+  verResenia(resenia:string) {
+    Swal.fire(
+      'Diagnostico:',
+      resenia,
+      'info'
+    );
+  }
+
+  valueChangedScore($event:any) {
+    this.calificacion = $event.target.value;
+  }
+
+  calificarAtencion() {
+    if(this.uidTurnoSeleccionado != '') {
+      console.log('comentario', this.comentarioCalificacion);
+      this.db.updateCalificacionTurno(this.uidTurnoSeleccionado, this.comentarioCalificacion, this.calificacion);
+    }
+    this.comentarioCalificacion = '';
+    this.calificacion = 6;
   }
 
 }
