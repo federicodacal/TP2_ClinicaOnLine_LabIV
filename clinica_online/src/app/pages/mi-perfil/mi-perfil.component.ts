@@ -12,6 +12,8 @@ export class MiPerfilComponent implements OnInit {
 
   user:any = {};
 
+  historialClinicoPaciente:any[] = [];
+
   view:string='mi-perfil';
   btn:string='MIS HORARIOS';
 
@@ -25,6 +27,14 @@ export class MiPerfilComponent implements OnInit {
     this.auth.userData.subscribe((res:any) => {
       this.user = res;
       console.log('user mi perfil', this.user);
+
+      if(this.user.perfil == 'paciente') {
+        this.db.getTurnosByPaciente(this.user.uid).subscribe((res:any) => {
+          this.historialClinicoPaciente = res.filter((t:any) => t.estado == 'finalizado');
+
+          console.log('historial clinico',this.historialClinicoPaciente);
+        });
+      }
 
       this.loading = false;
     });

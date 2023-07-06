@@ -37,6 +37,11 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   calificacion:number=6;
   comentarioEncuesta:string='';
 
+  altura!:number;
+  peso!:number;
+  temperatura!:number;
+  presion!:number;
+
   loading:boolean = false;
  
   constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService) { }
@@ -204,13 +209,24 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     this.comentarioEncuesta = '';
   }
 
-  dejarReseniaTurno() {
+  finalizarTurno() {
     if(this.uidTurnoSeleccionado != '') {
-      console.log('reseña', this.reseniaTurno);
-      this.db.updateReseniaTurno(this.uidTurnoSeleccionado, this.reseniaTurno).then(() => {
-        this.toast.showSuccess('Reseña enviada');
-      });;
+
+      if(this.altura != 0 && this.peso != 0 && this.temperatura != 0 && this.presion != 0) {
+
+        console.log('reseña', this.reseniaTurno);
+        this.db.updateInformeTurno(this.uidTurnoSeleccionado, this.reseniaTurno, this.altura, this.peso, this.temperatura, this.presion).then(() => {
+          this.toast.showSuccess('Informe enviado');
+        });;
+      }
+      else {
+        this.toast.showWarning('Campos incomplemtos');
+      }
     }
+    this.altura = 0;
+    this.peso = 0;
+    this.temperatura = 0;
+    this.presion = 0;
     this.reseniaTurno = '';
   }
 

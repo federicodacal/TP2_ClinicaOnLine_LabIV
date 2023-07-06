@@ -103,9 +103,9 @@ export class DatabaseService {
     return updateDoc(docRef, {comentarioRechazo:comentario});
   }
 
-  updateReseniaTurno(uid:string, resenia:string) {
+  updateInformeTurno(uid:string, resenia:string, altura:number, peso:number, temperatura:number, presion:number) {
     const docRef = doc(this.firestore, `turnos/${uid}`);
-    return updateDoc(docRef, {resenia:resenia});
+    return updateDoc(docRef, {resenia:resenia, altura:altura, peso:peso, temperatura:temperatura, presion:presion});
   }
 
   updateCalificacionTurno(uid:string, comentarioCalificacion:string, calificacion:number) {

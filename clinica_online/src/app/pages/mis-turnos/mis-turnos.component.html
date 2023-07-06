@@ -291,7 +291,7 @@
 
 <!-- ################################## MODAL FINALIZAR ################################## -->
 <div class="modal" id="appointmentEndModal">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -309,12 +309,37 @@
           <span class="input-group-text">Diagnostico</span>
         </div>
         <textarea class="form-control" [(ngModel)]="reseniaTurno"></textarea>
-      </div>
+        <div class="row">
+          <div class="col-3"> 
+            <label for="altura">Altura (metros)</label>
+            <input type="number" id="altura" name="altura" [(ngModel)]="altura" step="0.01">
+          </div>
+
+          <div class="col-3">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" id="peso" name="peso" [(ngModel)]="peso" step="0.01">
+          </div>
+
+          <div class="col-3">
+            <label for="temperatura">Temperatura (C°)</label>
+            <input type="number" id="temperatura" name="temperatura" [(ngModel)]="temperatura" step="0.01">
+          </div>
+
+          <div class="col-3">
+            <label for="presion">Presion</label>
+            <input type="number" id="presion" name="presion" [(ngModel)]="presion" step="0.01">
+          </div>
+
+        </div>
+        
+
+
+        </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
-        (click)="dejarReseniaTurno()">
+        (click)="finalizarTurno()">
           Confirmar
         </button>
       </div>

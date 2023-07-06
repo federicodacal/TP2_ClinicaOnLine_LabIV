@@ -46,6 +46,14 @@
                           <p class="card-text">
                               Fecha de Registro: {{this.user.createdAt.toMillis() | date:'short' }}
                           </p>
+
+                          <div *ngIf="this.user.perfil == 'paciente'">
+                            <button class="button-33" role="button"
+                            data-bs-toggle="modal" data-bs-target="#historialClinicoModal">
+                                <i class="fa-solid fa-clipboard"></i>
+                                HISTORIAL CLINICO
+                            </button>
+                        </div>
                       </div>
                       
                       <div *ngIf="this.view == 'horarios'"> 
@@ -94,3 +102,54 @@
     </div>
 </div>
 
+<!-- ################################## MODAL HISTORIAL CLINICO ################################## -->
+<div class="modal" id="historialClinicoModal" *ngIf="this.user != null && this.user.perfil == 'paciente'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+        <h4 class="modal-title" style="color:rgb(47, 72, 214)">HISTORIAL CLINICO</h4>
+         <span style="font-weight: 700; font-size: 20px;">{{this.user.lastName}}, {{this.user.name}} </span>  
+        </div>
+        
+        <div id="pdf" style="margin-left: 1em;">
+            <p>FECHA ACTUAL</p>
+        
+            <p> LOGO </p>
+            <p> Clinica OnLine: DACAL HEALTH</p>
+            <hr>
+            <div *ngFor="let h of historialClinicoPaciente">
+                <p>Fecha: <strong>{{h.dia}} {{h.horario}}</strong></p>
+                <p>Especialidad: <strong>{{h.especialidad}}</strong></p>
+                <p>Especialista: <strong>{{h.nombreEspecialista}}</strong></p>
+                <p>Reseña: <strong>{{h.resenia}}</strong></p>
+                <p>Altura: <strong>{{h.altura}} mts</strong></p>
+                <p>Peso: <strong>{{h.peso}} kgs</strong></p>
+                <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
+                <p>Presion: <strong>{{h.presion}} </strong></p>
+                <hr>
+            </div>
+        </div>
+
+  
+
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal">
+              DESCARGAR PDF
+            </button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            OK
+          </button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
