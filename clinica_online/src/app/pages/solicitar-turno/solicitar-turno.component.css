@@ -366,3 +366,9 @@ animation: rotation 1s linear infinite;
    background-color: #0064bd;
   box-shadow: none;
 }
+
+.nav-div {
+  height: 175px;
+  width: 650px;
+  overflow:hidden; overflow-y:scroll;
+}

@@ -16,11 +16,13 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   horariosDeInicioDeTurnos:any[] = [];
   diasEspecialista:any[] = [];
   especialistas:any[] = [];
+  pacientes:any[] = [];
   especialistasFiltro:any[] = [];
   user:any = null;
   especialidadSeleccionada:string='';
   especialistaSeleccionadoDB!:any;
   especialistaSeleccionado!:string|null;
+  pacienteSeleccionado:any=null;
   fechaSeleccionada!:Date|null;
   horarioSeleccionado!:string|null;
   dias:Date[] = [];
@@ -48,9 +50,14 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
     this.subscription = this.auth.userData.subscribe((res:any) => {
       if(res) {
         this.user = res;
+        console.log('user', this.user);
 
         if(res.perfil == 'administrador') {
-
+          this.subscriptionEspecialistas = this.db.getPacientes().subscribe((res:any) => {
+            if(res) {
+              this.pacientes = res;
+            }
+          });
         }
       }
     });
@@ -259,30 +266,65 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   confirmarTurno() {
 
     if(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.fechaSeleccionada != null && this.horarioSeleccionado != null && this.especialistaSeleccionadoDB != null) {
+      if(this.user.perfil == 'paciente') {
+        const turno = {
+          uidEspecialista: this.especialistaSeleccionadoDB.uid,
+          uidPaciente: this.user.uid, // USER ES EL PACIENTE
+          nombreEspecialista: `${this.especialistaSeleccionadoDB.name} ${this.especialistaSeleccionadoDB.lastName}`,
+          nombrePaciente: `${this.user.name} ${this.user.lastName}`, // USER ES EL PACIENTE
+          dia: this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}), 
+          especialidad: this.especialidadSeleccionada,
+          estado: 'solicitado',
+          horario: this.horarioSeleccionado
+        };
+  
+        this.db.addTurno(turno).then(() => {
+          this.toast.showSuccess('Turno solicitado', 'El especialista deberá confirmar turno. Por favor, aguarde.');
+  
+          this.router.navigateByUrl('/mis-turnos');
+        })
+        .catch((err) => {
+          this.toast.showError('Ocurrió un problema');
+          console.log(err);
+        });
+      }
+      else if(this.user.perfil == 'administrador') { // perfil == 'administrador'
 
-      const turno = {
-        uidEspecialista: this.especialistaSeleccionadoDB.uid,
-        uidPaciente: this.user.uid, // DESPUES CAMBIAR
-        nombreEspecialista: `${this.especialistaSeleccionadoDB.name} ${this.especialistaSeleccionadoDB.lastName}`,
-        nombrePaciente: `${this.user.name} ${this.user.lastName}`, // DESPUES CAMBIAR
-        dia: this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}), 
-        especialidad: this.especialidadSeleccionada,
-        estado: 'solicitado',
-        horario: this.horarioSeleccionado
-      };
+        if(this.pacienteSeleccionado != '' && this.pacienteSeleccionado != null) {
+          const turno = {
+            uidEspecialista: this.especialistaSeleccionadoDB.uid,
+            uidPaciente: this.pacienteSeleccionado.uid, 
+            nombreEspecialista: `${this.especialistaSeleccionadoDB.name} ${this.especialistaSeleccionadoDB.lastName}`,
+            nombrePaciente: `${this.pacienteSeleccionado.name} ${this.pacienteSeleccionado.lastName}`, 
+            dia: this.fechaSeleccionada.toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year:'2-digit'}), 
+            especialidad: this.especialidadSeleccionada,
+            estado: 'solicitado',
+            horario: this.horarioSeleccionado
+          };
 
-      this.db.addTurno(turno).then(() => {
-        this.toast.showSuccess('Turno solicitado', 'El especialista deberá confirmar turno. Por favor, aguarde.');
-
-        this.router.navigateByUrl('/mis-turnos');
-      })
-      .catch((err) => {
-        this.toast.showError('Ocurrió un problema');
-        console.log(err);
-      });
-    } 
+          this.db.addTurno(turno).then(() => {
+            this.toast.showSuccess('Turno solicitado', 'El especialista deberá confirmar turno. Por favor, aguarde.');
+    
+            this.router.navigateByUrl('/turnos');
+          })
+          .catch((err) => {
+            this.toast.showError('Ocurrió un problema');
+            console.log(err);
+          });
+        }
+        else {
+          this.toast.showError('Campos incompletos o erróneos', 'No hay paciente seleccionado.');
+        }
+      }
+    }
     else {
       this.toast.showError('Campos incompletos o erróneos', 'Por favor, revise los campos.');
     }
+  
+  }
+
+  onClickPaciente(paciente:any) {
+    this.pacienteSeleccionado = paciente;
+    console.log(this.pacienteSeleccionado);
   }
 }

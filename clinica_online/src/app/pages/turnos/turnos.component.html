@@ -1,1 +1,164 @@
-<p>turnos works!</p>
+
+<div class="row wrapper">
+    <div class="col-3 sidebar">
+        <app-navbar [selectedOpt]="'turnos'"></app-navbar>
+    </div>
+    <div class="col-9" style="margin-left: 16em;">
+        <div class="container">
+            <div class="row">
+                <div class="card col-9 scale-up-top mb-2" style="height: auto; width:100%; margin-left: 1em;">
+                   
+                    <div class="card-body">
+                        <h2 class="card-title">Turnos</h2>
+                        <div> 
+                    </div>
+          
+                            <span class="loader mt-1" *ngIf="this.loading"></span>
+          
+                            <div class="mb-2">
+                              <span style="font-size: 20px; float:left; font-weight: 700;">Filtrar por:</span>
+
+                              <div class="row">
+                                <div class="col-2">
+                                  <button class="button-7" (click)="onClickFiltro('especialidad')"
+                                  [ngClass]="this.mostrarFiltro == 'especialidad' ? 'clicked-btn7' : ''">
+                                    Especialidad
+                                  </button>
+                                </div>
+                                <div class="col-2">
+                                  <button class="button-7"(click)="onClickFiltro('especialista')"
+                                  [ngClass]="this.mostrarFiltro == 'especialista' ? 'clicked-btn7' : ''">
+                                    Especialista
+                                  </button>
+                                </div>
+
+                              </div>
+                            </div>
+
+                            <div class="container mb-2">
+                              <div class="row" *ngIf="this.mostrarFiltro == 'especialidad'">
+                                <div class="col-2" *ngFor="let e of this.arrayEspecialidades" style="margin-bottom: 1em; float:left;">
+                                  <button class="button-7" 
+                                  [ngClass]="this.especialidadSeleccionada === e ? 'clicked-btn7' : ''"
+                                  (click)="onClickFiltroEspecialidad(e)">
+                                    {{e}}
+                                  </button>
+                                </div>
+                              </div>
+
+
+                              <div *ngIf="this.mostrarFiltro == 'especialista'" style="float:left; margin-bottom: 1em;">
+                                
+                                <div class="nav-div" >
+                                  <div *ngFor="let p of this.arrayEspecialistas">
+                                      <ul class="list-group">
+                                        <li class="list-group-item" style="margin-bottom: 0.5em;">
+                                          {{p.nombre}}
+                                          <button class="button-7" style="float:right; margin-left: 1em;"
+                                          [ngClass]="this.especialistaSeleccionado == p.uid ? 'clicked-btn7' : ''"
+                                          (click)="onClickFiltroEspecialista(p.uid)">
+                                            Seleccionar
+                                          </button>
+                                        </li>
+                                      </ul>
+                                    </div>
+
+                                </div>
+                                
+                              </div>
+
+                            </div>
+                            
+
+
+
+                              <table class="table" *ngIf="!this.loading">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">FECHA</th>
+                                    <th scope="col">HORA</th>
+                                    <th scope="col">ESPECIALIDAD</th>
+                                    <th scope="col">ESPECIALISTA</th>
+                                    <th scope="col">PACIENTE</th>
+                                    <th scope="col">ESTADO</th>
+                                    <th scope="col">ACCIÓN</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="tr-tabla" *ngFor="let turno of arrayTurnosFiltro">
+                                    <td>
+                                      <span>{{turno.dia}}</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.horario}}</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.especialidad}}</span>
+                                    </td>
+                                    <td>
+                                      <span>{{turno.nombreEspecialista}}</span>
+                                    </td>
+                                    <td >
+                                      <span>{{turno.nombrePaciente}}</span>
+                                    </td>
+                                    <td>
+                                        <span style="text-transform: uppercase; font-weight: 600;">
+                                          {{turno.estado}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                      <div>                                      
+                                        <button class="button-7" style="margin-left: 0.5em;"
+                                        *ngIf="turno.estado == 'aceptado' || turno.estado == 'solicitado'"
+                                        (click)="onClickAccion('cancelado', turno)"
+                                        data-bs-toggle="modal" data-bs-target="#cancelModal">
+                                          Cancelar
+                                        </button>                                       
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+          
+                            </div>
+                          </div>
+                      </div>
+                       
+        </div>
+    </div>
+</div>
+
+<!-- ################################## MODAL CANCELAR ################################## -->
+<div class="modal" id="cancelModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="color:red">Cancelacion de Turno</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Ingrese el motivo de la cancelación.
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Comentario</span>
+        </div>
+        <textarea class="form-control" [(ngModel)]="comentarioCancelacion"></textarea>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
+        (click)="dejarComentarioCancelacionTurno()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

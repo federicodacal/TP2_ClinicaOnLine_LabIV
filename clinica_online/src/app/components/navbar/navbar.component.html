@@ -92,6 +92,12 @@
               <span style="margin-left: 0.5em;">Seleccion Usuarios</span>  
             </a>
           </li>
+          <li class="nav nav-pills flex-column mb-auto" (click)="onClickSidebar('turnos')" *ngIf="this.user && this.user.perfil == 'administrador' && !this.loading">
+            <a class="nav-link text-white" [routerLink]="'/turnos'" [ngClass]="this.selectedOpt == 'turnos' ? 'clicked' : ''">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span style="margin-left: 0.5em;">Turnos</span>  
+            </a>
+          </li>
         </ul>
         <hr>
         <div class="dropdown" *ngIf="!this.loading">

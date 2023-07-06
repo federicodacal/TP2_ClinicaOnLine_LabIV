@@ -85,6 +85,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
       case 'solicitar-turno':
         this.selectedOpt = 'solicitar-turno';
         break;
+      case 'turnos':
+        this.selectedOpt = 'turnos';
+        break;
     }
   }
 

@@ -20,6 +20,12 @@ export class DatabaseService {
     return collectionData(q, {idField:'uid'}) as Observable<any[]>;
   }
 
+  getPacientes():Observable<any[]> {
+    const usersRef = collection(this.firestore, 'users');
+    const q = query(usersRef, where('perfil', '==', 'paciente'));
+    return collectionData(q, {idField:'uid'}) as Observable<any[]>;
+  }
+
   getUserByUid(uid:string) {
     const userRef = doc(this.firestore, `users/${uid}`);
     return docData(userRef, {idField:'uid'});
@@ -34,6 +40,11 @@ export class DatabaseService {
       return updateDoc(usrRef, {habilitado:false});
     }
     return null;
+  }
+
+  getTurnos() {
+    const collRef = collection(this.firestore, 'turnos');
+    return collectionData(collRef, {idField:'uid'}) as Observable<any[]>;
   }
 
   getTurnosByEspecialista(uidEspecialista:string) {

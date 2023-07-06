@@ -70,7 +70,7 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="this.fechaSeleccionada != null">
+                            <div *ngIf="this.fechaSeleccionada != null && this.user.perfil =='paciente'">
                                 <div class="row" style="margin-top: 2em; margin-bottom: 1.5em;">
                                     <div class="col-12">
                                         <button class="button-33 mt-0" role="button" [disabled]="this.horarioSeleccionado == null" (click)="confirmarTurno()"> 
@@ -79,9 +79,24 @@
                                         </button>
                                     </div>  
                             </div>
+
+
+                            
                               
           
                             </div>
+
+                            <div *ngIf="this.fechaSeleccionada != null && this.user.perfil =='administrador'">
+                                <div class="row" style="margin-top: 2em; margin-bottom: 1.5em;">
+                                    <div class="col-12">
+                                        <button class="button-33 mt-0" role="button" [disabled]="this.horarioSeleccionado == null" 
+                                        data-bs-toggle="modal" data-bs-target="#selectPaciente"> 
+                                            <i class="fa-solid fa-calendar"></i>
+                                            SELECCIONAR PACIENTE
+                                        </button>
+                                    </div>  
+                            </div>
+
                           </div>
                       </div>
                        
@@ -89,3 +104,49 @@
     </div>
 </div>
 
+<!-- ################################## MODAL CANCELAR ################################## -->
+<div class="modal" id="selectPaciente">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="color:rgb(47, 72, 214)">SELECCIONE PACIENTE</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span style="font-size: 20px;">Pacientes:</span> 
+        </div>
+        <div class="nav-div" >
+            <div *ngFor="let p of this.pacientes">
+                <ul class="list-group">
+                  <li class="list-group-item" style="margin-bottom: 0.5em;">
+                    {{p.name}} {{p.lastName}} - Obra Social: {{p.obraSocial}} - DNI: {{p.dni}}
+                    <button class="button-7" style="float:right; margin-left: 0.5em;"
+                    (click)="onClickPaciente(p)">
+                      Seleccionar
+                    </button>
+                  </li>
+                </ul>
+              </div>
+          </div>
+        
+          <span *ngIf="this.pacienteSeleccionado != null" style="margin-top: 1em; margin-bottom: 1em; margin-left: 1em; font-size: 20px;">Paciente: <strong>{{this.pacienteSeleccionado.name}} {{this.pacienteSeleccionado.lastName}}</strong></span>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+          [disabled]="this.pacienteSeleccionado== null"
+          (click)="confirmarTurno()">
+            Confirmar
+          </button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
