@@ -75,13 +75,14 @@
                                 </button>
                             </div>
 
+                             
                             <div class="col-6" *ngIf="this.user.perfil == 'especialista'">
-                                <button class="button-33" role="button" (click)="this.view = 'horarios'">
+                                <button class="button-33" role="button" (click)="cambiarVista()">
                                     <i class="fa-solid fa-clock"></i>
-                                    MIS HORARIOS
+                                    {{this.btn}}
                                 </button>
                             </div>
-
+                            
 
 
 

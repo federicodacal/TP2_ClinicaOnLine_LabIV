@@ -35,6 +35,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   reseniaTurno:string='';
   comentarioCalificacion:string='';
   calificacion:number=6;
+  comentarioEncuesta:string='';
 
   loading:boolean = false;
  
@@ -191,6 +192,16 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
       });;
     }
     this.comentarioRechazo = '';
+  }
+
+  dejarComentarioEncuestaTurno() {
+    if(this.uidTurnoSeleccionado != '') {
+      console.log('encuesta', this.comentarioEncuesta);
+      this.db.updateComentarioEncuesta(this.uidTurnoSeleccionado, this.comentarioEncuesta).then(() => {
+        this.toast.showSuccess('Encuesta enviada');
+      });;
+    }
+    this.comentarioEncuesta = '';
   }
 
   dejarReseniaTurno() {

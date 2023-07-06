@@ -112,4 +112,9 @@ export class DatabaseService {
     const docRef = doc(this.firestore, `turnos/${uid}`);
     return updateDoc(docRef, {comentarioCalificacion:comentarioCalificacion, calificacion:calificacion});
   }
+
+  updateComentarioEncuesta(uid:string, comentario:string) {
+    const docRef = doc(this.firestore, `turnos/${uid}`);
+    return updateDoc(docRef, {encuesta:comentario});
+  }
 }

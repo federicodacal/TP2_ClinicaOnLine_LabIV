@@ -13,6 +13,7 @@ export class MiPerfilComponent implements OnInit {
   user:any = {};
 
   view:string='mi-perfil';
+  btn:string='MIS HORARIOS';
 
   loading:boolean = false;
 
@@ -31,6 +32,17 @@ export class MiPerfilComponent implements OnInit {
 
   volver() {
     this.router.navigateByUrl('');
+  }
+
+  cambiarVista() {
+    if(this.view == 'horarios') {
+      this.view = 'mi-perfil';
+      this.btn = 'MIS HORARIOS';
+    }
+    else if(this.view == 'mi-perfil') {
+      this.view = 'horarios';
+      this.btn = 'MI PERFIL';
+    }
   }
 
 }

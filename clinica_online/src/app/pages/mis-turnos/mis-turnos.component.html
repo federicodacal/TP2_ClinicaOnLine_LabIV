@@ -163,7 +163,8 @@
                                           Reseña
                                         </button>
                                         <button class="button-7" style="margin-left: 0.5em;"
-                                        *ngIf="this.esPaciente && turno.estado == 'finalizado' && turno.resenia != '' && turno.resenia != undefined">
+                                        *ngIf="this.esPaciente && turno.estado == 'finalizado' && turno.resenia != '' && turno.resenia != undefined"
+                                        data-bs-toggle="modal" data-bs-target="#encuestaModal">
                                           Encuesta
                                         </button>
                                         <button class="button-7" style="margin-left: 0.5em;"
@@ -220,6 +221,40 @@
   </div>
 </div>
 
+<!-- ################################## MODAL ENCUESTA ################################## -->
+<div class="modal" id="encuestaModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="color:rgb(47, 72, 214)">Encuesta</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Deje un comentario:
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Comentario</span>
+        </div>
+        <textarea class="form-control" [(ngModel)]="comentarioEncuesta"></textarea>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"    
+        (click)="dejarComentarioEncuestaTurno()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- ################################## MODAL RECHAZAR ################################## -->
 <div class="modal" id="cancelModal">
   <div class="modal-dialog">
@@ -261,7 +296,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title" style="color:rgb(38, 108, 121)">Reseña de Turno</h4>
+        <h4 class="modal-title" style="color:rgb(47, 72, 214)">Reseña de Turno</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -295,7 +330,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title" style="color:rgb(38, 108, 121)">Reseña de Turno</h4>
+        <h4 class="modal-title" style="color:rgb(47, 72, 214)">Reseña de Turno</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
