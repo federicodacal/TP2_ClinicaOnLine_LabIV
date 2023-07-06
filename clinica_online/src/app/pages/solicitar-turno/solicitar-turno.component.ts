@@ -45,6 +45,8 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.loading = true;
+
     this.dias = this.getDatesBetween();
 
     this.subscription = this.auth.userData.subscribe((res:any) => {
@@ -65,6 +67,8 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
     this.subscriptionEspecialistas = this.db.getEspecialistas().subscribe((res:any) => {
       if(res) {
         this.especialistas = res.filter((esp:any) => esp.habilitado === true);
+
+        this.loading = false;
       }
     });
   }
@@ -88,11 +92,13 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   }
 
   onClickSeleccionarEsp(esp:string) {
+
     this.especialistaSeleccionado = null;
     this.fechaSeleccionada = null;
     this.horarioSeleccionado = null;
     this.especialidadSeleccionada = esp;
     this.filtrarEspecialistasPorEspecialidad();
+
   }
 
   onClickSeleccionarDoc(uidDoc:string) {
@@ -138,6 +144,7 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
       console.log('dias especialista', this.diasEspecialista);
 
       this.generarTurnos();
+
     });
 
     /*
@@ -148,6 +155,7 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   }
 
   onClickFecha(dia:any) {
+
     this.horarioSeleccionado = null;
     this.fechaSeleccionada = dia;
     console.log(this.fechaSeleccionada);
@@ -216,6 +224,7 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
           this.horariosDeInicioDeTurnos.push(horasYMinutos);
         }
       }
+
     }
   }
 
@@ -266,6 +275,7 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   confirmarTurno() {
 
     if(this.especialidadSeleccionada != null && this.especialistaSeleccionado != null && this.fechaSeleccionada != null && this.horarioSeleccionado != null && this.especialistaSeleccionadoDB != null) {
+
       if(this.user.perfil == 'paciente') {
         const turno = {
           uidEspecialista: this.especialistaSeleccionadoDB.uid,
@@ -280,6 +290,7 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   
         this.db.addTurno(turno).then(() => {
           this.toast.showSuccess('Turno solicitado', 'El especialista deberá confirmar turno. Por favor, aguarde.');
+
   
           this.router.navigateByUrl('/mis-turnos');
         })
@@ -304,21 +315,26 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
 
           this.db.addTurno(turno).then(() => {
             this.toast.showSuccess('Turno solicitado', 'El especialista deberá confirmar turno. Por favor, aguarde.');
+
+            
     
             this.router.navigateByUrl('/turnos');
           })
           .catch((err) => {
             this.toast.showError('Ocurrió un problema');
+            
             console.log(err);
           });
         }
         else {
           this.toast.showError('Campos incompletos o erróneos', 'No hay paciente seleccionado.');
+          
         }
       }
     }
     else {
       this.toast.showError('Campos incompletos o erróneos', 'Por favor, revise los campos.');
+      
     }
   
   }

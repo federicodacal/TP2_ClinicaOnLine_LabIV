@@ -48,14 +48,14 @@ export class RegistroEspecialistaComponent implements OnInit {
 
       this.loading = true;
 
-      let arrayEspecialidades:string[] = [];  
+      let arrayEspecialidades:string[] = [];
       
       arrayEspecialidades.push(this.credentials.get('especialidad')?.value);
 
       if(this.especialidadDos != '') {
         arrayEspecialidades.push(this.especialidadDos);
       }
-      
+
       const specialist = {
         email: this.credentials.get('email')?.value,
         password: this.credentials.get('password')?.value,

@@ -105,13 +105,21 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   onClickAccion(estado:string, turno:any) {
     this.uidTurnoSeleccionado = turno.uid;
-    this.db.updateEstadoTurno(turno.uid, estado);
+    this.db.updateEstadoTurno(turno.uid, estado).then(() => {
+      this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a ${estado}.`);
+    })
+    .catch((err) => {
+      this.toast.showError('Ocurrió un problema');
+      console.log(err);
+    });
   }
 
   dejarComentarioCancelacionTurno() {
     if(this.uidTurnoSeleccionado != '') {
       console.log('comentario', this.comentarioCancelacion);
-      this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion);
+      this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion).then(() => {
+        this.toast.showSuccess('Comentario enviado');
+      });
     }
     this.comentarioCancelacion = '';
   }

@@ -164,13 +164,21 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
 
   onClickAccion(estado:string, turno:any) {
     this.uidTurnoSeleccionado = turno.uid;
-    this.db.updateEstadoTurno(turno.uid, estado);
+    this.db.updateEstadoTurno(turno.uid, estado).then(() => {
+      this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a ${estado}.`);
+    })
+    .catch((err) => {
+      this.toast.showError('Ocurrió un problema');
+      console.log(err);
+    });;
   }
 
   dejarComentarioCancelacionTurno() {
     if(this.uidTurnoSeleccionado != '') {
       console.log('comentario', this.comentarioCancelacion);
-      this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion);
+      this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion).then(() => {
+        this.toast.showSuccess('Comentario enviado');
+      });;
     }
     this.comentarioCancelacion = '';
   }
@@ -178,7 +186,9 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   dejarComentarioRechazoTurno() {
     if(this.uidTurnoSeleccionado != '') {
       console.log('comentario', this.comentarioRechazo);
-      this.db.updateComentarioRechazoTurno(this.uidTurnoSeleccionado, this.comentarioRechazo);
+      this.db.updateComentarioRechazoTurno(this.uidTurnoSeleccionado, this.comentarioRechazo).then(() => {
+        this.toast.showSuccess('Comentario enviado');
+      });;
     }
     this.comentarioRechazo = '';
   }
@@ -186,7 +196,9 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   dejarReseniaTurno() {
     if(this.uidTurnoSeleccionado != '') {
       console.log('reseña', this.reseniaTurno);
-      this.db.updateReseniaTurno(this.uidTurnoSeleccionado, this.reseniaTurno);
+      this.db.updateReseniaTurno(this.uidTurnoSeleccionado, this.reseniaTurno).then(() => {
+        this.toast.showSuccess('Reseña enviada');
+      });;
     }
     this.reseniaTurno = '';
   }
@@ -206,7 +218,9 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   calificarAtencion() {
     if(this.uidTurnoSeleccionado != '') {
       console.log('comentario', this.comentarioCalificacion);
-      this.db.updateCalificacionTurno(this.uidTurnoSeleccionado, this.comentarioCalificacion, this.calificacion);
+      this.db.updateCalificacionTurno(this.uidTurnoSeleccionado, this.comentarioCalificacion, this.calificacion).then(() => {
+        this.toast.showSuccess('Calificación enviada');
+      });;
     }
     this.comentarioCalificacion = '';
     this.calificacion = 6;

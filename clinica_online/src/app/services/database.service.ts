@@ -44,7 +44,8 @@ export class DatabaseService {
 
   getTurnos() {
     const collRef = collection(this.firestore, 'turnos');
-    return collectionData(collRef, {idField:'uid'}) as Observable<any[]>;
+    const q = query(collRef, orderBy('dia', 'asc'));
+    return collectionData(q, {idField:'uid'}) as Observable<any[]>;
   }
 
   getTurnosByEspecialista(uidEspecialista:string) {

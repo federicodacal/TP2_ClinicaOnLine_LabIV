@@ -9,6 +9,7 @@ import { ToastService } from './toast.service';
 })
 export class AuthService {
 
+  admin:boolean=false;
   userData:any = {};
 
   constructor(private authentication:AngularFireAuth, private firestore:Firestore, private toast:ToastService) { 
