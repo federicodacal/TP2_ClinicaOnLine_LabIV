@@ -23,6 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^14.2.0",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "jspdf": "^2.5.1",
     "ng-recaptcha": "^11.0.0",
     "ngx-material-timepicker": "^13.1.0",
     "ngx-toastr": "^16.2.0",

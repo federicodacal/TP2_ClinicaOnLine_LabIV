@@ -103,7 +103,7 @@
 </div>
 
 <!-- ################################## MODAL HISTORIAL CLINICO ################################## -->
-<div class="modal" id="historialClinicoModal" *ngIf="this.user != null && this.user.perfil == 'paciente'">
+<div class="modal fade modal-xl" id="historialClinicoModal" *ngIf="this.user != null && this.user.perfil == 'paciente'" tabindex="-1" aria-labelledby="historialClinicoModal">
     <div class="modal-dialog">
       <div class="modal-content">
   
@@ -114,6 +114,11 @@
   
         <!-- Modal body -->
         <div class="modal-body">
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal"
+            (click)="descargarPDF()">
+            <i class="fa-solid fa-file-pdf"></i>
+              DESCARGAR PDF
+            </button>
         <h4 class="modal-title" style="color:rgb(47, 72, 214)">HISTORIAL CLINICO</h4>
          <span style="font-weight: 700; font-size: 20px;">{{this.user.lastName}}, {{this.user.name}} </span>  
         </div>
@@ -138,13 +143,8 @@
         </div>
 
   
-
-
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-bs-dismiss="modal">
-              DESCARGAR PDF
-            </button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
             OK
           </button>

@@ -9,6 +9,7 @@ import { MiPerfilComponent } from './pages/mi-perfil/mi-perfil.component';
 import { SolicitarTurnoComponent } from './pages/solicitar-turno/solicitar-turno.component';
 import { TurnosComponent } from './pages/turnos/turnos.component';
 import { AdminGuard } from './guards/admin.guard';
+import { PacientesComponent } from './pages/pacientes/pacientes.component';
 
 const routes: Routes = [
   { 
@@ -37,6 +38,9 @@ const routes: Routes = [
     path: 'turnos', component:TurnosComponent,
     canActivate: [AdminGuard] 
   },
+  {
+    path: 'pacientes', component:PacientesComponent
+  }
 ];
 
 @NgModule({
