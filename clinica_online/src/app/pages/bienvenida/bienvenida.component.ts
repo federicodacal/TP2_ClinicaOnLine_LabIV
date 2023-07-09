@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class BienvenidaComponent {
 
   icon:string='assets/img/doc.png';
+  logo:string='assets/img/icon.png';
 
   constructor(private router:Router) { }
 

@@ -157,6 +157,7 @@ h2 {
 .btn-fav {
   width: 3rem;
   height: 3rem;
+  border-radius: 50%;
 }
 
 .btn-fav:hover {
@@ -166,7 +167,8 @@ h2 {
 }
 
 .img-btn {
-  width: 34px;
+  width: 32px;
+  height: 30px;
   left: 3em;
 }
 

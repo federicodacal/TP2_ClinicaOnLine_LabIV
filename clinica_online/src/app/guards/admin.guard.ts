@@ -9,7 +9,6 @@ import { ToastService } from '../services/toast.service';
 })
 export class AdminGuard implements CanActivate {
 
-
   constructor(private auth:AuthService, private router:Router, private toast:ToastService) {
     this.auth.userData.subscribe((res:any) => {
       console.log('res en guard', res);
@@ -25,15 +24,15 @@ export class AdminGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.auth.admin) {
-        //console.log('user guard', this.user)
-        return true;
-      }
-      else {
-        this.toast.showWarning('No tiene acceso');
-        this.router.navigate(['']);
-        return false;
-      }
+        if(this.auth.admin) {
+          //console.log('user guard', this.user)
+          return true;
+        }
+        else {
+          this.toast.showWarning('No tiene acceso');
+          this.router.navigate(['']);
+          return false;
+        }
   }
   
 }

@@ -14,10 +14,14 @@ export class MiPerfilComponent implements OnInit {
 
   user:any = {};
 
+  logo:string='assets/img/icon.png';
+
   historialClinicoPaciente:any[] = [];
 
   view:string='mi-perfil';
   btn:string='MIS HORARIOS';
+
+  fechaActual:string='';
 
   loading:boolean = false;
 
@@ -57,6 +61,7 @@ export class MiPerfilComponent implements OnInit {
     }
   }
 
+  /*
   descargarPDF() {
     const data = document.getElementById('pdf');
 
@@ -91,6 +96,11 @@ export class MiPerfilComponent implements OnInit {
       }
     });
   }
+  */
+
+  cargarFecha() {
+    this.fechaActual = new Date(Date.now()).toDateString();
+  }
 
   crearPDF() {
     const DATA = document.getElementById('pdf');
@@ -122,13 +132,7 @@ export class MiPerfilComponent implements OnInit {
         return doc;
       })
       .then((docResult) => {
-        const base64string = docResult.output('bloburl');
-        const win = window.open();
-        if(win != null) {
-          win.document.write('<iframe src="' + base64string  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
-        }
-      }).catch((err) => {
-        console.log(err);
+        docResult.save(`historial_clinico.pdf`);
       });
   }
 }

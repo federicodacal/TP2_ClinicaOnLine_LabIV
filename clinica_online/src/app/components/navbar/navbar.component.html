@@ -62,8 +62,11 @@
     <main>
     
       <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 234px;">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <!-- 
           <i class="fa-sharp fa-solid fa-laptop-medical fa-2xl"></i>
+          -->
+          <img [src]='icon' alt="ico" style="width: 48px; border-radius: 50%;">
           <span class="fs-4" style="margin-left: 0.5em;">Dacal Health</span>
         </a>
         <hr>
@@ -90,6 +93,12 @@
             <a class="nav-link text-white" [routerLink]="'/seleccion-usuarios'" [ngClass]="this.selectedOpt == 'seleccion' ? 'clicked' : ''">
               <i class="fa-solid fa-users"></i>
               <span style="margin-left: 0.5em;">Seleccion Usuarios</span>  
+            </a>
+          </li>
+          <li class="nav nav-pills flex-column mb-auto" (click)="onClickSidebar('pacientes')" *ngIf="this.user && this.user.perfil == 'especialista' && !this.loading">
+            <a class="nav-link text-white" [routerLink]="'/pacientes'" [ngClass]="this.selectedOpt == 'pacientes' ? 'clicked' : ''">
+              <i class="fa-solid fa-users"></i>
+              <span style="margin-left: 0.5em;">Pacientes</span>  
             </a>
           </li>
           <li class="nav nav-pills flex-column mb-auto" (click)="onClickSidebar('turnos')" *ngIf="this.user && this.user.perfil == 'administrador' && !this.loading">

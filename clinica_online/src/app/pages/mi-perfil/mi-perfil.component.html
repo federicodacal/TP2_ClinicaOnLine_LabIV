@@ -48,7 +48,8 @@
                           </p>
 
                           <div *ngIf="this.user.perfil == 'paciente'">
-                            <button class="button-33" role="button"
+                            <button class="button-33" role="button"                            
+                            (click)="cargarFecha()"
                             data-bs-toggle="modal" data-bs-target="#historialClinicoModal">
                                 <i class="fa-solid fa-clipboard"></i>
                                 HISTORIAL CLINICO
@@ -115,30 +116,40 @@
         <!-- Modal body -->
         <div class="modal-body">
             <button type="button" class="btn btn-info" data-bs-dismiss="modal"
-            (click)="descargarPDF()">
+            (click)="crearPDF()">
             <i class="fa-solid fa-file-pdf"></i>
               DESCARGAR PDF
             </button>
-        <h4 class="modal-title" style="color:rgb(47, 72, 214)">HISTORIAL CLINICO</h4>
-         <span style="font-weight: 700; font-size: 20px;">{{this.user.lastName}}, {{this.user.name}} </span>  
+            <div style="text-align: center;">
+                <h4 class="modal-title" style="color:rgb(47, 72, 214); font-size: 48px;">HISTORIAL CLINICO</h4>
+            </div>
         </div>
         
-        <div id="pdf" style="margin-left: 1em;">
-            <p>FECHA ACTUAL</p>
-        
-            <p> LOGO </p>
-            <p> Clinica OnLine: DACAL HEALTH</p>
-            <hr>
-            <div *ngFor="let h of historialClinicoPaciente">
-                <p>Fecha: <strong>{{h.dia}} {{h.horario}}</strong></p>
-                <p>Especialidad: <strong>{{h.especialidad}}</strong></p>
-                <p>Especialista: <strong>{{h.nombreEspecialista}}</strong></p>
-                <p>Reseña: <strong>{{h.resenia}}</strong></p>
-                <p>Altura: <strong>{{h.altura}} mts</strong></p>
-                <p>Peso: <strong>{{h.peso}} kgs</strong></p>
-                <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
-                <p>Presion: <strong>{{h.presion}} </strong></p>
+        <div id="pdf">
+            <div style="margin-left: 2em;">
+
+                <div style="text-align: center;">
+                    <span style="font-weight: 700; font-size: 20px;">{{this.user.lastName}}, {{this.user.name}} </span>  
+    
+                    <p> {{fechaActual}}</p>
+    
+                    <img [src]='logo' alt="ico" style="width: 120px; border-radius: 50%;">
+    
+                    <p style="font-size: 22px;">Clinica OnLine: <strong>DACAL HEALTH</strong></p>
+                </div>
+
                 <hr>
+                <div *ngFor="let h of historialClinicoPaciente">
+                    <p style="margin-top: 1em;">Fecha: <strong>{{h.dia}} {{h.horario}}</strong></p>
+                    <p>Especialidad: <strong>{{h.especialidad}}</strong></p>
+                    <p>Especialista: <strong>{{h.nombreEspecialista}}</strong></p>
+                    <p>Reseña: <strong>{{h.resenia}}</strong></p>
+                    <p>Altura: <strong>{{h.altura}} mts</strong></p>
+                    <p>Peso: <strong>{{h.peso}} kgs</strong></p>
+                    <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
+                    <p>Presion: <strong>{{h.presion}} </strong></p>
+                    <hr>
+                </div>
             </div>
         </div>
 

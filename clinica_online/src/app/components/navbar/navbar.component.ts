@@ -12,11 +12,15 @@ import { ToastService } from 'src/app/services/toast.service';
 export class NavbarComponent implements OnInit, OnDestroy {
 
   @Input() selectedOpt:string='';
+
+  icon:string='assets/img/icon.png';
   
   user:any = {};
   userLogged:boolean = false;
   acceso:string = '';
   loading:boolean = false;
+
+  fechaActual:string='';
 
   subscription!:Subscription;
 
@@ -87,6 +91,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         break;
       case 'turnos':
         this.selectedOpt = 'turnos';
+        break;
+      case 'pacientes':
+        this.selectedOpt = 'pacientes';
         break;
     }
   }

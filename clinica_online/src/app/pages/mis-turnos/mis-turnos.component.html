@@ -163,8 +163,9 @@
                                           Reseña
                                         </button>
                                         <button class="button-7" style="margin-left: 0.5em;"
-                                        *ngIf="this.esPaciente && turno.estado == 'finalizado' && turno.resenia != '' && turno.resenia != undefined"
-                                        data-bs-toggle="modal" data-bs-target="#encuestaModal">
+                                        *ngIf="this.esPaciente && turno.estado == 'finalizado' && turno.resenia != '' && turno.resenia != undefined && (turno.encuesta == '' || turno.encuesta == undefined)" 
+                                        data-bs-toggle="modal" data-bs-target="#encuestaModal"
+                                        (click)="this.uidTurnoSeleccionado = turno.uid">
                                           Encuesta
                                         </button>
                                         <button class="button-7" style="margin-left: 0.5em;"

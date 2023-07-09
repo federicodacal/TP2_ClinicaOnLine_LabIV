@@ -1,1 +1,67 @@
-<p>pacientes works!</p>
+
+<div class="row">
+    <div class="col-3">
+        <app-navbar [selectedOpt]="'pacientes'"></app-navbar>
+    </div>
+    <div class="col-9">
+      <div class="container">
+        <div class="row">
+          <div class="card col-9 offset-1 scale-up-top mb-2" style="height: auto; margin-left: 1em;">
+            <div class="card-body">
+              <h2 class="card-title">Seleccion de Usuarios</h2>
+              <div> 
+
+              </div>
+
+                  <span class="loader mt-1" *ngIf="this.loading"></span>
+
+                  <table class="table" *ngIf="!this.loading">
+                    <thead>
+                      <tr>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">HORA</th>
+                        <th scope="col">ESPECIALIDAD</th>
+                        <th scope="col">ESPECIALISTA</th>
+                        <th scope="col">PACIENTE</th>
+                        <th scope="col">ESTADO</th>
+                        <!-- 
+                        <th scope="col">ACCIÓN</th>
+                        -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="tr-tabla" *ngFor="let turno of arrayTurnosFiltro">
+                        <td>
+                          <span>{{turno.dia}}</span>
+                        </td>
+                        <td>
+                          <span>{{turno.horario}}</span>
+                        </td>
+                        <td>
+                          <span>{{turno.especialidad}}</span>
+                        </td>
+                        <td>
+                          <span>{{turno.nombreEspecialista}}</span>
+                        </td>
+                        <td>
+                          <span>{{turno.nombrePaciente}}</span>
+                        </td>
+                        <td>
+                            <span style="text-transform: uppercase; font-weight: 600;">
+                              {{turno.estado}}
+                            </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                    
+
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+
+</div>
+

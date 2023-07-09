@@ -18,7 +18,8 @@ export class AuthService {
         if (user) {
           const userRef = doc(this.firestore, `users/${user.uid}`);
           return docData(userRef, {idField:'uid'}) as Observable<any>;
-        } else {
+        } 
+        else {
           return of(null);
         }
       })
