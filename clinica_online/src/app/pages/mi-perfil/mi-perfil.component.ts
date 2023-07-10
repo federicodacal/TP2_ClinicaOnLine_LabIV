@@ -17,11 +17,15 @@ export class MiPerfilComponent implements OnInit {
   logo:string='assets/img/icon.png';
 
   historialClinicoPaciente:any[] = [];
+  arrayTurnosFiltro:any[] = []
+  arrayEspecialistas:any[] = [];
+  especialistaSeleccionado:any = null;
 
   view:string='mi-perfil';
   btn:string='MIS HORARIOS';
 
   fechaActual:string='';
+  mostrarFiltro:string='';
 
   loading:boolean = false;
 
@@ -36,9 +40,16 @@ export class MiPerfilComponent implements OnInit {
 
       if(this.user.perfil == 'paciente') {
         this.db.getTurnosByPaciente(this.user.uid).subscribe((res:any) => {
-          this.historialClinicoPaciente = res.filter((t:any) => t.estado == 'finalizado');
 
+          this.historialClinicoPaciente = res.filter((t:any) => t.estado == 'finalizado');
+          this.arrayTurnosFiltro = this.historialClinicoPaciente.slice();
           console.log('historial clinico',this.historialClinicoPaciente);
+
+          this.historialClinicoPaciente.forEach((t:any) => {
+            if(!this.arrayEspecialistas.some(esp => esp.uid === t.uidEspecialista)) {
+              this.arrayEspecialistas.push({uid:t.uidEspecialista, nombre:t.nombreEspecialista})
+            }
+          });
         });
       }
 
@@ -98,6 +109,28 @@ export class MiPerfilComponent implements OnInit {
   }
   */
 
+  onClickFiltro(queFiltro:string) {
+    if(queFiltro == 'especialista') {
+      this.mostrarFiltro = 'especialista';
+      this.arrayTurnosFiltro = this.historialClinicoPaciente.slice();
+    }
+  }
+
+  onClickFiltroEspecialista(uid:string) {
+
+    if(this.especialistaSeleccionado == uid) {
+      this.especialistaSeleccionado = null;
+      this.arrayTurnosFiltro = this.historialClinicoPaciente.slice();
+    }
+    else {
+      this.especialistaSeleccionado = uid;
+      this.arrayTurnosFiltro = this.historialClinicoPaciente.filter(t => t.uidEspecialista == uid);
+      console.log('filtro', this.arrayTurnosFiltro);
+    }
+
+    console.log(uid);
+  }
+
   cargarFecha() {
     this.fechaActual = new Date(Date.now()).toDateString();
   }
@@ -132,7 +165,7 @@ export class MiPerfilComponent implements OnInit {
         return doc;
       })
       .then((docResult) => {
-        docResult.save(`historial_clinico.pdf`);
+        docResult.save(`historial_clinico_${this.user.lastName}.pdf`);
       });
   }
 }

@@ -115,19 +115,79 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-            <button type="button" class="btn btn-info" data-bs-dismiss="modal"
-            (click)="crearPDF()">
-            <i class="fa-solid fa-file-pdf"></i>
-              DESCARGAR PDF
-            </button>
-            <div style="text-align: center;">
-                <h4 class="modal-title" style="color:rgb(47, 72, 214); font-size: 48px;">HISTORIAL CLINICO</h4>
+
+            <div *ngIf="this.historialClinicoPaciente.length > 0">
+                
+                <button type="button" class="btn btn-info mb-2" data-bs-dismiss="modal"     
+                (click)="crearPDF()">
+                <i class="fa-solid fa-file-pdf"></i>
+                DESCARGAR PDF
+                </button>
+
+                <div class="mb-1">
+                    <span style="font-size: 20px; float:left; font-weight: 700;">Filtrar por: &nbsp;</span>
+                    <button class="button-7 mb-1"(click)="onClickFiltro('especialista')"
+                    [ngClass]="this.mostrarFiltro == 'especialista' ? 'clicked-btn7' : ''">
+                    Especialista
+                </button>
+                <br>
+
+                <div class="container mb-2">
+                    <div class="row" *ngIf="this.mostrarFiltro == 'especialista'" style="float:left">
+                      <div class="col-3" *ngFor="let e of this.arrayEspecialistas" style="margin-right: 1em;margin-left: 1.5em; margin-bottom: 1em;">
+                        <button class="button-7" 
+                        [ngClass]="this.especialistaSeleccionado === e.uid ? 'clicked-btn7' : ''"
+                        (click)="onClickFiltroEspecialista(e.uid)">
+                          {{e.nombre}}
+                        </button>
+                      </div>
+                    </div>
+
+                </div>
+                <br>
             </div>
         </div>
         
-        <div id="pdf">
-            <div style="margin-left: 2em;">
+        <div *ngIf="this.historialClinicoPaciente.length > 0"> 
+            <br>
+            <div id="pdf">
+                 
+                <div style="text-align: center;">
+                    <h4 class="modal-title" style="color:rgb(47, 72, 214); font-size: 48px;">HISTORIAL CLINICO</h4>
+                </div>
 
+                <div style="margin-left: 2em;">
+    
+                    <div style="text-align: center;">
+                        <span style="font-weight: 700; font-size: 20px;">{{this.user.lastName}}, {{this.user.name}} </span>  
+        
+                        <p> {{fechaActual}}</p>
+        
+                        <img [src]='logo' alt="ico" style="width: 120px; border-radius: 50%;">
+        
+                        <p style="font-size: 22px;">Clinica OnLine: <strong>DACAL HEALTH</strong></p>
+                    </div>
+    
+                    <hr>
+                    <div *ngFor="let h of arrayTurnosFiltro">
+                        <p style="margin-top: 1em;">Fecha: <strong>{{h.dia}} {{h.horario}}</strong></p>
+                        <p>Especialidad: <strong>{{h.especialidad}}</strong></p>
+                        <p>Especialista: <strong>{{h.nombreEspecialista}}</strong></p>
+                        <p>Reseña: <strong>{{h.resenia}}</strong></p>
+                        <p>Altura: <strong>{{h.altura}} mts</strong></p>
+                        <p>Peso: <strong>{{h.peso}} kgs</strong></p>
+                        <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
+                        <p>Presion: <strong>{{h.presion}} </strong></p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="this.historialClinicoPaciente.length == 0">
+        
+            <div style="margin-left: 1em;">
+    
                 <div style="text-align: center;">
                     <span style="font-weight: 700; font-size: 20px;">{{this.user.lastName}}, {{this.user.name}} </span>  
     
@@ -136,22 +196,11 @@
                     <img [src]='logo' alt="ico" style="width: 120px; border-radius: 50%;">
     
                     <p style="font-size: 22px;">Clinica OnLine: <strong>DACAL HEALTH</strong></p>
-                </div>
 
-                <hr>
-                <div *ngFor="let h of historialClinicoPaciente">
-                    <p style="margin-top: 1em;">Fecha: <strong>{{h.dia}} {{h.horario}}</strong></p>
-                    <p>Especialidad: <strong>{{h.especialidad}}</strong></p>
-                    <p>Especialista: <strong>{{h.nombreEspecialista}}</strong></p>
-                    <p>Reseña: <strong>{{h.resenia}}</strong></p>
-                    <p>Altura: <strong>{{h.altura}} mts</strong></p>
-                    <p>Peso: <strong>{{h.peso}} kgs</strong></p>
-                    <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
-                    <p>Presion: <strong>{{h.presion}} </strong></p>
-                    <hr>
+                    <p>No tiene historia clínica.</p>
                 </div>
-            </div>
-        </div>
+        </div> 
+        
 
   
         <!-- Modal footer -->
