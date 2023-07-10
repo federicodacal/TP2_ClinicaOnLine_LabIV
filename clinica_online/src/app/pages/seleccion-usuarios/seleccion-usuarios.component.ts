@@ -116,4 +116,8 @@ export class SeleccionUsuariosComponent implements OnInit, OnDestroy {
       });
   }
 
+  crearExcel() {
+    
+  }
+
 }
