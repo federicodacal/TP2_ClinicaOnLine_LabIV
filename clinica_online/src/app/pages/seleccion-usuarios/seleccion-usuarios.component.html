@@ -10,10 +10,21 @@
             <div class="card-body" *ngIf="this.view == 'seleccion-usuarios'">
               <h2 class="card-title">Seleccion de Usuarios</h2>
               <div> 
-                <button *ngIf="!this.loading" style="float:left; margin-bottom: 0.5em;"
-                  class="button-33-new" (click)="this.view = 'registro'">
-                  <i class="fa-solid fa-user-plus"></i>
-                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <button *ngIf="!this.loading" style="float:left; margin-bottom: 0.5em;"
+                      class="button-33-new" (click)="this.view = 'registro'">
+                      <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button *ngIf="!this.loading" style="float:right; margin-bottom: 0.5em;"
+                      class="button-33-new" (click)="crearExcelUsuarios()">
+                      <i class="fa-solid fa-table"></i>
+                      EXCEL
+                    </button>
+                  </div>
+                </div>
               </div>
 
                   <span class="loader mt-1" *ngIf="this.loading"></span>
@@ -37,7 +48,7 @@
                               mat-fab
                               class="btn-fav"
                               title="Detalles"
-                              (click)="crearExcel()">                              
+                              (click)="crearExcelUsuarioSeleccionado(user)">                              
                               <img class="img-btn" src="{{user.imgPerfil}}" alt="imagen"/>
                             </button>
                           </td>
