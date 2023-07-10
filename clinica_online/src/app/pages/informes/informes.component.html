@@ -1,1 +1,27 @@
-<p>informes works!</p>
+<div class="row">
+    <div class="col-3">
+        <app-navbar [selectedOpt]="'informes'"></app-navbar>
+    </div>
+    <div class="col-9">
+        <div class="container">
+            <div class="row">
+                <div class="card col-9 offset-1 scale-up-top" style="height: auto; margin-left: 1em; margin-bottom: 2em;">
+                    <img class="card-img-top mt-2" [src]="logo" alt="ico" [ngStyle]="{'width':'7.5rem'}">
+                    <div class="card-body">
+                        <h2 class="card-title">Informes</h2>
+
+                        <button (click)="show()">Mostrar</button>
+                        <div class="ct-chart" id="chart" style="height: 50vh"></div>
+
+                        <div class="col-12">
+                            <button class="button-33" role="button" (click)="volver()">
+                                <i class="fa-solid fa-key"></i>
+                                VOLVER
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ import { SolicitarTurnoComponent } from './pages/solicitar-turno/solicitar-turno
 import { TurnosComponent } from './pages/turnos/turnos.component';
 import { AdminGuard } from './guards/admin.guard';
 import { PacientesComponent } from './pages/pacientes/pacientes.component';
+import { InformesComponent } from './pages/informes/informes.component';
 
 const routes: Routes = [
   { 
@@ -40,6 +41,9 @@ const routes: Routes = [
   },
   {
     path: 'pacientes', component:PacientesComponent
+  },
+  {
+    path: 'informes', component:InformesComponent
   }
 ];
 

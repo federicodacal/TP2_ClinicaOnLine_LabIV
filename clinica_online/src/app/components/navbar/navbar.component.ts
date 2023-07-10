@@ -95,6 +95,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
       case 'pacientes':
         this.selectedOpt = 'pacientes';
         break;
+      case 'informes':
+        this.selectedOpt = 'informes';
+        break;
     }
   }
 
