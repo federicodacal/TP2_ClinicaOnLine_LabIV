@@ -107,6 +107,12 @@
               <span style="margin-left: 0.5em;">Turnos</span>  
             </a>
           </li>
+          <li class="nav nav-pills flex-column mb-auto" (click)="onClickSidebar('informes')" *ngIf="this.user && this.user.perfil == 'administrador' && !this.loading">
+            <a class="nav-link text-white" [routerLink]="'/informes'" [ngClass]="this.selectedOpt == 'informes' ? 'clicked' : ''">   
+              <i class="fa-solid fa-chart-simple"></i>
+              <span style="margin-left: 0.5em;">Informes</span>  
+            </a>
+          </li>
         </ul>
         <hr>
         <div class="dropdown" *ngIf="!this.loading">

@@ -8,7 +8,7 @@
         <div class="row">
           <div class="card col-9 offset-1 scale-up-top mb-2" style="height: auto; margin-left: 1em;">
             <div class="card-body">
-              <h2 class="card-title">Seleccion de Usuarios</h2>
+              <h2 class="card-title">Pacientes</h2>
               <div> 
 
               </div>
@@ -18,38 +18,35 @@
                   <table class="table" *ngIf="!this.loading">
                     <thead>
                       <tr>
-                        <th scope="col">FECHA</th>
-                        <th scope="col">HORA</th>
-                        <th scope="col">ESPECIALIDAD</th>
-                        <th scope="col">ESPECIALISTA</th>
-                        <th scope="col">PACIENTE</th>
-                        <th scope="col">ESTADO</th>
-                        <!-- 
-                        <th scope="col">ACCIÓN</th>
-                        -->
+                        <th scope="col">DETALLE</th>
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">APELLIDO</th>
+                        <th scope="col">OBRA SOCIAL</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="tr-tabla" *ngFor="let turno of arrayTurnosFiltro">
+                      <tr class="tr-tabla" *ngFor="let p of pacientes">
                         <td>
-                          <span>{{turno.dia}}</span>
+                          <button
+                            type="button"
+                            color="light"
+                            mat-fab
+                            class="btn-fav"
+                            title="Detalles"
+                            (click)="mostrarPaciente(p)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalHistorialPaciente">
+                            <img class="img-btn" src="{{p.imgPerfil}}" alt="imagen"/>
+  
+                          </button>
+                        <td>
+                          <span>{{p.name}}</span>
                         </td>
                         <td>
-                          <span>{{turno.horario}}</span>
+                          <span>{{p.lastName}}</span>
                         </td>
                         <td>
-                          <span>{{turno.especialidad}}</span>
-                        </td>
-                        <td>
-                          <span>{{turno.nombreEspecialista}}</span>
-                        </td>
-                        <td>
-                          <span>{{turno.nombrePaciente}}</span>
-                        </td>
-                        <td>
-                            <span style="text-transform: uppercase; font-weight: 600;">
-                              {{turno.estado}}
-                            </span>
+                          <span>{{p.obraSocial}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -65,3 +62,59 @@
 
 </div>
 
+
+<!-- ################################## MODAL HISTORIAL CLINICO ################################## -->
+<div class="modal fade modal-xl" id="modalHistorialPaciente" *ngIf="this.user != null && this.user.perfil == 'especialista'" tabindex="-1" aria-labelledby="modalHistorialPaciente"
+data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="this.pacienteSeleccionado != null">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+          <div style="text-align: center;">
+              <h4 class="modal-title" style="color:rgb(47, 72, 214); font-size: 48px;">HISTORIAL CLINICO</h4>
+          </div>
+      </div>
+      
+      <div id="pdf">
+          <div style="margin-left: 2em;">
+
+              <div style="text-align: center;">
+                  <span style="font-weight: 700; font-size: 20px;">{{this.pacienteSeleccionado.lastName}}, {{this.pacienteSeleccionado.name}} </span> 
+              </div>
+
+              <hr>
+              <div *ngFor="let h of historialClinicoPacienteSeleccionado">
+                  <p style="margin-top: 1em;">Fecha: <strong>{{h.dia}} {{h.horario}}</strong></p>
+                  <p>Especialidad: <strong>{{h.especialidad}}</strong></p>
+                  <p>Especialista: <strong>{{h.nombreEspecialista}}</strong></p>
+                  <p>Altura: <strong>{{h.altura}} mts</strong></p>
+                  <p>Peso: <strong>{{h.peso}} kgs</strong></p>
+                  <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
+                  <p>Presion: <strong>{{h.presion}} </strong></p>
+                  <button type="button" class="btn btn-info" data-dismiss="modal"
+                  (click)="verResenia(h.resenia)">
+                  <i class="fa-solid fa-clipboard"></i>
+                    RESEÑA
+                  </button>
+                  <hr>
+              </div>
+          </div>
+      </div>
+
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

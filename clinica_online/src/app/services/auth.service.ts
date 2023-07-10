@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, of, switchMap, throwError } from 'rxjs';
 import { Firestore, addDoc, collection, doc, docData, serverTimestamp, setDoc } from '@angular/fire/firestore';
 import { ToastService } from './toast.service';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   admin:boolean=false;
   userData:any = {};
 
-  constructor(private authentication:AngularFireAuth, private firestore:Firestore, private toast:ToastService) { 
+  constructor(private authentication:AngularFireAuth, private firestore:Firestore, private toast:ToastService, private db:DatabaseService) { 
     this.userData = this.authentication.authState.pipe(
       switchMap((user: any) => {
         if (user) {
@@ -26,17 +27,7 @@ export class AuthService {
     );
   }
 
-  async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado, imgPerfil, imgSecundaria}:any) {
-
-    /*
-    let user:any;
-
-    this.userData.subscribe((res:any) => {
-        user = res;
-        console.log(user);
-    });
-    */
-    
+  async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado, imgPerfil, imgSecundaria}:any) {    
      try {
       const credential = await this.authentication.createUserWithEmailAndPassword(email, password);
 
@@ -81,7 +72,20 @@ export class AuthService {
 
   async login({email, password}:any) {
     try {
-      return await this.authentication.signInWithEmailAndPassword(email, password);
+      //return await this.authentication.signInWithEmailAndPassword(email, password);
+      this.authentication.signInWithEmailAndPassword(email, password).then((res:any) => {
+
+        console.log('res en login', res.user.uid);
+
+        this.db.getUserByUid(res.user.uid).subscribe((user:any) => {
+
+          console.log(user);
+
+          if(user.perfil == 'administrador') {
+            this.admin = true;
+          }
+        });
+      });
     }
     catch (err:any) {
       console.log('err login', err);

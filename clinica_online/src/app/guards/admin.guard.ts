@@ -10,15 +10,18 @@ import { ToastService } from '../services/toast.service';
 export class AdminGuard implements CanActivate {
 
   constructor(private auth:AuthService, private router:Router, private toast:ToastService) {
-    this.auth.userData.subscribe((res:any) => {
-      console.log('res en guard', res);
-      if (!res) {
-        this.router.navigate(['']);
-      }
-      if (res.perfil == 'administrador') {
-        this.auth.admin = true;
-      }
-    });
+
+    if(!this.auth.admin) {
+      this.auth.userData.subscribe((res:any) => {
+        console.log('res en guard', res);
+        if (!res) {
+          this.router.navigate(['']);
+        }
+        if (res.perfil == 'administrador') {
+          this.auth.admin = true;
+        }
+      });
+    }
   }
 
   canActivate(
