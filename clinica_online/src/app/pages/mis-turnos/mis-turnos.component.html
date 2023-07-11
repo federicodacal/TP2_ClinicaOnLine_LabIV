@@ -37,6 +37,24 @@
                                     Paciente
                                   </button>
                                 </div>
+                                <div class="col-8" *ngIf="this.esPaciente">
+                                  <input
+                                  style="float: right;"
+                                  type="text"
+                                  [(ngModel)]="campoFiltrado"
+                                  (keyup)="buscarTurnoPorCamposEspecialista()"
+                                  placeholder="Búsqueda"
+                                />
+                                </div>
+                                <div class="col-8" *ngIf="this.esEspecialista">
+                                  <input
+                                  style="float: right;"
+                                  type="text"
+                                  [(ngModel)]="campoFiltrado"
+                                  (keyup)="buscarTurnoPorCamposPaciente()"
+                                  placeholder="Búsqueda"
+                                />
+                                </div>
                               </div>
                             </div>
 

@@ -54,8 +54,9 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   claveDatoDinamico3:string='';
   valorDatoDinamico3:string='';
 
-
   loading:boolean = false;
+
+  campoFiltrado:string='';
  
   constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService, private fb:FormBuilder) { }
 
@@ -345,6 +346,104 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
       this.comentarioCalificacion = '';
       this.calificacion = 6;
     }, 2000);
+  }
+
+  buscarTurnoPorCamposPaciente() {
+    this.arrayTurnosFiltro = [];
+    if (this.campoFiltrado == '') {
+      this.arrayTurnosFiltro = [...this.turnos];
+    } else {
+      const busqueda = this.campoFiltrado.trim().toLocaleLowerCase();
+
+      for (let i = 0; i < this.turnos.length; i++) {
+        const turno = this.turnos[i];
+
+        let clave1 = ''; 
+        let valor1 = '';
+        let clave2 = '';
+        let valor2 = '';
+        let clave3 = '';
+        let valor3 = '';
+
+        if(turno.datos != undefined && turno.datos != null) {
+          clave1 = turno.datos[0]?.clave.toLocaleLowerCase();
+          valor1 = turno.datos[0]?.valor.toLocaleLowerCase();
+          clave2 = turno.datos[1]?.clave.toLocaleLowerCase();
+          valor2 = turno.datos[1]?.valor.toLocaleLowerCase();
+          clave3 = turno.datos[2]?.clave.toLocaleLowerCase();
+          valor3 = turno.datos[2]?.valor.toLocaleLowerCase();
+        }
+
+        if (turno.dia.toLocaleLowerCase().includes(busqueda) ||
+          turno.especialidad.toLocaleLowerCase().includes(busqueda) ||
+          turno.estado.toLocaleLowerCase().includes(busqueda) ||
+          turno.horario.toLocaleLowerCase().includes(busqueda) ||
+          turno.nombrePaciente.toLocaleLowerCase().includes(busqueda) ||
+          turno?.resenia?.toLocaleLowerCase().includes(busqueda) ||
+          turno?.altura?.toString().includes(busqueda) ||
+          turno?.temperatura?.toString().includes(busqueda) ||
+          turno?.presion?.toString().includes(busqueda) ||
+          turno?.peso?.toString().includes(busqueda) || 
+          clave1!.includes(busqueda) || 
+          clave2!.includes(busqueda) || 
+          clave3!.includes(busqueda) || 
+          valor1!.includes(busqueda) || 
+          valor2!.includes(busqueda) || 
+          valor3!.includes(busqueda)) 
+          {
+            this.arrayTurnosFiltro.push(turno);
+          }
+      }
+    }
+  }
+
+  buscarTurnoPorCamposEspecialista() {
+    this.arrayTurnosFiltro = [];
+    if (this.campoFiltrado == '') {
+      this.arrayTurnosFiltro = [...this.turnos];
+    } else {
+      const busqueda = this.campoFiltrado.trim().toLocaleLowerCase();
+
+      for (let i = 0; i < this.turnos.length; i++) {
+        const turno = this.turnos[i];
+
+        let clave1 = ''; 
+        let valor1 = '';
+        let clave2 = '';
+        let valor2 = '';
+        let clave3 = '';
+        let valor3 = '';
+
+        if(turno.datos != undefined && turno.datos != null) {
+          clave1 = turno.datos[0]?.clave.toLocaleLowerCase();
+          valor1 = turno.datos[0]?.valor.toLocaleLowerCase();
+          clave2 = turno.datos[1]?.clave.toLocaleLowerCase();
+          valor2 = turno.datos[1]?.valor.toLocaleLowerCase();
+          clave3 = turno.datos[2]?.clave.toLocaleLowerCase();
+          valor3 = turno.datos[2]?.valor.toLocaleLowerCase();
+        }
+
+        if (turno.dia.toLocaleLowerCase().includes(busqueda) ||
+          turno.especialidad.toLocaleLowerCase().includes(busqueda) ||
+          turno.estado.toLocaleLowerCase().includes(busqueda) ||
+          turno.horario.toLocaleLowerCase().includes(busqueda) ||
+          turno.nombrePaciente.toLocaleLowerCase().includes(busqueda) ||
+          turno?.resenia?.toLocaleLowerCase().includes(busqueda) ||
+          turno?.altura?.toString().includes(busqueda) ||
+          turno?.temperatura?.toString().includes(busqueda) ||
+          turno?.presion?.toString().includes(busqueda) ||
+          turno?.peso?.toString().includes(busqueda) || 
+          clave1!.includes(busqueda) || 
+          clave2!.includes(busqueda) || 
+          clave3!.includes(busqueda) || 
+          valor1!.includes(busqueda) || 
+          valor2!.includes(busqueda) || 
+          valor3!.includes(busqueda)) 
+          {
+            this.arrayTurnosFiltro.push(turno);
+          }
+      }
+    }
   }
 
 }
