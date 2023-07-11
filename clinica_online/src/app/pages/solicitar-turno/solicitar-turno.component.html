@@ -50,7 +50,7 @@
                                     <div class="col-2 mb-1" *ngFor="let dia of this.dias">
                                         <button class="button-7" role="button" (click)="onClickFecha(dia)"
                                         [ngClass]="this.fechaSeleccionada == dia ? 'clicked-btn7' : ''">
-                                            {{dia | date:'mediumDate'}} 
+                                            {{ dia | shortDate }} 
                                         </button>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                     <div class="col-2 mb-1" *ngFor="let h of this.horariosDeInicioDeTurnos">
                                         <button class="button-7" role="button" (click)="onClickHorario(h)"
                                         [ngClass]="this.horarioSeleccionado == h ? 'clicked-btn7' : ''">
-                                            {{h}}
+                                            {{h | timeAmPm}}
                                         </button>
                                     </div>
                                 </div>

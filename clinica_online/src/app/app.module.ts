@@ -30,6 +30,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TurnosComponent } from './pages/turnos/turnos.component';
 import { PacientesComponent } from './pages/pacientes/pacientes.component';
 import { InformesComponent } from './pages/informes/informes.component';
+import { ShortDatePipe } from './pipes/short-date.pipe';
+import { TimeAmPmPipe } from './pipes/time-am-pm.pipe';
+import { LongDateEspPipe } from './pipes/long-date-esp.pipe';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,9 @@ import { InformesComponent } from './pages/informes/informes.component';
     TurnosComponent,
     PacientesComponent,
     InformesComponent,
+    ShortDatePipe,
+    TimeAmPmPipe,
+    LongDateEspPipe,
   ],
   imports: [
     BrowserModule,
