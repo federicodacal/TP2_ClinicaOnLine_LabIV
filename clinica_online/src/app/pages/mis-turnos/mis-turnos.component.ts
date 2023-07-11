@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -37,14 +38,26 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   calificacion:number=6;
   comentarioEncuesta:string='';
 
+  formTurno!:FormGroup;
+
   altura!:number;
   peso!:number;
   temperatura!:number;
   presion!:number;
 
+  claveDatoDinamico1:string='';
+  valorDatoDinamico1:string='';
+
+  claveDatoDinamico2:string='';
+  valorDatoDinamico2:string='';
+
+  claveDatoDinamico3:string='';
+  valorDatoDinamico3:string='';
+
+
   loading:boolean = false;
  
-  constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService) { }
+  constructor(private auth:AuthService, private db:DatabaseService, private toast:ToastService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
 
@@ -94,6 +107,23 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
               }
             });
           });
+
+
+          this.formTurno = this.fb.group({
+            //resenia:['', [Validators.required]],
+            altura:['', [Validators.required, Validators.min(0.2), Validators.max(3)]],
+            peso:['', [Validators.required, Validators.min(2), Validators.max(600)]],
+            temperatura:['', [Validators.required, Validators.min(1), Validators.max(60)]],
+            presion:['', [Validators.required, Validators.min(1), Validators.max(200)]],
+            reseniaTurno:['', [Validators.required]],
+            claveDatoDinamico1:[''],
+            valorDatoDinamico1:[''],
+            claveDatoDinamico2:[''],
+            valorDatoDinamico2:[''],
+            claveDatoDinamico3:[''],
+            valorDatoDinamico3:['']
+          });
+
         }
 
     });
@@ -170,64 +200,122 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
 
   onClickAccion(estado:string, turno:any) {
     this.uidTurnoSeleccionado = turno.uid;
-    this.db.updateEstadoTurno(turno.uid, estado).then(() => {
-      this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a ${estado}.`);
-    })
-    .catch((err) => {
-      this.toast.showError('Ocurrió un problema');
-      console.log(err);
-    });;
+
+    if(estado == 'aceptado' && this.uidTurnoSeleccionado != '') {
+      this.db.updateEstadoTurno(this.uidTurnoSeleccionado, 'aceptado')
+      .then(() => { 
+        this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a aceptado.`);
+      });
+    }
   }
 
+  
   dejarComentarioCancelacionTurno() {
-    if(this.uidTurnoSeleccionado != '') {
-      console.log('comentario', this.comentarioCancelacion);
-      this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion).then(() => {
-        this.toast.showSuccess('Comentario enviado');
+    if(this.uidTurnoSeleccionado != '' && this.comentarioCancelacion != '') {
+
+      this.db.updateEstadoTurno(this.uidTurnoSeleccionado, 'cancelado')
+      .then(() => {
+        this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a cancelado.`);
+
+        console.log('comentario', this.comentarioCancelacion);
+        this.db.updateComentarioCancelacionTurno(this.uidTurnoSeleccionado, this.comentarioCancelacion).then(() => {
+          this.toast.showSuccess('Comentario enviado');
+        });;
+
+      })
+      .catch((err) => {
+        this.toast.showError('Ocurrió un problema');
+        console.log(err);
       });;
+
+    } 
+    else {
+      this.toast.showWarning('No cancelado', 'Es requisito incluir un motivo de cancelación.');  
     }
-    this.comentarioCancelacion = '';
+    setTimeout(() => {
+      this.comentarioRechazo = '';
+    }, 2000);
   }
 
   dejarComentarioRechazoTurno() {
-    if(this.uidTurnoSeleccionado != '') {
-      console.log('comentario', this.comentarioRechazo);
-      this.db.updateComentarioRechazoTurno(this.uidTurnoSeleccionado, this.comentarioRechazo).then(() => {
-        this.toast.showSuccess('Comentario enviado');
-      });;
+    if(this.uidTurnoSeleccionado != '' && this.comentarioRechazo != '') {
+
+      this.db.updateEstadoTurno(this.uidTurnoSeleccionado, 'rechazado')
+      .then(() => {
+        this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a rechazado.`);
+
+        console.log('comentario', this.comentarioRechazo);
+        this.db.updateComentarioRechazoTurno(this.uidTurnoSeleccionado, this.comentarioRechazo)
+        .then(() => {
+          this.toast.showSuccess('Comentario enviado');
+        });;
+
+      })
     }
-    this.comentarioRechazo = '';
+    else {
+      this.toast.showWarning('No rechazado', 'Es requisito incluir un motivo de rechazo.');  
+    }
+    setTimeout(() => {
+      this.comentarioRechazo = '';
+    }, 2000);
   }
 
   dejarComentarioEncuestaTurno() {
-    if(this.uidTurnoSeleccionado != '') {
+    if(this.uidTurnoSeleccionado != '' && this.comentarioEncuesta != '') {
       console.log('encuesta', this.comentarioEncuesta);
       this.db.updateComentarioEncuesta(this.uidTurnoSeleccionado, this.comentarioEncuesta).then(() => {
         this.toast.showSuccess('Encuesta enviada');
       });;
     }
+    else {
+      this.toast.showWarning('No enviado', 'Campos incompletos');  
+    }
     this.comentarioEncuesta = '';
   }
 
   finalizarTurno() {
-    if(this.uidTurnoSeleccionado != '') {
+    if(this.uidTurnoSeleccionado != '' && this.reseniaTurno != '') {
 
-      if(this.altura != 0 && this.peso != 0 && this.temperatura != 0 && this.presion != 0) {
+      if(this.altura > 0 && this.altura < 3 && this.peso > 0 && this.peso < 500 && this.temperatura > 0 && this.presion > 0) {
 
-        console.log('reseña', this.reseniaTurno);
-        this.db.updateInformeTurno(this.uidTurnoSeleccionado, this.reseniaTurno, this.altura, this.peso, this.temperatura, this.presion).then(() => {
-          this.toast.showSuccess('Informe enviado');
-        });;
+        this.db.updateEstadoTurno(this.uidTurnoSeleccionado, 'finalizado').then(() => {
+
+          this.toast.showSuccess('Turno actualizado', `El estado del turno fue modificado a finalizado.`);
+
+          let arrayDatosDinamicos:any[]=[];
+
+          if(this.claveDatoDinamico1 != '' && this.valorDatoDinamico1 != '') {
+            arrayDatosDinamicos.push({clave:this.claveDatoDinamico1, valor:this.valorDatoDinamico1});
+
+            if(this.claveDatoDinamico2 != '' && this.valorDatoDinamico2 != '') {
+              arrayDatosDinamicos.push({clave:this.claveDatoDinamico2, valor:this.valorDatoDinamico2});
+
+              if(this.claveDatoDinamico2 != '' && this.valorDatoDinamico2 != '') {
+                arrayDatosDinamicos.push({clave:this.claveDatoDinamico3, valor:this.valorDatoDinamico3});
+              }
+            }
+          }
+
+          console.log('reseña', this.reseniaTurno);
+          this.db.updateInformeTurno(this.uidTurnoSeleccionado, this.reseniaTurno, this.altura, this.peso, this.temperatura, this.presion, arrayDatosDinamicos).then(() => {
+            this.toast.showSuccess('Informe enviado');
+          });
+        });
       }
       else {
-        this.toast.showWarning('Campos incomplemtos');
+        this.toast.showWarning('Campos incorrectos', 'Los datos ingresados deben ser válidos.');
       }
     }
-    this.altura = 0;
-    this.peso = 0;
-    this.temperatura = 0;
-    this.presion = 0;
-    this.reseniaTurno = '';
+    else {
+      this.toast.showWarning('Campos incomplemtos', 'Es requesito enviar una reseña de la atención y los datos obligatorios.');
+    }
+    setTimeout(() => {
+      this.altura = 0;
+      this.peso = 0;
+      this.temperatura = 0;
+      this.presion = 0;
+      this.reseniaTurno = '';
+    }, 2400);
   }
 
   verResenia(resenia:string) {
@@ -243,14 +331,20 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   }
 
   calificarAtencion() {
-    if(this.uidTurnoSeleccionado != '') {
+    if(this.uidTurnoSeleccionado != '' && this.comentarioCalificacion) {
+
       console.log('comentario', this.comentarioCalificacion);
       this.db.updateCalificacionTurno(this.uidTurnoSeleccionado, this.comentarioCalificacion, this.calificacion).then(() => {
         this.toast.showSuccess('Calificación enviada');
       });;
     }
-    this.comentarioCalificacion = '';
-    this.calificacion = 6;
+    else {
+      this.toast.showWarning('No enviado', 'Es requisto añadir un comentario de calificación.')
+    }
+    setTimeout(() => {
+      this.comentarioCalificacion = '';
+      this.calificacion = 6;
+    }, 2000);
   }
 
 }

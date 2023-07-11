@@ -149,6 +149,16 @@
                   <p>Peso: <strong>{{h.peso}} kgs</strong></p>
                   <p>Temperatura: <strong>{{h.temperatura}} C°</strong></p>
                   <p>Presion: <strong>{{h.presion}} </strong></p>
+
+                  <div *ngIf="h.datos != null && h.datos != undefined">
+                    <p>Datos adicionales:</p>
+                    <p *ngFor="let d of h.datos">
+                      <span *ngIf="d.clave != undefined && d.valor != undefined && d.clave != '' && d.valor != ''"> 
+                        {{d.clave}}: <strong>{{d.valor}}</strong>
+                      </span>
+                    </p>
+
+                </div>
                   <hr>
               </div>
             </div>

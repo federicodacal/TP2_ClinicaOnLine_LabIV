@@ -36,6 +36,7 @@ export class SeleccionUsuariosComponent implements OnInit, OnDestroy {
 
   subscription!:Subscription;
   subscriptionPaciente!:Subscription;
+  subscriptionExcelPaciente!:Subscription;
 
   constructor(private db:DatabaseService, private toast:ToastService) { }
 
@@ -56,6 +57,9 @@ export class SeleccionUsuariosComponent implements OnInit, OnDestroy {
 
     if(this.subscriptionPaciente != null) {
       this.subscriptionPaciente.unsubscribe();
+    }
+    if(this.subscriptionExcelPaciente != null) {
+      this.subscriptionExcelPaciente.unsubscribe();
     }
   }
 
@@ -153,7 +157,7 @@ export class SeleccionUsuariosComponent implements OnInit, OnDestroy {
       this.toast.showWarning('Operación no permitida', 'La descarga del historial de turnos puede realizar en usuarios de perfil paciente.')
     }
     else {
-      this.db.getTurnosByPaciente(user.uid).subscribe((res:any) => {
+      this.subscriptionExcelPaciente = this.db.getTurnosByPaciente(user.uid).subscribe((res:any) => {
         this.exportAsExcelFile(res, `turnos_${user.lastName}`);
       });
     }
