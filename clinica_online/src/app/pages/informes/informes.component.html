@@ -163,7 +163,7 @@
         <div class="modal-body">
           <button type="button" class="btn btn-info mb-2" data-bs-dismiss="modal"     
                 (click)="crearExcelLogs()">
-                <i class="fa-solid fa-file-pdf"></i>
+                <i class="fa-solid fa-table"></i>
                 EXCEL
             </button>
           <table class="table">
@@ -180,7 +180,6 @@
                 <td>
                   {{ log.date.toMillis() | date:'short'}}
                 </td>
-                <!-- <td>{{ log.id }}</td> -->
                 <td>{{ log.name }}</td>
                 <td>{{ log.lastName }}</td>
                 <td>{{ log.perfil }}</td>
