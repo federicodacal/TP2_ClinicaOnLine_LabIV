@@ -161,6 +161,11 @@
   
         <!-- Modal body -->
         <div class="modal-body">
+          <button type="button" class="btn btn-info mb-2" data-bs-dismiss="modal"     
+                (click)="crearExcelLogs()">
+                <i class="fa-solid fa-file-pdf"></i>
+                EXCEL
+            </button>
           <table class="table">
             <thead>
               <tr>
@@ -202,20 +207,20 @@
   
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title" style="color:rgb(20, 4, 248)">Turnos finalizados por médico</h4>
-          <br>       
+          <h4 class="modal-title" style="color:rgb(20, 4, 248)">Turnos finalizados por médico</h4> 
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
   
         <!-- Modal body -->
         <div class="modal-body">
 
+            <!-- 
             <button type="button" class="btn btn-info mb-2" data-bs-dismiss="modal"     
                 (click)="crearPDF('pdf_finalizados')">
                 <i class="fa-solid fa-file-pdf"></i>
                 DESCARGAR PDF
             </button>
-
+            -->
 
             <div id="pdf_finalizados">
                 <br>
@@ -246,8 +251,6 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title" style="color:rgb(20, 4, 248)">Turnos solicitados por médico</h4>
-          <br>
-          <small>Últimos 7 días</small>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
   

@@ -4,6 +4,14 @@ import { Subscription } from 'rxjs';
 import { DatabaseService } from 'src/app/services/database.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
+import { ToastService } from 'src/app/services/toast.service';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
+//import 'svg2pdf.js';
+//import { svg2pdf } from 'svg2pdf.js';
 
 @Component({
   selector: 'app-informes',
@@ -28,7 +36,9 @@ export class InformesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptionLogs = this.db.getLogs().subscribe((res:any) => {
-      this.logs = res;
+      this.logs = res.sort((l1:any,l2:any) => {
+        return l2.date.seconds - l1.date.seconds;
+      });
       console.log('logs', this.logs);
     });
 
@@ -384,12 +394,34 @@ export class InformesComponent implements OnInit, OnDestroy {
     return dates;
   }
 
-  crearSVG() {
-    
+  exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data'],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(
+      data,
+      fileName + '_excel' + EXCEL_EXTENSION
+    );
+  }
+
+  crearExcelLogs() {
+    this.exportAsExcelFile(this.logs, 'logs');
+  }
+
+  /*
   crearPDF(id:string) {
-    const DATA = document.getElementById(id);
+    const DATA = document.getElementById('chart_turnos_finalizados');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
@@ -398,16 +430,23 @@ export class InformesComponent implements OnInit, OnDestroy {
     //@ts-ignore
     html2canvas(DATA, options)
       .then((canvas) => {
-        const img = canvas.toDataURL('image/PNG');
+        const img = canvas.toDataURL('image/jpeg');
 
         const bufferX = 30;
         const bufferY = 30;
         const imgProps = (doc as any).getImageProperties(img);
         const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        if(DATA != null) {
+          doc.addSvgAsImage(img, 20, 50, 17, 20);
+          doc.save('elpdf.pdf');
+        }
+
+        /*
         doc.addImage(
           img,
-          'PNG',
+          'png',
           bufferX,
           bufferY,
           pdfWidth,
@@ -421,6 +460,16 @@ export class InformesComponent implements OnInit, OnDestroy {
         docResult.save(`turnosFinalizados.pdf`);
       });
   }
-  
+  */
+
+  /*
+  crear(id:string) {
+    const pdf = new jsPDF('l', 'mm', [98, 150]);
+    pdf.setFontSize(14);
+    //pdf.addSvgAsImage(svg, 1, 1, 100, 100, '', false);
+
+    pdf.save('label.pdf');
+  }
+  */
   
 }

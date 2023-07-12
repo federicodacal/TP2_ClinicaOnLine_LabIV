@@ -54,7 +54,7 @@ export class AuthService {
           else {
             return null;
           }
-
+          
         })
         .catch((err) => {
           this.toast.showError('Ocurrió un problema');
