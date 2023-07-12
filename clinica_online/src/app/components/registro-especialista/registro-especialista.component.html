@@ -51,18 +51,32 @@
 
             <div class="form-group col-4 mt-1">
               <label for="especialidad">Especialidad</label>
-
-                <input formControlName="especialidad" type="text" id="especialidad" class="form-control" name="especialidad" [(ngModel)]="especialidad">
-
-                <small style="color: rgb(255, 0, 0); font-weight: bold;"
-                  *ngIf="this.credentials.get('especialidad')?.invalid && this.credentials.get('especialidad')?.touched">
-                  Especialidad es requerida</small>
+                  <select
+                    style="width: 16.5rem"
+                    class="form-select"
+                    id="especialidad"
+                    formControlName="especialidad">
+                    
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="cardiologia">Cardiologia</option>
+                    <option value="electrofisiologia">Electrofisiologia</option>
+                    <option value="neurologia">Neurologia</option>
+                    <option value="traumatologia">Traumatologia</option>
+                    <option value="odontologia">Odontologia</option>
+                    <option value="otra">Otra</option>
+                  </select>
+                  <small
+                  style="color: rgb(255, 0, 0); font-weight: bold;"
+                    *ngIf=" credentials.controls['especialidad'].errors?.['required'] &&
+                    credentials.controls['especialidad'].touched">
+                    <strong>Respuesta requerida</strong>
+                  </small>
                 <br>
             </div>
 
             <div class="form-group col-4 mt-1">
 
-              <label for="especialidadDos">Especialidad (opcional)</label>
+              <label for="especialidadDos">Especialidad</label>
               <input formControlName="especialidadDos" type="text" id="especialidadDos" class="form-control" name="especialidadDos" [(ngModel)]="especialidadDos" maxlength="24">
               
               <br>
