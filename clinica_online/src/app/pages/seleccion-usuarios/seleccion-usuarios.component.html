@@ -19,7 +19,8 @@
                   </div>
                   <div class="col-6">
                     <button *ngIf="!this.loading" style="float:right; margin-bottom: 0.5em;"
-                      class="button-33-new" (click)="crearExcelUsuarios()">
+                      [appButton]="'excel'"
+                      (click)="crearExcelUsuarios()">
                       <i class="fa-solid fa-table"></i>
                       EXCEL
                     </button>
@@ -115,7 +116,7 @@
       <!-- Modal body -->
       <div class="modal-body">
           <button *ngIf="this.historialClinicoPacienteSeleccionado.length > 0"
-          type="button" class="btn btn-info" data-bs-dismiss="modal"
+          type="button" [appButton]="'pdf'" data-bs-dismiss="modal"
           (click)="crearPDF()">
           <i class="fa-solid fa-file-pdf"></i>
             DESCARGAR PDF

@@ -33,6 +33,9 @@ import { InformesComponent } from './pages/informes/informes.component';
 import { ShortDatePipe } from './pipes/short-date.pipe';
 import { TimeAmPmPipe } from './pipes/time-am-pm.pipe';
 import { LongDateEspPipe } from './pipes/long-date-esp.pipe';
+import { ButtonDirective } from './directives/button.directive';
+import { CardDirective } from './directives/card.directive';
+import { LogoDirective } from './directives/logo.directive';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,9 @@ import { LongDateEspPipe } from './pipes/long-date-esp.pipe';
     ShortDatePipe,
     TimeAmPmPipe,
     LongDateEspPipe,
+    ButtonDirective,
+    CardDirective,
+    LogoDirective,
   ],
   imports: [
     BrowserModule,

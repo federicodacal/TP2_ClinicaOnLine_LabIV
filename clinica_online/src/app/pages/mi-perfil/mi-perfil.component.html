@@ -118,8 +118,8 @@
 
             <div *ngIf="this.historialClinicoPaciente.length > 0">
                 
-                <button type="button" class="btn btn-info mb-2" data-bs-dismiss="modal"     
-                (click)="crearPDF()">
+                <button type="button" [appButton]="'pdf'" data-bs-dismiss="modal"     
+                (click)="crearPDF()" style="margin-bottom: 1em;">
                 <i class="fa-solid fa-file-pdf"></i>
                 DESCARGAR PDF
                 </button>
