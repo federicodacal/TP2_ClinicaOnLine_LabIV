@@ -5,12 +5,69 @@
     <div class="col-9">
         <div class="container">
             <div class="row">
-                <div class="card col-9 offset-1 scale-up-top" style="height: auto; margin-left: 1em; margin-bottom: 2em;">
-                    <img class="card-img-top mt-2" [src]="logo" alt="ico" [ngStyle]="{'width':'7.5rem'}">
+                <div class="card col-10 offset-1 scale-up-top" style="height: auto; margin-left: 1em; margin-bottom: 2em;">
                     <div class="card-body">
                         <h2 class="card-title">Informes</h2>
 
-                        <button (click)="show()">Mostrar</button>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card" style="width: 18rem; margin-left: 2em;">
+                                    <img src="assets/img/bar.png" class="card-img-top mt-2" alt="turnospordia">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><strong>Turnos por día</strong></h5>
+                                      <a class="btn btn-primary">VER</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card" style="width: 18rem;">
+                                    <img src="assets/img/piechart.png" class="card-img-top mt-2" alt="graficotorta">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><strong>Turnos por especialidad</strong></h5>
+                                      <a  class="btn btn-primary">VER</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card" style="width: 18rem; margin-left: 2em;">
+                                    <img src="assets/img/medical-history.png" class="card-img-top mt-2" alt="turnosfinalizados">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><strong>Turnos finalizados por médico</strong></h5>
+                                      <a class="btn btn-primary">VER</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card" style="width: 18rem;">
+                                    <img src="assets/img/medical-team.png" class="card-img-top mt-2" alt="turnossolicitados">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><strong>Turnos solicitados por médico</strong></h5>
+                                      <a class="btn btn-primary">VER</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6 offset-3">
+                                <div class="card" style="width: 18rem;">
+                                    <img src="assets/img/log.png" class="card-img-top mt-2" alt="logs">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><strong>Logs de ingreso</strong></h5>
+                                      <a
+                                      class="btn btn-primary"
+                                      data-bs-toggle="modal" data-bs-target="#logsModal">
+                                        VER
+                                      </a>
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>
+
+                        <button (click)="mostrarChartTurnosPorEspecialidad()">piechart</button>
                         <div class="ct-chart" id="chart" style="height: 50vh"></div>
 
                         <div class="col-12">
@@ -25,3 +82,50 @@
         </div>
     </div>
 </div>
+
+<!-- ################################## MODAL CANCELAR ################################## -->
+<div class="modal" id="logsModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="color:rgb(20, 4, 248)">Logs</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">FECHA</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">APELLIDO</th>
+                <th scope="col">PERFIL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tr-tabla" *ngFor="let log of logs">
+                <td>
+                  {{ log.date.toMillis() | date:'short'}}
+                </td>
+                <!-- <td>{{ log.id }}</td> -->
+                <td>{{ log.name }}</td>
+                <td>{{ log.lastName }}</td>
+                <td>{{ log.perfil }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            OK
+          </button>
+        </div>
+  
+      </div>
+    </div>
+  </div>

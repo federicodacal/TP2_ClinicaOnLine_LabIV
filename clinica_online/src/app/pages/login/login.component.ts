@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   subscriptionUser!:Subscription;
 
-  constructor(private auth:AuthService, private router:Router, private fb:FormBuilder, private toast:ToastService) { }
+  constructor(private auth:AuthService, private router:Router, private fb:FormBuilder, private toast:ToastService, private db:DatabaseService) { }
   
 
   ngOnInit(): void {
@@ -102,6 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }
                 else {
                   this.toast.showSuccess('Sesión iniciada', `Bienvenid@, ${user.name}.`);
+                  this.db.saveLog(user);
                   await this.router.navigate(['']);
                 }
               }

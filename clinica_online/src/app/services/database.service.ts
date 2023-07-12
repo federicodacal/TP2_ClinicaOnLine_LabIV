@@ -117,4 +117,21 @@ export class DatabaseService {
     const docRef = doc(this.firestore, `turnos/${uid}`);
     return updateDoc(docRef, {encuesta:comentario});
   }
+
+  saveLog(user:any) {
+    const log:any = {
+      date: new Date(),
+      userId: user.uid,
+      perfil: user.perfil,
+      name: user.name,
+      lastName: user.lastName
+    }
+    const collRef = collection(this.firestore, 'logs');
+    return addDoc(collRef, log); 
+  }
+
+  getLogs() {
+    const collRef = collection(this.firestore, 'logs');
+    return collectionData(collRef, {idField:'uid'}) as Observable<any[]>;
+  }
 }
