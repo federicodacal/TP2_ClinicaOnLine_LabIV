@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PieChart, PieChartOptions, ResponsiveOptions } from 'chartist';
+import { PieChart, BarChart, PieChartOptions, BarChartOptions, ResponsiveOptions } from 'chartist';
 import { Subscription } from 'rxjs';
 import { DatabaseService } from 'src/app/services/database.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-informes',
@@ -12,6 +14,7 @@ export class InformesComponent implements OnInit, OnDestroy {
 
   logo:string='assets/img/icon.png';
 
+  dias:Date[] = [];
   logs:any[] = [];
   turnos:any[] = [];
 
@@ -43,6 +46,8 @@ export class InformesComponent implements OnInit, OnDestroy {
         }
       });
     });
+
+    this.dias = this.getDatesBetween();
   }
 
   ngOnDestroy(): void {
@@ -102,7 +107,7 @@ export class InformesComponent implements OnInit, OnDestroy {
       ]
     ];
 
-    new PieChart('#chart', data, options, responsiveOptions);
+    new PieChart('#chart_especialidades', data, options, responsiveOptions);
   }
 
   mostrarChartTurnosPorDia() {
@@ -150,6 +155,7 @@ export class InformesComponent implements OnInit, OnDestroy {
       }
     }
 
+    /*
     const data = {
       labels: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
       series: [contLunes, contMartes, contMiercoles, contJueves, contViernes, contSabado]
@@ -158,7 +164,7 @@ export class InformesComponent implements OnInit, OnDestroy {
     const options: PieChartOptions = {
       labelInterpolationFnc: value => String(value)[0]
     };
-
+    
     const responsiveOptions: ResponsiveOptions<PieChartOptions> = [
       [
         'screen and (min-width: 640px)',
@@ -177,28 +183,66 @@ export class InformesComponent implements OnInit, OnDestroy {
         }
       ]
     ];
-
-    new PieChart('#chart', data, options, responsiveOptions);
+    
+    new PieChart('#chart_dias', data, options, responsiveOptions);
+    */
+    
+    const data = {
+      labels: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+      series: [contLunes, contMartes, contMiercoles, contJueves, contViernes, contSabado]
+    };
+    
+    const options: BarChartOptions = {
+      high: 10,
+      low: 0,
+      distributeSeries: true
+    };
+    
+    new BarChart('#chart_dias', data, options);
+    
   }
 
-  // 7 dias, 30 dias
+  // 7 dias
   mostrarChartTurnosFinalizadosPorMedico() {
 
-  }
+    let arrayEsp:string[] = [];
+    let arrayCont:number[] = [];
 
-  // 7 dias, 30 dias
-  mostrarChartTurnosSolicitadosPorMedico() {
+    this.arrayEspecialsitas.forEach(r => {
+      arrayEsp.push(r.nombre);
+      arrayCont.push(0);
+    });
 
-  }
+    let turnosFinalizados = this.turnos.filter(t => t.estado == 'finalizado');
 
-  showPieChart() {
+    for(let i=0; turnosFinalizados.length > i; i++) {
+
+      let array = turnosFinalizados[i].dia.split('/');
+      let day = array[0];
+      let month = parseInt(array[1])-1;
+      let year = parseInt(`20${array[2]}`);
+
+      let dia = new Date(year,month,day);
+
+      for(let j=0; arrayEsp.length > j; j++) {
+        if(dia < this.dias[this.dias.length-1] && dia > this.dias[0]) {
+          if(turnosFinalizados[i].nombreEspecialista == arrayEsp[j]) {
+            arrayCont[j]++;
+            console.log(turnosFinalizados[i].nombreEspecialista);
+            console.log(dia);
+          }
+        }
+      }
+    }
+
     const data = {
-      labels: ['Bananas', 'Apples', 'Grapes'],
-      series: [20, 15, 40]
+      labels: arrayEsp,
+      series: arrayCont
     };
 
     const options: PieChartOptions = {
-      labelInterpolationFnc: value => String(value)[0]
+      labelInterpolationFnc: value => String(value)[0],
+      donut: true
     };
 
     const responsiveOptions: ResponsiveOptions<PieChartOptions> = [
@@ -220,11 +264,162 @@ export class InformesComponent implements OnInit, OnDestroy {
       ]
     ];
 
-    new PieChart('#chart', data, options, responsiveOptions);
+    new PieChart('#chart_turnos_finalizados', data, options, responsiveOptions);
+
+    /*
+    this.turnos.forEach(t => {
+
+      let array = t.dia.split('/');
+      let day = array[0];
+      let month = parseInt(array[1])-1;
+      let year = parseInt(`20${array[2]}`);
+
+      //console.log(day + month + year);
+      //console.log('t.dia', t.dia);
+      //console.log('moth', month);
+      //console.log('moth+1', parseInt(month)+1);
+      
+      let dia = new Date(year,month,day);
+
+      //console.log('dia turno', dia);
+      //console.log('this.dias length-1', this.dias[this.dias.length-1]);
+      //console.log('this.dias 0', this.dias[0]);
+      //console.log('****************************************');
+      //console.log(dia < this.dias[length-1]);
+      //console.log(dia > this.dias[0]);
+
+      this.arrayEspecialsitas.forEach(esp => {
+       if(dia < this.dias[this.dias.length-1] && dia > this.dias[0]) {
+        if(t.nombreEspecialista == esp.nombre) {
+          console.log(esp.nombre);
+          console.log(dia);
+        }
+       } 
+      });
+    });
+    */
+
   }
 
-  volver() {
+  // 7 dias
+  mostrarChartTurnosSolicitadosPorMedico() {
+    let arrayEsp:string[] = [];
+    let arrayCont:number[] = [];
 
+    this.arrayEspecialsitas.forEach(r => {
+      arrayEsp.push(r.nombre);
+      arrayCont.push(0);
+    });
+
+    for(let i=0; this.turnos.length > i; i++) {
+
+      let array = this.turnos[i].dia.split('/');
+      let day = array[0];
+      let month = parseInt(array[1])-1;
+      let year = parseInt(`20${array[2]}`);
+
+      let dia = new Date(year,month,day);
+
+      for(let j=0; arrayEsp.length > j; j++) {
+        if(dia < this.dias[this.dias.length-1] && dia > this.dias[0]) {
+          if(this.turnos[i].nombreEspecialista == arrayEsp[j]) {
+            arrayCont[j]++;
+            console.log(this.turnos[i].nombreEspecialista);
+            console.log(dia);
+          }
+        }
+      }
+    }
+
+    const data = {
+      labels: arrayEsp,
+      series: arrayCont
+    };
+
+    const options: PieChartOptions = {
+      labelInterpolationFnc: value => String(value)[0],
+      donut: true
+    };
+
+    const responsiveOptions: ResponsiveOptions<PieChartOptions> = [
+      [
+        'screen and (min-width: 640px)',
+        {
+          chartPadding: 30,
+          labelOffset: 100,
+          labelDirection: 'explode',
+          labelInterpolationFnc: value => value
+        }
+      ],
+      [
+        'screen and (min-width: 1024px)',
+        {
+          labelOffset: 80,
+          chartPadding: 20
+        }
+      ]
+    ];
+
+    new PieChart('#chart_turnos_solicitados', data, options, responsiveOptions);
+  }
+
+  // 7 dias atrás
+  getDatesBetween() {
+    let dates = [];
+    let currentDate:Date = new Date(Date.now());
+    //let today:any = new Date(currentDate).toDateString();
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
+    
+    //startDate.setDate(currentDate.getDate() - 15);
+
+    console.log('current', currentDate);
+    console.log('start', startDate);
+
+    while (startDate <= currentDate) {
+      dates.push(new Date(startDate));
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    console.log(dates);
+    return dates;
+  }
+
+  crearSVG() {
+    
+  }
+
+  crearPDF(id:string) {
+    const DATA = document.getElementById(id);
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 2,
+    };
+    //@ts-ignore
+    html2canvas(DATA, options)
+      .then((canvas) => {
+        const img = canvas.toDataURL('image/PNG');
+
+        const bufferX = 30;
+        const bufferY = 30;
+        const imgProps = (doc as any).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(
+          img,
+          'PNG',
+          bufferX,
+          bufferY,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
+        return doc;
+      })
+      .then((docResult) => {
+        docResult.save(`turnosFinalizados.pdf`);
+      });
   }
   
   
