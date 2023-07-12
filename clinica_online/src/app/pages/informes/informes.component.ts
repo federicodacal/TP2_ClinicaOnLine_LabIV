@@ -12,6 +12,8 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 //import 'svg2pdf.js';
 //import { svg2pdf } from 'svg2pdf.js';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-informes',
@@ -118,6 +120,8 @@ export class InformesComponent implements OnInit, OnDestroy {
     ];
 
     new PieChart('#chart_especialidades', data, options, responsiveOptions);
+
+    this.renderChart(data.labels, data.series, 'pie', 'piechart');
   }
 
   mostrarChartTurnosPorDia() {
@@ -210,6 +214,7 @@ export class InformesComponent implements OnInit, OnDestroy {
     
     new BarChart('#chart_dias', data, options);
     
+    this.renderChart(data.labels, data.series, 'bar', 'barchart');
   }
 
   // 7 dias
@@ -276,6 +281,7 @@ export class InformesComponent implements OnInit, OnDestroy {
 
     new PieChart('#chart_turnos_finalizados', data, options, responsiveOptions);
 
+    this.renderChart(data.labels, data.series, 'doughnut', 'dochart');
     /*
     this.turnos.forEach(t => {
 
@@ -308,7 +314,6 @@ export class InformesComponent implements OnInit, OnDestroy {
       });
     });
     */
-
   }
 
   // 7 dias
@@ -371,6 +376,8 @@ export class InformesComponent implements OnInit, OnDestroy {
     ];
 
     new PieChart('#chart_turnos_solicitados', data, options, responsiveOptions);
+
+    this.renderChart(data.labels, data.series, 'doughnut', 'dochart2');
   }
 
   // 7 dias atrás
@@ -420,8 +427,8 @@ export class InformesComponent implements OnInit, OnDestroy {
   }
 
   /*
-  crearPDF(id:string) {
-    const DATA = document.getElementById('chart_turnos_finalizados');
+  crearPDF() {
+    const DATA = document.getElementById('turnosPorDia');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
@@ -430,23 +437,16 @@ export class InformesComponent implements OnInit, OnDestroy {
     //@ts-ignore
     html2canvas(DATA, options)
       .then((canvas) => {
-        const img = canvas.toDataURL('image/jpeg');
+        const img = canvas.toDataURL('image/PNG');
 
         const bufferX = 30;
         const bufferY = 30;
         const imgProps = (doc as any).getImageProperties(img);
         const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-        if(DATA != null) {
-          doc.addSvgAsImage(img, 20, 50, 17, 20);
-          doc.save('elpdf.pdf');
-        }
-
-        /*
         doc.addImage(
           img,
-          'png',
+          'PNG',
           bufferX,
           bufferY,
           pdfWidth,
@@ -457,19 +457,107 @@ export class InformesComponent implements OnInit, OnDestroy {
         return doc;
       })
       .then((docResult) => {
-        docResult.save(`turnosFinalizados.pdf`);
+        docResult.save(`turnosPorDia.pdf`);
       });
-  }
-  */
-
-  /*
-  crear(id:string) {
-    const pdf = new jsPDF('l', 'mm', [98, 150]);
-    pdf.setFontSize(14);
-    //pdf.addSvgAsImage(svg, 1, 1, 100, 100, '', false);
-
-    pdf.save('label.pdf');
-  }
-  */
+  } */
   
+  newPdfTurnosPorDia() {
+    const canvas = document.getElementById('barchart');
+
+    if(canvas != null) {
+      //@ts-ignore
+      const canvasImage = canvas.toDataURL('image/jpeg, 1.0');
+
+      let pdf = new jsPDF();
+
+      pdf.addImage(canvasImage, 'JPEG', 12,12,130,130);
+
+      pdf.save(`turnosPorDia.pdf`);
+    }
+  }
+
+  newPdfTurnosPorEspecialidad() {
+    const canvas = document.getElementById('piechart');
+
+    if(canvas != null) {
+      //@ts-ignore
+      const canvasImage = canvas.toDataURL('image/jpeg, 1.0');
+
+      let pdf = new jsPDF();
+
+      pdf.addImage(canvasImage, 'JPEG', 12,12,130,130);
+
+      pdf.save(`turnosPorEspecialidad.pdf`);
+    }
+  }
+
+  newPdfTurnosFinalizadosPorMedico() {
+    const canvas = document.getElementById('dochart');
+
+    if(canvas != null) {
+      //@ts-ignore
+      const canvasImage = canvas.toDataURL('image/jpeg, 1.0');
+
+      let pdf = new jsPDF();
+
+      pdf.addImage(canvasImage, 'JPEG', 12,12,130,130);
+
+      pdf.save(`turnosFinalizadosPorMedico.pdf`);
+    }
+  }
+
+  newPdfTurnosSolicitadosPorMedico() {
+    const canvas = document.getElementById('dochart2');
+
+    if(canvas != null) {
+      //@ts-ignore
+      const canvasImage = canvas.toDataURL('image/jpeg, 1.0');
+
+      let pdf = new jsPDF();
+
+      pdf.addImage(canvasImage, 'JPEG', 12,12,130,130);
+
+      pdf.save(`turnosSolicitadosPorMedico.pdf`);
+    }
+  }
+
+  renderChart(labeldata:any, maindata:any, type:any, id:any) {
+    const myChart = new Chart(id, {
+      type: type,
+      data: {
+        labels: labeldata,
+        datasets: [{
+          label: 'Cantidad',
+          data: maindata,
+          backgroundColor: [
+            'rgba(255, 99, 132)',
+            'rgba(255, 159, 64)',
+            'rgba(255, 205, 86)',
+            'rgba(75, 192, 192)',
+            'rgba(54, 162, 235)',
+            'rgba(153, 102, 255)',
+            'rgba(201, 203, 207)'
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
 }

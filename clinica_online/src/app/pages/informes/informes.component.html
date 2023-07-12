@@ -8,7 +8,7 @@
                 <div class="card col-10 offset-1 scale-up-top" style="height: auto; margin-left: 1em; margin-bottom: 2em;">
                     <div class="card-body">
                         <h2 class="card-title">Informes</h2>
-
+                            
                         <div class="row">
                             <div class="col-6">
                                 <div class="card" style="width: 18rem; margin-left: 2em;" appCard>
@@ -103,8 +103,21 @@
   
         <!-- Modal body -->
         <div class="modal-body">
+
+            <button type="button" [appButton]="'pdf'" data-bs-dismiss="modal"     
+                (click)="newPdfTurnosPorDia()"
+                style="margin-bottom: 1em;">
+                <i class="fa-solid fa-file-pdf"></i>
+                DESCARGAR PDF
+            </button>
+
           <div>
             <div class="ct-chart" id="chart_dias" style="height: 50vh"></div>
+
+            <div>
+              <canvas id="barchart"></canvas>
+            </div>
+
           </div>
         </div>
         
@@ -132,8 +145,21 @@
   
         <!-- Modal body -->
         <div class="modal-body">
+
+          <button type="button" [appButton]="'pdf'" data-bs-dismiss="modal"     
+                (click)="newPdfTurnosPorEspecialidad()"
+                style="margin-bottom: 1em;">
+                <i class="fa-solid fa-file-pdf"></i>
+                DESCARGAR PDF
+            </button>
+
           <div>
             <div class="ct-chart" id="chart_especialidades" style="height: 50vh"></div>
+
+            <div>
+              <canvas id="piechart"></canvas>
+            </div>
+
           </div>
         </div>
         
@@ -213,19 +239,22 @@
         <!-- Modal body -->
         <div class="modal-body">
 
-            <!-- 
-            <button type="button" class="btn btn-info mb-2" data-bs-dismiss="modal"     
-                (click)="crearPDF('pdf_finalizados')">
-                <i class="fa-solid fa-file-pdf"></i>
-                DESCARGAR PDF
-            </button>
-            -->
+          <button type="button" [appButton]="'pdf'" data-bs-dismiss="modal"     
+            (click)="newPdfTurnosFinalizadosPorMedico()"
+            style="margin-bottom: 1em;">
+            <i class="fa-solid fa-file-pdf"></i>
+            DESCARGAR PDF
+          </button>
 
-            <div id="pdf_finalizados">
+            <div>
                 <br>
                 <small>Turnos finalizados por médico: ultimos siete días.</small>
                 <div>
                     <div class="ct-chart" id="chart_turnos_finalizados" style="height: 50vh"></div>
+                </div>
+
+                <div style="height: 55vh;">
+                  <canvas id="dochart"></canvas>
                 </div>
 
             </div>
@@ -255,11 +284,23 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-            <div id="pdf_solicitados">
+
+          <button type="button" [appButton]="'pdf'" data-bs-dismiss="modal"     
+            (click)="newPdfTurnosSolicitadosPorMedico()"
+            style="margin-bottom: 1em;">
+            <i class="fa-solid fa-file-pdf"></i>
+            DESCARGAR PDF
+          </button>
+
+            <div>
                 <br>
                 <small>Turnos solicitados por médico: ultimos siete días.</small>
                 <div>
                   <div class="ct-chart" id="chart_turnos_solicitados" style="height: 50vh"></div>
+                </div>
+
+                <div style="height: 55vh;">
+                  <canvas id="dochart2"></canvas>
                 </div>
     
             </div>
