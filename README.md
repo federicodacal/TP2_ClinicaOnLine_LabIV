@@ -44,7 +44,9 @@ administración de la misma.
 <h2>Registros</h2>
 
 <img src="clinica_online/src/assets/img/readme/registro_pac.JPG" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/registro_paciente.gif" width=500>
 <img src="clinica_online/src/assets/img/readme/registro_esp.JPG" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/registro_especialista.gif" width=500>
 
 <hr>
 
@@ -83,3 +85,5 @@ administración de la misma.
 <img src="clinica_online/src/assets/img/readme/turnos_adm.JPG" width=500>
 
 <hr>
+
+
