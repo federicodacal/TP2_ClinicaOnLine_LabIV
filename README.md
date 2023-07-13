@@ -1,9 +1,9 @@
 <hr>
-<h1>  Clinica OnLine: Dacal Health <h1>
+<h1 align="center">  Clinica OnLine: Dacal Health <h1>
 <hr>
 
-<img src="clinica_online/src/assets/img/icon.png" width=230>
-<h1 align="center">CLINICA ONLINE</h1>
+<img align="center" src="clinica_online/src/assets/img/icon.png" width=230>
+<h1 align="center">Dacal Health</h1>
 
 <hr>
 
