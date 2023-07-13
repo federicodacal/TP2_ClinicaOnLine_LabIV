@@ -77,12 +77,35 @@ administración de la misma.
 <h2>Seleccion usuarios</h2>
 
 <img src="clinica_online/src/assets/img/readme/selec_usuarios.JPG" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/seleccion_usuarios.gif" width=500>
 
 <hr>
 
 <h2>Turnos</h2>
 
 <img src="clinica_online/src/assets/img/readme/turnos_adm.JPG" width=500>
+
+<hr>
+
+<h2>Solicitud de turno y atención</h2>
+
+<img src="clinica_online/src/assets/img/readme/gifs/atencion_1.gif" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/atencion_2.gif" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/atencion_3.gif" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/searchbar_datos_dinamicos.gif" width=500>
+
+<hr>
+
+<h2>Historia clinica</h2>
+
+<img src="clinica_online/src/assets/img/readme/gifs/historia_clinica.gif" width=500>
+<img src="clinica_online/src/assets/img/readme/gifs/historia_clinica_2.gif" width=500>
+
+<hr>
+
+<h2>Informes</h2>
+
+<img src="clinica_online/src/assets/img/readme/gifs/informes.gif" width=500>
 
 <hr>
 
