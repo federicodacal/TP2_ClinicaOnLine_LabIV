@@ -13,8 +13,7 @@
                         <h2 class="card-title">Solicitar Turno</h2>
                         <div> 
                     </div>
-          
-                            
+                                  
                             <p class="card-text mt-1" style="font-size: 12px;">
                                 <strong>Especialidad</strong>
                              </p>
@@ -26,9 +25,17 @@
 
                             </div>
 
+                            <div style="display: flex; margin-right: auto; margin-left:auto" class="mb-2">
+
+                                <img *ngFor="let esp of arrayEspecialidades" class="card-img-top mt-1 img-btn" src="assets/img/especialidades/default.png" alt="especialidad"
+                                [ngStyle]="{'width':'3.5rem', 'height':'3.5rem', 'border-radius':'50%'}" 
+                                (click)="onClickSeleccionarEsp(esp)" [ngClass]="this.especialidadSeleccionada == esp ? 'clicked' : ''">
+
+                            </div>
+
                             <div class="mt-1" *ngIf="this.especialidadSeleccionada != ''">
                                 <hr>
-                                <span><strong>{{this.especialidadSeleccionada}}</strong></span>
+                                <span><strong>{{this.especialidadSeleccionada}} </strong></span>
 
                                 <div class="row"> 
 

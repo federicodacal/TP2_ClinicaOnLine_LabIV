@@ -11,6 +11,7 @@ import { DatabaseService } from './database.service';
 export class AuthService {
 
   admin:boolean=false;
+  user:any = {};
   userData:any = {};
 
   constructor(private authentication:AngularFireAuth, private firestore:Firestore, private toast:ToastService, private db:DatabaseService) { 
@@ -29,6 +30,7 @@ export class AuthService {
 
   async register({email, password, name, lastName, dni, edad, obraSocial, especialidad, perfil, habilitado, imgPerfil, imgSecundaria}:any) {    
      try {
+
       const credential = await this.authentication.createUserWithEmailAndPassword(email, password);
 
       console.info('credential: ', credential);
@@ -67,7 +69,7 @@ export class AuthService {
       console.log('err: ' + err);
       throw new Error(err);
       //return null;
-    }   
+    }
   }
 
   async login({email, password}:any) {
@@ -94,8 +96,11 @@ export class AuthService {
   }
 
 
-  logout() {
-    return this.authentication.signOut();
+  async logout() {
+    return this.authentication.signOut().then(() => {
+      this.admin = false;
+      this.user = null;
+    });
   }
 
   getUser() {

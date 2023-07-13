@@ -427,7 +427,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
           turno.especialidad.toLocaleLowerCase().includes(busqueda) ||
           turno.estado.toLocaleLowerCase().includes(busqueda) ||
           turno.horario.toLocaleLowerCase().includes(busqueda) ||
-          turno.nombrePaciente.toLocaleLowerCase().includes(busqueda) ||
+          turno.nombreEspecialista.toLocaleLowerCase().includes(busqueda) ||
           turno?.resenia?.toLocaleLowerCase().includes(busqueda) ||
           turno?.altura?.toString().includes(busqueda) ||
           turno?.temperatura?.toString().includes(busqueda) ||

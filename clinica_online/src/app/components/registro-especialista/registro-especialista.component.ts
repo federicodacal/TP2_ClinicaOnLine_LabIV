@@ -36,7 +36,7 @@ export class RegistroEspecialistaComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       dni: ['', [Validators.required, Validators.minLength(8)]],
-      especialidad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      especialidad: ['', [Validators.required]],
       especialidadDos: [''],
       edad: ['', [Validators.required, Validators.max(100)]],
       recaptcha: ['', Validators.required]
@@ -46,16 +46,36 @@ export class RegistroEspecialistaComponent implements OnInit {
   async register() {
     if(!this.credentials.invalid && this.imgPerfil != '') {
 
-      this.loading = true;
+      if(this.credentials.get('especialidad')?.value == 'otra' && this.especialidadDos == '') {
+        this.toast.showWarning('Debe especificar especialidad', 'Si se seleccionó la opción "otra" se debe indicar cuál es la especialidad');
+      }
+      else {
+        this.loading = true;
 
-      let arrayEspecialidades:string[] = [];
-      
-      arrayEspecialidades.push(this.credentials.get('especialidad')?.value);
+        let arrayEspecialidades:string[] = [];
 
-      if(this.especialidadDos != '') {
+      if(this.credentials.get('especialidad')?.value != 'otra') {
+
+        arrayEspecialidades.push(this.credentials.get('especialidad')?.value);
+  
+        if(this.especialidadDos != '') {
+
+          this.especialidadDos =  this.especialidadDos.trim().toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+          console.log(this.especialidadDos);
+
+          arrayEspecialidades.push(this.especialidadDos);
+        }
+      }
+      else {
+
+        this.especialidadDos = this.especialidadDos.trim().toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        console.log(this.especialidadDos);
+
         arrayEspecialidades.push(this.especialidadDos);
       }
-
+      
       const specialist = {
         email: this.credentials.get('email')?.value,
         password: this.credentials.get('password')?.value,
@@ -91,7 +111,8 @@ export class RegistroEspecialistaComponent implements OnInit {
           this.toast.showError('Ocurrió un problema');
           console.log('err', err);
           this.loading = false;
-        });
+        })
+      }
     }
     else {
       this.toast.showError('Es requerido cargar una imagen de perfil', 'Revise los campos.');

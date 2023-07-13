@@ -18,6 +18,9 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   especialistas:any[] = [];
   pacientes:any[] = [];
   especialistasFiltro:any[] = [];
+
+  arrayEspecialidades:string[] = [];
+
   user:any = null;
   especialidadSeleccionada:string='';
   especialistaSeleccionadoDB!:any;
@@ -28,11 +31,11 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
   dias:Date[] = [];
 
   especialidades:any[] = [
-    {nombre: 'Cardiologia', img:'assets/img/especialidades/cardiologia.png' },
-    {nombre: 'Electrofisiologia', img:'assets/img/especialidades/heart-beat.png' },
-    {nombre: 'Neurologia', img:'assets/img/especialidades/neurology.png' },
-    {nombre: 'Traumatologia', img:'assets/img/especialidades/orthopedics.png' },
-    {nombre: 'Odontologia', img:'assets/img/especialidades/dental.png' }
+    {nombre: 'cardiologia', img:'assets/img/especialidades/cardiologia.png' },
+    {nombre: 'electrofisiologia', img:'assets/img/especialidades/heart-beat.png' },
+    {nombre: 'neurologia', img:'assets/img/especialidades/neurology.png' },
+    {nombre: 'traumatologia', img:'assets/img/especialidades/orthopedics.png' },
+    {nombre: 'odontologia', img:'assets/img/especialidades/dental.png' }
   ];
 
   loading:boolean = false;
@@ -66,7 +69,16 @@ export class SolicitarTurnoComponent implements OnInit, OnDestroy {
 
     this.subscriptionEspecialistas = this.db.getEspecialistas().subscribe((res:any) => {
       if(res) {
-        this.especialistas = res.filter((esp:any) => esp.habilitado === true);
+
+        res.forEach((t:any) => {
+          t.especialidad.forEach((e:any) => {
+            if(!this.arrayEspecialidades.includes(e) && e != 'cardiologia' && e != 'traumatologia' && e != 'odontologia' && e != 'neurologia' && e != 'electrofisiologia') {
+              this.arrayEspecialidades.push(e);
+            }
+          })
+        });
+
+        this.especialistas = res.filter((esp:any) => esp.habilitado === true && esp.horarios != null && esp.horarios != undefined);
 
         this.loading = false;
       }

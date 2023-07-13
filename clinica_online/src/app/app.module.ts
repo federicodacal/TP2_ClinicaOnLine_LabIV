@@ -61,7 +61,7 @@ import { LogoDirective } from './directives/logo.directive';
     LongDateEspPipe,
     ButtonDirective,
     CardDirective,
-    LogoDirective,
+    LogoDirective
   ],
   imports: [
     BrowserModule,

@@ -65,7 +65,7 @@
                           <td>
                             <div *ngIf="user.perfil == 'especialista'">
                               <button
-                                class="button-33"
+                                class="button-33-new"
                                 *ngIf="!user.habilitado"
                                 (click)="habilitar(user.uid)">
                                 <strong>HABILITAR</strong>                               
@@ -84,8 +84,6 @@
                               (click)="cargarPaciente(user)"
                               data-bs-toggle="modal"
                               data-bs-target="#modalHistorialPaciente">
-                              
-                              
                               <strong>HISTORIAL</strong>
                             </button>
                           </td>
