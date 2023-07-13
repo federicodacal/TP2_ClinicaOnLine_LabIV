@@ -2,7 +2,7 @@
 <h1 align="center">  Clinica OnLine: Dacal Health <h1>
 <hr>
 
-<img align="center" src="clinica_online/src/assets/img/icon.png" width=230>
+<img src="clinica_online/src/assets/img/icon.png" width=230>
 <h1 align="center">Dacal Health</h1>
 
 <hr>
